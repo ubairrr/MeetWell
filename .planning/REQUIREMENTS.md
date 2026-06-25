@@ -75,7 +75,7 @@ Explicitly excluded from this milestone.
 
 ## Traceability
 
-Which phase covers which requirement. Finalized during roadmap creation.
+Which phase covers which requirement. Finalized during roadmap creation (2026-06-25) — confirmed against ROADMAP.md: 5 phases, 22/22 v1 requirements mapped, no orphans.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
@@ -109,4 +109,4 @@ Which phase covers which requirement. Finalized during roadmap creation.
 
 ---
 *Requirements defined: 2026-06-25*
-*Last updated: 2026-06-25 after initial definition*
+*Last updated: 2026-06-25 after roadmap creation (traceability confirmed against ROADMAP.md)*
