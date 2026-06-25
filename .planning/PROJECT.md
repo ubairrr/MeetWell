@@ -109,4 +109,4 @@ This document evolves at phase transitions and milestone boundaries.
 5. Update Context with current state
 
 ---
-*Last updated: 2026-06-25 after initialization*
+*Last updated: 2026-06-25 — Phase 2 complete: DEC-01 and DEC-02 ADRs committed, consent and data-handling postures locked*
