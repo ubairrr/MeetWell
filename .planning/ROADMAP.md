@@ -51,7 +51,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A Data-handling & Privacy ADR exists fixing local-first storage, encryption at rest (SQLCipher + `safeStorage`), retention defaults + per-meeting delete, the transcribe-then-delete-raw-audio stance, and an optional on-device mode
   4. Both ADRs note their open dependencies (e.g. the data-handling ADR flags that final no-training/DPA confirmation comes from RSCH-03)
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Write DEC-01 Consent & Recording Posture ADR (MADR format, decisions D-02 through D-05)
+- [ ] 02-02-PLAN.md — Write DEC-02 Data-handling & Privacy ADR (MADR format, decisions D-06 through D-09, RSCH-03 dependency flagged)
 
 ### Phase 3: Deep Research
 
