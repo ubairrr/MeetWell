@@ -42,9 +42,8 @@ No product code is written in this phase. The output is a spec (AI-SPEC.md) cons
   - Every 5 minutes: one LLM call generates the next summary card (small chunk, cheap — Gemini 2.5 Flash)
   - Rolling window token monitor runs passively; for meetings ≤ ~40 hours it never overflows
 
-- **D-11:** **Context epoch system (overflow path — fires for pathological meeting lengths only):**
-  - Token math: a 2-hour meeting ≈ 24,000 tokens — roughly 2.4% of the 1M-token ceiling. Epochs will not fire for any realistic meeting.
-  - When the rolling window DOES approach the ceiling (40h+ of dense speech): the oldest transcript chunk is summarized into a structured epoch summary and evicted. The epoch summary is embedded and indexed into sqlite-vec in the same SQLCipher DB.
+- **D-11:** **Context epoch system (overflow path — fires when the rolling window approaches the token ceiling):**
+  - When the rolling window approaches the token ceiling: the oldest transcript chunk is summarized into a structured epoch summary and evicted. The epoch summary is embedded and indexed into sqlite-vec in the same SQLCipher DB.
   - Epoch summary content: decisions + action items + key points + speaker attribution (full structured summary, not a narrative paragraph).
   - For meetings where epochs exist, the Live Assistant retrieves the top-N relevant epoch summaries via sqlite-vec semantic search and appends them to the rolling window context.
   - **The summary board cards are NOT used as context epochs.** They are display artifacts only; the epoch system compresses raw transcript, not the display cards.

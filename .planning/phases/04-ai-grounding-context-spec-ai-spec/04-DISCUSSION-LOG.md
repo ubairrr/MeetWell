@@ -53,7 +53,7 @@
 | Hybrid — token-threshold with minimum time floor | Epochs fire on token fill but not sooner than N minutes | |
 
 **User's choice:** Token-threshold (rolling window fill)
-**Notes:** Precise and cost-predictable. For realistic meetings (≤2 hours ≈ 24K tokens), epochs will never fire. The ceiling is ~800K tokens; overflows only occur for 40h+ of dense speech.
+**Notes:** Precise and cost-predictable. Epoch fires when the rolling window approaches the token ceiling — no estimated time figure; actual trigger point depends on speech density and model context limits.
 
 ---
 
@@ -79,7 +79,7 @@
 
 **Key freeform clarification from user:** The live assistant is **on-demand only** — activated by hotkey or trigger keyword, no passive LLM loop during the meeting. Architecture adjusted accordingly: passive path = transcript accumulation + 5-min summary cards only. LLM fires on live assistant trigger and at end-of-meeting batch.
 
-**Second key clarification:** The live summary board (time-triggered) and the context epoch system (token-threshold-triggered) are **intentionally separate**. Merging them would charge embedding costs on data already accessible in the rolling window for all normal-length meetings. User explicitly called this out and the architecture reflects it.
+**Second key clarification:** The live summary board (time-triggered) and the context epoch system (token-threshold-triggered) are **intentionally separate**. Merging them would charge embedding costs on data already accessible in the rolling window. User explicitly called this out and the architecture reflects it.
 
 ---
 
