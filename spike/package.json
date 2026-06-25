@@ -1,0 +1,17 @@
+{
+  "name": "meetingassist-capture-spike",
+  "version": "0.0.1",
+  "description": "Throwaway capture spike — RSCH-04: electron-audio-loopback vs AudioTee.js comparison. NOT product code. Committed as research record per RSCH-04.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "@deepgram/sdk": "^3.0.0",
+    "electron": "^42.5.0"
+  },
+  "optionalDependencies": {
+    "audiotee": "latest"
+  },
+  "devDependencies": {}
+}
