@@ -14,7 +14,7 @@ This is a **planning milestone**: it ships a production-grade PRD + modular arch
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: DNA Deep-Dive & Project Setup** - Mine the DNA as a selective reference and document the dev baseline/conventions (completed 2026-06-25)
-- [ ] **Phase 2: Foundational Decisions (ADRs)** - Fix the two existential product decisions: consent/recording posture and data-handling/privacy
+- [x] **Phase 2: Foundational Decisions (ADRs)** - Fix the two existential product decisions: consent/recording posture and data-handling/privacy (completed 2026-06-25)
 - [ ] **Phase 3: Deep Research** - Resolve the flagged open questions, including a hands-on system-audio capture spike
 - [ ] **Phase 4: AI Grounding & Context Spec (AI-SPEC)** - Design the faithfulness contract and the ContextEngine/two-speed processing architecture
 - [ ] **Phase 5: PRD Finalization** - Assemble all decisions, research, scope, and architecture into one authoritative PRD
@@ -51,11 +51,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A Data-handling & Privacy ADR exists fixing local-first storage, encryption at rest (SQLCipher + `safeStorage`), retention defaults + per-meeting delete, the transcribe-then-delete-raw-audio stance, and an optional on-device mode
   4. Both ADRs note their open dependencies (e.g. the data-handling ADR flags that final no-training/DPA confirmation comes from RSCH-03)
 
-**Plans**: 2 plans
+**Plans**: 2/2 plans complete
 
 Plans:
-- [ ] 02-01-PLAN.md — Write DEC-01 Consent & Recording Posture ADR (MADR format, decisions D-02 through D-05)
-- [ ] 02-02-PLAN.md — Write DEC-02 Data-handling & Privacy ADR (MADR format, decisions D-06 through D-09, RSCH-03 dependency flagged)
+
+- [x] 02-01-PLAN.md — Write DEC-01 Consent & Recording Posture ADR (MADR format, decisions D-02 through D-05)
+- [x] 02-02-PLAN.md — Write DEC-02 Data-handling & Privacy ADR (MADR format, decisions D-06 through D-09, RSCH-03 dependency flagged)
 
 ### Phase 3: Deep Research
 
@@ -107,7 +108,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. DNA Deep-Dive & Project Setup | 3/3 | Complete    | 2026-06-25 |
-| 2. Foundational Decisions (ADRs) | 0/TBD | Not started | - |
+| 2. Foundational Decisions (ADRs) | 2/2 | Complete   | 2026-06-25 |
 | 3. Deep Research | 0/TBD | Not started | - |
 | 4. AI Grounding & Context Spec | 0/TBD | Not started | - |
 | 5. PRD Finalization | 0/TBD | Not started | - |
