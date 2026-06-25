@@ -26,8 +26,8 @@ Requirements for this milestone's "done." Each maps to a roadmap phase (see Trac
 
 ### Foundational Decisions — ADRs (DEC)
 
-- [ ] **DEC-01**: **Consent & Recording Posture** ADR — disclosed-not-covert; all-party-consent default; separates "hide own panel from own screen-share" (keep) from "conceal the fact of recording" (never ship); consent gate as a hard precondition to capture
-- [ ] **DEC-02**: **Data-handling & Privacy** ADR — local-first storage, encryption at rest (SQLCipher + `safeStorage`), retention defaults + per-meeting delete, transcribe-then-delete-raw-audio stance, optional on-device mode
+- [x] **DEC-01**: **Consent & Recording Posture** ADR — disclosed-not-covert; all-party-consent default; separates "hide own panel from own screen-share" (keep) from "conceal the fact of recording" (never ship); consent gate as a hard precondition to capture
+- [x] **DEC-02**: **Data-handling & Privacy** ADR — local-first storage, encryption at rest (SQLCipher + `safeStorage`), retention defaults + per-meeting delete, transcribe-then-delete-raw-audio stance, optional on-device mode
 
 ### Deep Research (RSCH)
 
@@ -86,8 +86,8 @@ Which phase covers which requirement. Finalized during roadmap creation (2026-06
 | DNA-02 | Phase 1 | Complete |
 | DNA-03 | Phase 1 | Complete |
 | DNA-04 | Phase 1 | Complete |
-| DEC-01 | Phase 2 | Pending |
-| DEC-02 | Phase 2 | Pending |
+| DEC-01 | Phase 2 | Complete |
+| DEC-02 | Phase 2 | Complete |
 | RSCH-01 | Phase 3 | Pending |
 | RSCH-02 | Phase 3 | Pending |
 | RSCH-03 | Phase 3 | Pending |
