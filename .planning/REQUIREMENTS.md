@@ -40,9 +40,9 @@ Requirements for this milestone's "done." Each maps to a roadmap phase (see Trac
 
 ### AI Grounding & Context Spec (GRND)
 
-- [ ] **GRND-01**: AI-artifact grounding/faithfulness design contract — quote-backed extraction, per-artifact transcript citations, "proposed-with-confirm" UX (never auto-write to calendar), conservative date handling
-- [ ] **GRND-02**: ContextEngine + two-speed processing architecture spec (rolling window + RAG + epoch summaries; real-time hot path vs end-of-meeting batch map-reduce) for long meetings
-- [ ] **GRND-03**: Adversarial-transcript evaluation harness + faithfulness metric defined (how grounding will be tested)
+- [x] **GRND-01**: AI-artifact grounding/faithfulness design contract — quote-backed extraction, per-artifact transcript citations, "proposed-with-confirm" UX (never auto-write to calendar), conservative date handling
+- [x] **GRND-02**: ContextEngine + two-speed processing architecture spec (rolling window + RAG + epoch summaries; real-time hot path vs end-of-meeting batch map-reduce) for long meetings
+- [x] **GRND-03**: Adversarial-transcript evaluation harness + faithfulness metric defined (how grounding will be tested)
 
 ### PRD Finalization (PRD)
 
@@ -94,9 +94,9 @@ Which phase covers which requirement. Finalized during roadmap creation (2026-06
 | RSCH-04 | Phase 3 | Complete |
 | RSCH-05 | Phase 3 | Complete |
 | RSCH-06 | Phase 3 | Complete |
-| GRND-01 | Phase 4 | Pending |
-| GRND-02 | Phase 4 | Pending |
-| GRND-03 | Phase 4 | Pending |
+| GRND-01 | Phase 4 | Complete |
+| GRND-02 | Phase 4 | Complete |
+| GRND-03 | Phase 4 | Complete |
 | PRD-01 | Phase 5 | Pending |
 | PRD-02 | Phase 5 | Pending |
 | PRD-03 | Phase 5 | Pending |
