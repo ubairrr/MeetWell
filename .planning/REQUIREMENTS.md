@@ -31,12 +31,12 @@ Requirements for this milestone's "done." Each maps to a roadmap phase (see Trac
 
 ### Deep Research (RSCH)
 
-- [ ] **RSCH-01**: Persona, positioning, and monetization model defined (resolves PROJECT.md TBDs: customer, revenue model, success metric)
-- [ ] **RSCH-02**: Speaker-diarization approach decided ("You vs Others" reliable baseline; whether/when to attempt 3+ speaker naming, and the trust bar)
-- [ ] **RSCH-03**: Vendor DPA / no-training terms confirmed for Deepgram and the chosen LLM provider(s) (gates DEC-02)
-- [ ] **RSCH-04**: System-audio capture validated via a **hands-on throwaway spike** — `electron-audio-loopback` vs `AudioTee.js` across the supported macOS range; declared supported-OS floor; capture-health/silent-audio detection approach (highest technical risk; isolated experimental code, not product code)
-- [ ] **RSCH-05**: Cross-meeting memory data model designed (`sqlite-vec`), even though the feature ships in a later milestone
-- [ ] **RSCH-06**: Expanded use-case & feature discovery beyond the starter list, consolidated for PRD scoping (the feature list is intentionally open)
+- [x] **RSCH-01**: Persona, positioning, and monetization model defined (resolves PROJECT.md TBDs: customer, revenue model, success metric)
+- [x] **RSCH-02**: Speaker-diarization approach decided ("You vs Others" reliable baseline; whether/when to attempt 3+ speaker naming, and the trust bar)
+- [x] **RSCH-03**: Vendor DPA / no-training terms confirmed for Deepgram and the chosen LLM provider(s) (gates DEC-02)
+- [x] **RSCH-04**: System-audio capture validated via a **hands-on throwaway spike** — `electron-audio-loopback` vs `AudioTee.js` across the supported macOS range; declared supported-OS floor; capture-health/silent-audio detection approach (highest technical risk; isolated experimental code, not product code)
+- [x] **RSCH-05**: Cross-meeting memory data model designed (`sqlite-vec`), even though the feature ships in a later milestone
+- [x] **RSCH-06**: Expanded use-case & feature discovery beyond the starter list, consolidated for PRD scoping (the feature list is intentionally open)
 
 ### AI Grounding & Context Spec (GRND)
 
@@ -88,12 +88,12 @@ Which phase covers which requirement. Finalized during roadmap creation (2026-06
 | DNA-04 | Phase 1 | Complete |
 | DEC-01 | Phase 2 | Complete |
 | DEC-02 | Phase 2 | Complete |
-| RSCH-01 | Phase 3 | Pending |
-| RSCH-02 | Phase 3 | Pending |
-| RSCH-03 | Phase 3 | Pending |
-| RSCH-04 | Phase 3 | Pending |
-| RSCH-05 | Phase 3 | Pending |
-| RSCH-06 | Phase 3 | Pending |
+| RSCH-01 | Phase 3 | Complete |
+| RSCH-02 | Phase 3 | Complete |
+| RSCH-03 | Phase 3 | Complete |
+| RSCH-04 | Phase 3 | Complete |
+| RSCH-05 | Phase 3 | Complete |
+| RSCH-06 | Phase 3 | Complete |
 | GRND-01 | Phase 4 | Pending |
 | GRND-02 | Phase 4 | Pending |
 | GRND-03 | Phase 4 | Pending |

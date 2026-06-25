@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: DNA Deep-Dive & Project Setup** - Mine the DNA as a selective reference and document the dev baseline/conventions (completed 2026-06-25)
 - [x] **Phase 2: Foundational Decisions (ADRs)** - Fix the two existential product decisions: consent/recording posture and data-handling/privacy (completed 2026-06-25)
-- [ ] **Phase 3: Deep Research** - Resolve the flagged open questions, including a hands-on system-audio capture spike
+- [x] **Phase 3: Deep Research** - Resolve the flagged open questions, including a hands-on system-audio capture spike (completed 2026-06-25)
 - [ ] **Phase 4: AI Grounding & Context Spec (AI-SPEC)** - Design the faithfulness contract and the ContextEngine/two-speed processing architecture
 - [ ] **Phase 5: PRD Finalization** - Assemble all decisions, research, scope, and architecture into one authoritative PRD
 
@@ -71,14 +71,14 @@ Plans:
   4. A capture-spike report exists comparing `electron-audio-loopback` vs `AudioTee.js` across the supported macOS range, declaring a supported-macOS floor and a silent-audio / capture-health detection approach
   5. A cross-meeting memory data model (`sqlite-vec`) is designed, and expanded use cases beyond the starter list are discovered and consolidated for PRD scoping
 
-**Plans**: 0/6 plans executed
+**Plans**: 6/6 plans complete
 
-- [ ] 03-01-PLAN.md — RSCH-01: Write Persona, Positioning & Monetization Report
-- [ ] 03-02-PLAN.md — RSCH-02: Write Speaker Diarization Approach Report
-- [ ] 03-03-PLAN.md — RSCH-03: Confirm Vendor Terms & Update DEC-02 ADR
-- [ ] 03-04-PLAN.md — RSCH-05: Write Cross-Meeting Memory Data Model Design
-- [ ] 03-05-PLAN.md — RSCH-06: Write Use-Case & Feature Discovery Report
-- [ ] 03-06-PLAN.md — RSCH-04: System-Audio Capture Spike (autonomous: false)
+- [x] 03-01-PLAN.md — RSCH-01: Write Persona, Positioning & Monetization Report
+- [x] 03-02-PLAN.md — RSCH-02: Write Speaker Diarization Approach Report
+- [x] 03-03-PLAN.md — RSCH-03: Confirm Vendor Terms & Update DEC-02 ADR
+- [x] 03-04-PLAN.md — RSCH-05: Write Cross-Meeting Memory Data Model Design
+- [x] 03-05-PLAN.md — RSCH-06: Write Use-Case & Feature Discovery Report
+- [x] 03-06-PLAN.md — RSCH-04: System-Audio Capture Spike (autonomous: false)
 
 ### Phase 4: AI Grounding & Context Spec (AI-SPEC)
 
@@ -116,6 +116,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. DNA Deep-Dive & Project Setup | 3/3 | Complete    | 2026-06-25 |
 | 2. Foundational Decisions (ADRs) | 2/2 | Complete    | 2026-06-25 |
-| 3. Deep Research | 0/6 | Planned    |  |
+| 3. Deep Research | 6/6 | Complete    | 2026-06-25 |
 | 4. AI Grounding & Context Spec | 0/TBD | Not started | - |
 | 5. PRD Finalization | 0/TBD | Not started | - |
