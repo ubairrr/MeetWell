@@ -3,22 +3,34 @@
   "padded_phase": "04",
   "phase_name": "AI Grounding & Context Spec (AI-SPEC)",
   "checkpoint_written": "2026-06-26",
-  "areas_completed": ["citation_format_granularity"],
-  "areas_remaining": ["epoch_strategy_long_meetings", "real_time_hot_path_scope"],
+  "areas_completed": ["citation_format_granularity", "epoch_strategy_long_meetings"],
+  "areas_remaining": ["real_time_hot_path_scope"],
   "decisions": {
-    "citation_anchor": "Hybrid — short inline quote (first ~10 words) + expand-to-context link that jumps to the full transcript segment",
-    "citation_default_visibility": "Hidden behind a 'Verify' / expand toggle (default off) — clean artifact by default, trust signal available on demand",
-    "low_confidence_handling": "Flag with low-confidence marker ('Inferred — no direct quote') with lower visual weight; surface the item but make the uncertainty explicit"
+    "citation_anchor": "Hybrid — short inline quote (~10 words) + 'Verify' expand-to-context link that jumps to the full transcript segment",
+    "citation_default_visibility": "Hidden behind 'Verify' toggle (default off) — clean artifact by default, trust signal on demand",
+    "low_confidence_handling": "Flag with low-confidence marker ('Inferred — no direct quote') and lower visual weight; surface the item but make uncertainty explicit",
+    "epoch_trigger": "Token-threshold — epoch fires when rolling window approaches the token budget ceiling (~800K of 1M tokens)",
+    "epoch_summary_content": "Full structured summary: decisions + action items + key points + speaker attribution per chunk",
+    "epoch_overflow_strategy": "sqlite-vec RAG over epoch summaries — epoch summaries are chunked, embedded, and indexed into sqlite-vec in the same SQLCipher DB; live assistant retrieves top-N relevant summaries per query",
+    "live_assistant_activation": "On-demand only — activated by hotkey or trigger keyword; no passive LLM loop during meeting"
   },
-  "deferred": [],
   "discussion_log": [
     {
       "area": "Citation format & granularity",
       "questions": [
-        {"q": "What should the citation anchor look like?", "selected": "Hybrid — inline quote + expand-to-context link"},
-        {"q": "Should citations be shown by default?", "selected": "Hidden behind 'Verify' toggle (default off)"},
+        {"q": "Citation anchor format?", "selected": "Hybrid — inline quote + expand-to-context link"},
+        {"q": "Default citation visibility?", "selected": "Hidden behind 'Verify' toggle (default off)"},
         {"q": "No-quote extractions?", "selected": "Flag with low-confidence marker"}
       ]
+    },
+    {
+      "area": "Epoch strategy for long meetings",
+      "questions": [
+        {"q": "Epoch trigger?", "selected": "Token-threshold (rolling window fill)"},
+        {"q": "Epoch summary content?", "selected": "Full structured summary (decisions + action items + key points + speaker attribution)"},
+        {"q": "Second-level overflow?", "selected": "sqlite-vec RAG over epoch summaries (kept in spec)"}
+      ],
+      "freeform_notes": "User clarified: live assistant is on-demand only (not always-on). Architecture adjusted: passive path is transcript accumulation + epoch summarization only (no LLM during meeting). LLM fires only on live assistant trigger and at end-of-meeting batch."
     }
   ]
 }
