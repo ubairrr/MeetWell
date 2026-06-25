@@ -15,12 +15,14 @@ Requirements for this milestone's "done." Each maps to a roadmap phase (see Trac
 - [ ] **SETUP-02**: `.gitignore` excludes `DNA/`, GSD tooling, and secrets; `.planning/` is tracked
 - [ ] **SETUP-03**: Project conventions and local dev baseline documented (toolchain, Node/Electron line, repo layout for the future app)
 
-### DNA Deep-Dive (DNA)
+### DNA Deep-Dive — Selective Reference Mining (DNA)
 
-- [ ] **DNA-01**: Every DNA source module read and documented (`main.js`, `preload.js`, `audio.js`, renderer `App.jsx`, IPC surface, build/packaging)
-- [ ] **DNA-02**: Authoritative KEEP / REPLACE / AUGMENT map of the DNA, grounded in the actual code (not just research inference)
-- [ ] **DNA-03**: Reuse plan — what transfers near-verbatim vs. what must be refactored into the modular service layer
-- [ ] **DNA-04**: DNA's real audio-capture approach and effective minimum macOS version assessed (input to the capture spike and supported-OS floor)
+> The DNA is a **reference, not a base to clone.** The goal is to identify the *working, valuable* pieces worth borrowing (adapted to MeetingAssist's needs) and to consciously leave the rest behind. MeetingAssist is a fresh, purpose-built codebase — not a fork of Interview Helper.
+
+- [ ] **DNA-01**: Relevant DNA source modules read and understood (`main.js`, `preload.js`, `audio.js`, renderer `App.jsx`, IPC surface, build/packaging) — enough to judge what is worth borrowing
+- [ ] **DNA-02**: Catalogue of the **proven techniques/patterns worth adopting** from the DNA (e.g. dual-channel STT handling, the OpenAI-`baseURL` provider seam, hardened contextBridge IPC, the vision round-trip, overlay/stealth window setup) — with an explicit list of what to **leave behind**
+- [ ] **DNA-03**: Selective-adoption plan — for each candidate piece, whether it is lifted-and-adapted or merely a design reference; explicitly **not** a wholesale port of the DNA
+- [ ] **DNA-04**: DNA's real audio-capture approach and effective minimum macOS version assessed (input to the RSCH-04 capture spike and the supported-OS floor)
 
 ### Foundational Decisions — ADRs (DEC)
 
@@ -32,7 +34,7 @@ Requirements for this milestone's "done." Each maps to a roadmap phase (see Trac
 - [ ] **RSCH-01**: Persona, positioning, and monetization model defined (resolves PROJECT.md TBDs: customer, revenue model, success metric)
 - [ ] **RSCH-02**: Speaker-diarization approach decided ("You vs Others" reliable baseline; whether/when to attempt 3+ speaker naming, and the trust bar)
 - [ ] **RSCH-03**: Vendor DPA / no-training terms confirmed for Deepgram and the chosen LLM provider(s) (gates DEC-02)
-- [ ] **RSCH-04**: System-audio capture validated — `electron-audio-loopback` vs `AudioTee.js` across the supported macOS range; declared supported-OS floor; capture-health/silent-audio detection approach (highest technical risk)
+- [ ] **RSCH-04**: System-audio capture validated via a **hands-on throwaway spike** — `electron-audio-loopback` vs `AudioTee.js` across the supported macOS range; declared supported-OS floor; capture-health/silent-audio detection approach (highest technical risk; isolated experimental code, not product code)
 - [ ] **RSCH-05**: Cross-meeting memory data model designed (`sqlite-vec`), even though the feature ships in a later milestone
 - [ ] **RSCH-06**: Expanded use-case & feature discovery beyond the starter list, consolidated for PRD scoping (the feature list is intentionally open)
 

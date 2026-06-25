@@ -4,7 +4,7 @@
 
 MeetingAssist is a macOS desktop AI assistant that runs as a persistent **side overlay** during live meetings and turns the conversation into trustworthy, actionable artifacts — automatically. It captures a full meeting transcript, then generates minutes of meeting (MOM), key points, a summary, and extracted schedules / dates / deadlines / action items ready to drop into a calendar. On top of that it offers in-meeting intelligence: a **live assistant** triggered by a keyword or hotkey for on-the-fly questions and research (with a chat that keeps context across the whole meeting), and a **break assist** that summarizes everything that happened while the user stepped away.
 
-It is a new product built on the proven engineering **DNA of Interview Helper** (a mature macOS Electron overlay): real-time dual-channel transcription, provider-agnostic LLM integration, on-demand vision analysis, global hotkeys, and stealth-capable overlay rendering. The DNA repo lives locally under `DNA/` as architectural reference only — it is git-ignored and never pushed.
+It is a new, purpose-built product that treats **Interview Helper as a reference** (the `DNA/` repo) — selectively borrowing the techniques that proved valuable rather than cloning it. Candidate techniques worth mining include real-time dual-channel transcription, provider-agnostic LLM integration, on-demand vision analysis, global hotkeys, and stealth-capable overlay rendering. Each is adopted only where it genuinely fits MeetingAssist; the rest is left behind. The DNA repo lives locally under `DNA/` as reference only — it is git-ignored and never pushed.
 
 > **Current milestone = Discovery & PRD (planning only).** This milestone produces a production-grade, modular **PRD + architecture**, not running code. The intended feature set below is the *subject* of research and specification. Building the application is the **next** milestone.
 
@@ -69,7 +69,7 @@ It is a new product built on the proven engineering **DNA of Interview Helper** 
   - **Vision assist** — screenshot → `sharp` in-process downscale → multimodal vision model round-trip.
   - **Hardened Electron** — `contextBridge` allowlist, context-isolated IPC, zero Node surface in renderer; 8 global hotkeys.
   - **Stack**: Electron 40, React 19 (hooks-only), Vite 7, `electron-store`, `@deepgram/sdk`, `openai`.
-- **Repurposing thesis**: The transcript+LLM+overlay+hotkey machinery transfers almost directly from "answer interview questions" to "assist and document a meeting." The hard, non-obvious engineering (audio DSP pipelines, stealth layering, multimodal round-trips) is already solved in the DNA.
+- **Reference thesis**: The transcript+LLM+overlay+hotkey machinery from "answer interview questions" maps well onto "assist and document a meeting," so the DNA is a rich source of proven solutions to borrow. But MeetingAssist is built fresh — each DNA technique is adopted only where it is genuinely the right fit, not inherited by default. The hard, non-obvious engineering (audio DSP pipelines, stealth layering, multimodal round-trips) is *solved* in the DNA and worth learning from, even when reimplemented cleanly.
 - **Open questions for research** (non-exhaustive): consent/recording legality and ethics; whether to retain stealth or be visibly present; on-device vs. cloud transcription & privacy; speaker diarization & multi-participant attribution; calendar/integration targets (Google/Outlook/ICS); data retention & storage model; offline capability; cross-platform (macOS-only vs. Windows/Linux).
 
 ## Constraints
@@ -84,7 +84,7 @@ It is a new product built on the proven engineering **DNA of Interview Helper** 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Reuse Interview Helper DNA as the engine; build a new product on top | The hard engineering (stealth overlay, dual-channel real-time STT, multimodal pipelines, provider-agnostic LLM) is proven and non-trivial to recreate | — Pending (validated in Phase 1 DNA analysis) |
+| Use Interview Helper as a **reference**; selectively adopt its proven techniques (not a wholesale port) | The hard engineering (dual-channel real-time STT, multimodal pipelines, provider-agnostic LLM, hardened IPC) is proven and worth borrowing where it fits — but MeetingAssist is a fresh, purpose-built codebase | — Pending (selective-adoption catalogue is a Phase 1 deliverable) |
 | This milestone delivers a PRD + modular architecture only; build is the next milestone | De-risk by understanding the DNA and researching the space before writing product code | — Pending |
 | Private GitHub repo `ubairrr/MeetingAssist` + auto-push every change; ignore `DNA/` and GSD tooling | User wants a full, pushed version-control trail; DNA holds live secrets that must never be pushed | ✓ Good (done at init) |
 | Reposition from interview assistance to legitimate meeting assistance | Different, defensible product; meeting documentation is a broad, above-board need | — Pending |
