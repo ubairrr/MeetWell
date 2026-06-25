@@ -108,7 +108,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. DNA Deep-Dive & Project Setup | 3/3 | Complete    | 2026-06-25 |
-| 2. Foundational Decisions (ADRs) | 2/2 | Complete   | 2026-06-25 |
+| 2. Foundational Decisions (ADRs) | 2/2 | Complete    | 2026-06-25 |
 | 3. Deep Research | 0/TBD | Not started | - |
 | 4. AI Grounding & Context Spec | 0/TBD | Not started | - |
 | 5. PRD Finalization | 0/TBD | Not started | - |
