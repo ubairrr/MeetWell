@@ -11,18 +11,18 @@ Requirements for this milestone's "done." Each maps to a roadmap phase (see Trac
 
 ### Setup (SETUP)
 
-- [ ] **SETUP-01**: Private GitHub repo `ubairrr/MeetingAssist` connected; every change auto-committed and pushed (Stop-hook auto-push)
-- [ ] **SETUP-02**: `.gitignore` excludes `DNA/`, GSD tooling, and secrets; `.planning/` is tracked
-- [ ] **SETUP-03**: Project conventions and local dev baseline documented (toolchain, Node/Electron line, repo layout for the future app)
+- [x] **SETUP-01**: Private GitHub repo `ubairrr/MeetingAssist` connected; every change auto-committed and pushed (Stop-hook auto-push)
+- [x] **SETUP-02**: `.gitignore` excludes `DNA/`, GSD tooling, and secrets; `.planning/` is tracked
+- [x] **SETUP-03**: Project conventions and local dev baseline documented (toolchain, Node/Electron line, repo layout for the future app)
 
 ### DNA Deep-Dive — Selective Reference Mining (DNA)
 
 > The DNA is a **reference, not a base to clone.** The goal is to identify the *working, valuable* pieces worth borrowing (adapted to MeetingAssist's needs) and to consciously leave the rest behind. MeetingAssist is a fresh, purpose-built codebase — not a fork of Interview Helper.
 
-- [ ] **DNA-01**: Relevant DNA source modules read and understood (`main.js`, `preload.js`, `audio.js`, renderer `App.jsx`, IPC surface, build/packaging) — enough to judge what is worth borrowing
-- [ ] **DNA-02**: Catalogue of the **proven techniques/patterns worth adopting** from the DNA (e.g. dual-channel STT handling, the OpenAI-`baseURL` provider seam, hardened contextBridge IPC, the vision round-trip, overlay/stealth window setup) — with an explicit list of what to **leave behind**
-- [ ] **DNA-03**: Selective-adoption plan — for each candidate piece, whether it is lifted-and-adapted or merely a design reference; explicitly **not** a wholesale port of the DNA
-- [ ] **DNA-04**: DNA's real audio-capture approach and effective minimum macOS version assessed (input to the RSCH-04 capture spike and the supported-OS floor)
+- [x] **DNA-01**: Relevant DNA source modules read and understood (`main.js`, `preload.js`, `audio.js`, renderer `App.jsx`, IPC surface, build/packaging) — enough to judge what is worth borrowing
+- [x] **DNA-02**: Catalogue of the **proven techniques/patterns worth adopting** from the DNA (e.g. dual-channel STT handling, the OpenAI-`baseURL` provider seam, hardened contextBridge IPC, the vision round-trip, overlay/stealth window setup) — with an explicit list of what to **leave behind**
+- [x] **DNA-03**: Selective-adoption plan — for each candidate piece, whether it is lifted-and-adapted or merely a design reference; explicitly **not** a wholesale port of the DNA
+- [x] **DNA-04**: DNA's real audio-capture approach and effective minimum macOS version assessed (input to the RSCH-04 capture spike and the supported-OS floor)
 
 ### Foundational Decisions — ADRs (DEC)
 
@@ -79,13 +79,13 @@ Which phase covers which requirement. Finalized during roadmap creation (2026-06
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SETUP-01 | Phase 1 | Pending |
-| SETUP-02 | Phase 1 | Pending |
-| SETUP-03 | Phase 1 | Pending |
-| DNA-01 | Phase 1 | Pending |
-| DNA-02 | Phase 1 | Pending |
-| DNA-03 | Phase 1 | Pending |
-| DNA-04 | Phase 1 | Pending |
+| SETUP-01 | Phase 1 | Complete |
+| SETUP-02 | Phase 1 | Complete |
+| SETUP-03 | Phase 1 | Complete |
+| DNA-01 | Phase 1 | Complete |
+| DNA-02 | Phase 1 | Complete |
+| DNA-03 | Phase 1 | Complete |
+| DNA-04 | Phase 1 | Complete |
 | DEC-01 | Phase 2 | Pending |
 | DEC-02 | Phase 2 | Pending |
 | RSCH-01 | Phase 3 | Pending |
@@ -103,6 +103,7 @@ Which phase covers which requirement. Finalized during roadmap creation (2026-06
 | PRD-04 | Phase 5 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 22 total
 - Mapped to phases: 22
 - Unmapped: 0 ✓
