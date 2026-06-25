@@ -1,0 +1,24 @@
+{
+  "phase": "4",
+  "padded_phase": "04",
+  "phase_name": "AI Grounding & Context Spec (AI-SPEC)",
+  "checkpoint_written": "2026-06-26",
+  "areas_completed": ["citation_format_granularity"],
+  "areas_remaining": ["epoch_strategy_long_meetings", "real_time_hot_path_scope"],
+  "decisions": {
+    "citation_anchor": "Hybrid — short inline quote (first ~10 words) + expand-to-context link that jumps to the full transcript segment",
+    "citation_default_visibility": "Hidden behind a 'Verify' / expand toggle (default off) — clean artifact by default, trust signal available on demand",
+    "low_confidence_handling": "Flag with low-confidence marker ('Inferred — no direct quote') with lower visual weight; surface the item but make the uncertainty explicit"
+  },
+  "deferred": [],
+  "discussion_log": [
+    {
+      "area": "Citation format & granularity",
+      "questions": [
+        {"q": "What should the citation anchor look like?", "selected": "Hybrid — inline quote + expand-to-context link"},
+        {"q": "Should citations be shown by default?", "selected": "Hidden behind 'Verify' toggle (default off)"},
+        {"q": "No-quote extractions?", "selected": "Flag with low-confidence marker"}
+      ]
+    }
+  ]
+}
