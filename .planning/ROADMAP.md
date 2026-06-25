@@ -91,7 +91,11 @@ Plans:
   2. A ContextEngine + two-speed processing architecture spec exists (rolling window + RAG + epoch summaries; real-time hot path vs. end-of-meeting batch map-reduce) addressing long-meeting cost/context overflow
   3. An adversarial-transcript evaluation harness and a faithfulness metric are defined, specifying how grounding will be tested
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Write 04-AI-SPEC.md Sections 1+2: Faithfulness Contract (GRND-01) + ContextEngine Architecture (GRND-02)
+- [ ] 04-02-PLAN.md — Write 04-AI-SPEC.md Section 3: Adversarial Eval Harness (GRND-03) + finalize complete document
 
 ### Phase 5: PRD Finalization
 
