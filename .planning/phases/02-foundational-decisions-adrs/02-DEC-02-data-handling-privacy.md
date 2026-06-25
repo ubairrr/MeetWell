@@ -1,6 +1,6 @@
 # DEC-02: Data-handling & Privacy
 
-**Status:** Accepted (pending RSCH-03 vendor confirmation — see Open Dependencies)
+**Status:** Accepted — RSCH-03 vendor terms confirmed 2026-06-25 (see RSCH-03 Vendor Terms Confirmation section)
 **Decided:** 2026-06-25
 **Deciders:** Product (ubair)
 **Supersedes:** —
@@ -114,6 +114,57 @@ The following locked technical stack is established in CLAUDE.md and ratified as
 
 ## Open Dependencies
 
-**OPEN: [RSCH-03](../../REQUIREMENTS.md) — Vendor DPA / no-training terms for Deepgram and the chosen LLM provider(s) must be confirmed before this ADR is fully closed. Until RSCH-03 completes, the data-handling ADR operates on the reasonable assumption that enterprise/API tiers exclude training on customer data; Phase 3 RSCH-03 will verify and update this ADR if needed.**
+~~**OPEN: [RSCH-03](../../REQUIREMENTS.md)** — Vendor DPA / no-training terms for Deepgram and the chosen LLM provider(s) must be confirmed before this ADR is fully closed.~~
+
+**RESOLVED — 2026-06-25. RSCH-03 complete. See [`03-RSCH-03-VENDOR-TERMS.md`](../03-deep-research/03-RSCH-03-VENDOR-TERMS.md) for full details.**
+
+---
+
+## RSCH-03 Vendor Terms Confirmation (2026-06-25)
+
+All four vendors used in MeetingAssist have been confirmed. DEC-02's no-training stance is satisfied by each vendor when used as specified below.
+
+### Deepgram
+
+- **No-training mechanism:** `mip_opt_out=true` query parameter on ALL Deepgram API requests
+- **Data retention:** Minimum — only for the duration necessary to process (opted-out requests)
+- **DPA:** Available — contact security@deepgram.com; or per-region addendum
+- **Compliance:** SOC 2 Type 1+2, GDPR, HIPAA, CCPA, PCI certified
+- **EU residency:** `api.eu.deepgram.com` endpoint available
+
+This resolves the data-handling ADR's open dependency on Deepgram no-training confirmation. **Implementation requirement:** Set `mip_opt_out=true` as a default in the Deepgram SDK client initialization — every API call must carry this parameter.
+
+### OpenAI API
+
+- **No-training mechanism:** Default for API since March 1, 2023 — no configuration required
+- **Data retention:** 30 days for abuse monitoring; Zero Data Retention (ZDR) available via enterprise agreement at GA
+- **DPA:** Data Processing Addendum available — sign for GDPR compliance at commercial launch
+
+No immediate action required for development. ZDR flagged for evaluation at commercial GA launch.
+
+### Google Gemini API
+
+> **⚠ CRITICAL CONSTRAINT — PAID QUOTA REQUIRED**
+>
+> The Gemini **free tier explicitly allows Google to use submitted data for model training** and is **disqualified** for meeting transcript processing. This violates DEC-02's no-training stance.
+>
+> **Only the paid Gemini API satisfies no-training requirements** (Section 17 of Service Specific Terms for paid services). The product must validate that any Gemini API key provided by the user is on a paid plan before allowing it to process meeting data.
+
+- **No-training mechanism:** Paid quota only — Section 17 of Google Service Specific Terms
+- **ZDR:** Available via Vertex AI contractual amendments — contact Google Cloud account team at launch
+- **DPA:** Cloud Data Processing Addendum (CDPA) available
+
+**Product requirement (Phase 5 PRD):** MeetingAssist must validate that the user's Gemini API key is on a paid plan, or refuse to use Gemini as an active provider / warn the user explicitly. Free-tier keys look identical to paid-tier keys in code — this is a non-obvious footgun.
+
+### AssemblyAI
+
+- **DPA:** Auto-included in Terms of Service — no separate signature needed
+- **No-training mechanism:** Available via API flag — set opt-out flag by default on all requests
+- **EU data residency:** Dublin, Ireland endpoint available
+- **Compliance:** SOC 2, PCI-DSS 4.0 Level 1 (March 2025 certification)
+
+AssemblyAI satisfies DEC-02 out of the box with no additional action required beyond enabling the training opt-out flag.
+
+---
 
 The consent posture governing who is informed that recording is happening is governed by [DEC-01](./02-DEC-01-consent-recording-posture.md). DEC-02 governs what happens to the data once captured.
