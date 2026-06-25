@@ -2,7 +2,7 @@
 phase: 04
 slug: ai-grounding-context-spec-ai-spec
 version: 1.0
-status: draft
+status: final
 produced_by: Phase 4 planning
 consumed_by: Phase 5 PRD Finalization
 requirements_covered: GRND-01, GRND-02, GRND-03
@@ -867,3 +867,128 @@ The harness is **not** run in CI on every commit — it requires live LLM API ca
 GRND-03 is a Claude's Discretion area per 04-CONTEXT.md — no locked D-XX decisions were set for the adversarial eval harness by the user. The corpus composition, metrics, thresholds, and passing bar documented in Sections 3.2 through 3.8 are the researcher's recommendation and become the **authoritative contract** for the build milestone eval strategy. Phase 5 PRD finalization and the build milestone team consume these sections as binding specifications.
 
 **Spec authority note:** The specific numeric thresholds (CGFS >= 0.85, EHR <= 0.05, per-category floor >= 0.75), corpus size (60 transcripts, 8 categories), and harness architecture (`eval/harness.ts`, standalone TypeScript, not Vitest) are locked as design decisions by this document. They may be revised only via a formal deviation documented in the build milestone SUMMARY.md.
+
+---
+
+## Section 4: Master Decision Coverage Table
+
+This table maps all 14 decisions (D-01 through D-14) from 04-CONTEXT.md to the section of this document that implements each decision. Every decision is covered; no decision is unaddressed.
+
+| Decision | Summary | Implementing Section |
+|----------|---------|---------------------|
+| D-01 | Hybrid citation anchor: 10-word inline quote + "Verify" expand-to-context link | §1.3 CitationAnchorSchema, §1.2 Quote-Backed Extraction Protocol |
+| D-02 | Citations hidden by default behind "Verify" toggle; clean first read | §1.3 Confidence levels — `'direct'` display spec |
+| D-03 | Low-confidence flag ("Inferred — no direct quote") — never suppress inferred items | §1.3 Confidence levels — `'inferred'` display spec, D-03 contract |
+| D-04 | Proposed-with-confirm UX — nothing auto-writes to calendar | §1.5 Proposed-with-Confirm UX Contract |
+| D-05 | Live summary board — stacked card feed with time-range labels | §2.2 Live Summary Board |
+| D-06 | Each card covers only its interval's transcript (not cumulative) | §2.2 Display spec — D-06, §1.6 SummaryCardSchema |
+| D-07 | 5-minute default interval; configurability is v2 | §2.2 Display spec — D-07 |
+| D-08 | Summary cards persisted in SQLCipher DB; feed Break Assist + Live Assistant | §2.2 Display spec — D-08, §2.7 Speed 2 context composition |
+| D-09 | Summary board architecturally separate from epoch system | §2.2 Decoupling mandate + Pitfall 4 warning |
+| D-10 | Passive path: Deepgram → TranscriptStore → rolling window (800K ceiling); 5-min card LLM call | §2.4 Rolling Window Token Budget, §2.6 Speed 1 |
+| D-11 | Epoch system: fires at 70% ceiling; compresses oldest segments into structured EpochSummary | §2.5 Epoch Compression Protocol |
+| D-12 | Live Assistant: hotkey/wake word trigger; context = rolling window + cards + epoch RAG | §2.7 Speed 2 Live Assistant |
+| D-13 | Break Assist: manual trigger only; output = interval cards + "While you were away" digest | §2.9 Break Assist Digest |
+| D-14 | End-of-meeting batch: map-reduce; Zod-validated MeetingArtifacts; all as proposals | §2.8 Speed 2B ArtifactPipeline |
+
+---
+
+## Section 5: Cross-Reference Map — How Sections Connect
+
+| From | To | What passes |
+|------|----|-------------|
+| §1 Faithfulness Contract (GRND-01) | §2 ContextEngine (GRND-02) | `MeetingArtifactsSchema` — the extraction schema the ArtifactPipeline outputs; `SummaryCardSchema` — the format epoch RAG must NOT use as compression input (D-09 decoupling) |
+| §1 Faithfulness Contract (GRND-01) | §3 Eval Harness (GRND-03) | `CitationAnchorSchema` and `MeetingArtifactsSchema` — the exact schemas the citation verifier checks against ground-truth transcripts |
+| §2 ContextEngine (GRND-02) | §3 Eval Harness (GRND-03) | ArtifactPipeline end-of-meeting batch (Speed 2B, §2.8) — the component the harness runs against to compute CGFS and EHR |
+| §1 + §2 + §3 (all sections) | Phase 5 PRD | Complete design contract consumed by ArtifactPipeline spec, ContextEngine + SessionManager FSM spec, and build milestone eval strategy |
+
+**Key dependency chain:** GRND-01 defines the schema → GRND-02 implements the pipeline that uses the schema → GRND-03 validates the pipeline meets the faithfulness contract → Phase 5 PRD codifies all three as implementation requirements.
+
+---
+
+## Section 6: Open Questions Register
+
+Four open questions remain from research that are intentionally deferred to the build milestone for resolution. Each includes the researcher recommendation that becomes the default unless the build milestone team has a compelling reason to deviate.
+
+**OQ-1: Prompt engineering for the two-stage extraction protocol**
+
+- **What we know:** Evidence extraction before content generation is the correct pattern (§1.2); the Zod schema enforces citations via `.min(1)`.
+- **What is unclear:** Optimal prompt structure for the two stages — whether they run as two separate LLM calls or as a single call with chain-of-thought forcing quote extraction first.
+- **Researcher recommendation:** Specify as two separate LLM calls in v1. This provides clean separation of concerns — if Stage 2 produces a suspicious claim, Stage 1 output is independently auditable. Collapse to a single chain-of-thought call only if latency is a measured problem in the build milestone.
+
+**OQ-2: Map-reduce chunk boundary at meeting end**
+
+- **What we know:** 5-minute intervals are the map chunk unit (D-14, §2.8); chunk boundaries align with summary card intervals.
+- **What is unclear:** What happens if a meeting ends mid-interval (e.g., 43 minutes — the last interval is 3 minutes, not 5).
+- **Researcher recommendation:** Always process the final partial interval as a full map chunk. The reduce step handles deduplication of any content that spans the partial interval boundary.
+
+**OQ-3: LLM model for epoch compression vs. summary cards**
+
+- **What we know:** Gemini 2.5 Flash is the default artifact model (CLAUDE.md, §2.6); epoch compression is internal infrastructure, not user-facing.
+- **What is unclear:** Whether epoch compression uses the same model as summary cards, or a cheaper model (e.g., Gemini 2.5 Flash Lite) to reduce cost.
+- **Researcher recommendation:** Gemini 2.5 Flash Lite for epoch compression (internal, cost-optimized, not shown to users directly); Gemini 2.5 Flash for summary cards (user-facing display) and end-of-meeting batch (citation quality critical).
+
+**OQ-4: Faithfulness harness runner — standalone or Vitest CI**
+
+- **What we know:** The harness is eval tooling, not production code; it requires live LLM API calls and takes minutes to complete.
+- **What is unclear:** Whether the harness should be a standalone script or integrated into the Vitest test suite.
+- **Researcher recommendation:** Standalone TypeScript script (`eval/harness.ts`) runnable via `npx ts-node` — not part of the Vitest suite. Different runtime characteristics (slower, API-dependent, not hermetic) make it unsuitable for the standard unit test loop. Run it as a gating pre-merge check for extraction-relevant PRs.
+
+---
+
+## Section 7: Security Considerations
+
+The following threat patterns are relevant to the ArtifactPipeline and ContextEngine implementation. All mitigations are specified in the relevant sections of this document.
+
+| Threat Pattern | STRIDE Category | Standard Mitigation |
+|---------------|----------------|---------------------|
+| Prompt injection via transcript content | Tampering | Separate transcript content from instructions in structured prompts; use system role for instructions, not user content injected into the model message |
+| LLM output injection (malicious JSON in model response) | Tampering | Zod strict schema validation on all LLM outputs (`response_format.strict: true` for OpenAI; `responseJsonSchema` for Gemini); reject or flag any response that fails schema validation |
+| Citation forgery (model generates plausible-but-false quote) | Repudiation | Citation verifier (§2.8, §3.7) cross-checks `quote_full` against `transcript_segments` DB before displaying proposals; citations that fail the >= 90% token overlap check are flagged with a warning indicator |
+| Epoch summary corruption (lossy compression distorts facts) | Tampering | Epoch summaries include `raw_segment_count` and `covered_interval_start` / `covered_interval_end` for auditability; original transcript segments remain in the SQLCipher DB and are not deleted on compression |
+| Sensitive meeting content in LLM API request | Information Disclosure | Deepgram `mip_opt_out=true` on all requests (confirmed RSCH-03); Gemini paid quota only — free tier disqualified (DEC-02, RSCH-03 confirmed); no free-tier cloud processing of meeting content |
+
+**Additional security notes:**
+
+- All data written to the database (transcript segments, summary cards, epoch summaries, extracted artifacts) is encrypted at rest via SQLCipher (AES-256), with the database key generated on first run and stored in the macOS Keychain via `safeStorage` (DEC-02 requirement).
+- The extraction pipeline has no write path to any external system (calendar, email) without explicit user confirmation (D-04 contract, §1.5).
+
+---
+
+## Section 8: Assumptions Log
+
+The following assumptions underpin this spec. If any assumption proves wrong during the build milestone, the affected section must be revisited.
+
+| # | Claim | Section | Risk if Wrong |
+|---|-------|---------|---------------|
+| A1 | CGFS threshold of 0.85 is appropriate for meeting artifact faithfulness | §3.2 | If too strict, valid inference-based extractions are penalized and the gate becomes unreachable; if too loose, hallucinations pass the gate |
+| A2 | EHR threshold of 0.05 (<= 5% extrinsic hallucination) is achievable with two-stage extraction | §3.3 | If not achievable with prompt engineering, the threshold must be revised or the two-stage protocol changed |
+| A3 | 800K token rolling window ceiling is appropriate for Gemini 2.5 Flash 1M context window | §2.4 | If Gemini's effective context window is lower than advertised, epoch compression fires more frequently than expected |
+| A4 | 70% trigger (560K tokens) for epoch compression gives adequate headroom | §2.5 | If headroom is insufficient, the compressor may fire mid-critical-discussion at an inconvenient time |
+| A5 | Standard 1-hour meeting generates approximately 30-50K tokens (dual-channel, diarized) | §2.4 | If meetings are more verbose (dense technical discussions), the 800K ceiling is hit sooner |
+| A6 | Two-stage extraction (evidence first, content second) prevents quote fabrication | §1.2 | The model may still fabricate quotes in Stage 1 if not adequately constrained; adversarial eval will reveal this |
+| A7 | `tiktoken` with `cl100k_base` is a good enough approximation for Gemini token counts | §2.4 | Gemini may have a different tokenization that diverges significantly from `cl100k_base`; a Gemini-specific tokenizer is preferable if available |
+| A8 | 60 synthetic adversarial transcripts are sufficient for v1 eval corpus coverage | §3.6 | If 60 transcripts are too few to catch rare failure modes, increase corpus size in post-launch iteration |
+| A9 | `text-embedding-3-small` (1536 dimensions, $0.02/1M tokens) is the right default embedding model for epoch RAG | §2.5 | If the user has no OpenAI API key, the default fails; a local Ollama fallback path is required at setup |
+| A10 | Hybrid summary card format (topic headline + key-point bullets + speaker contributions) is consistent with end-of-meeting MOM format | §1.6 | If the end-of-meeting MOM format diverges significantly, the card-to-MOM transition looks inconsistent in the meeting record |
+
+---
+
+## Section 9: Deferred Items (Out of Scope for v1)
+
+The following ideas are explicitly deferred from v1. They are listed here to make the v1 boundary explicit for Phase 5 PRD consumers and build milestone implementers. None of these items should appear in Sections 1-3 as v1 requirements.
+
+1. **Configurable summary interval** — The 5-minute interval is the fixed v1 product decision (D-07). A settings knob allowing the user to choose 3, 5, or 10 minutes is a natural v2 quality-of-life addition. It is not a v1 requirement and must not be implemented as a user-facing setting in the first release.
+
+2. **Named speaker attribution in citations** ("Alice said…" vs. "Speaker 1 said…") — Deferred to v2 per Phase 3 decision D-10. v1 citations use `Speaker 1`/`Speaker 2`/`Speaker 3` labels. Named attribution requires a speaker identification step (name enrollment, voice registration, or diarization-to-name mapping) that is a distinct feature with its own scope.
+
+3. **Automatic break detection** — Automatic detection (e.g., mic silence threshold → auto break assist trigger) is deferred; the manual "going on break" / "I'm back" trigger is the v1 mechanism (D-13). Auto-detection avoids false positives from muting or background noise but requires calibration that is out of scope for v1.
+
+4. **Faithfulness eval corpus (real recordings)** — Synthetic adversarial transcripts are the v1 eval baseline (§3.1, §3.6). Real recorded meeting samples with known ground truth are a richer eval signal but require participant consent, annotation effort, and privacy handling that are out of scope for v1. This is explicitly a post-launch iteration.
+
+---
+
+*AI-SPEC version 1.0 — Phase 4 output (2026-06-26)*
+*Consumed by: Phase 5 PRD Finalization*
+*Requirements covered: GRND-01, GRND-02, GRND-03*
+*All decisions D-01 through D-14 from 04-CONTEXT.md are cited above.*
