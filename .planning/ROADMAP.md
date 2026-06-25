@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: DNA Deep-Dive & Project Setup** - Mine the DNA as a selective reference and document the dev baseline/conventions (completed 2026-06-25)
 - [x] **Phase 2: Foundational Decisions (ADRs)** - Fix the two existential product decisions: consent/recording posture and data-handling/privacy (completed 2026-06-25)
 - [x] **Phase 3: Deep Research** - Resolve the flagged open questions, including a hands-on system-audio capture spike (completed 2026-06-25)
-- [ ] **Phase 4: AI Grounding & Context Spec (AI-SPEC)** - Design the faithfulness contract and the ContextEngine/two-speed processing architecture
+- [x] **Phase 4: AI Grounding & Context Spec (AI-SPEC)** - Design the faithfulness contract and the ContextEngine/two-speed processing architecture (completed 2026-06-25)
 - [ ] **Phase 5: PRD Finalization** - Assemble all decisions, research, scope, and architecture into one authoritative PRD
 
 ## Phase Details
@@ -91,7 +91,7 @@ Plans:
   2. A ContextEngine + two-speed processing architecture spec exists (rolling window + RAG + epoch summaries; real-time hot path vs. end-of-meeting batch map-reduce) addressing long-meeting cost/context overflow
   3. An adversarial-transcript evaluation harness and a faithfulness metric are defined, specifying how grounding will be tested
 
-**Plans**: 1/2 plans executed
+**Plans**: 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -100,7 +100,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 04-02-PLAN.md — Write 04-AI-SPEC.md Section 3: Adversarial Eval Harness (GRND-03) + finalize complete document
+- [x] 04-02-PLAN.md — Write 04-AI-SPEC.md Section 3: Adversarial Eval Harness (GRND-03) + finalize complete document
 
 ### Phase 5: PRD Finalization
 
@@ -126,5 +126,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. DNA Deep-Dive & Project Setup | 3/3 | Complete    | 2026-06-25 |
 | 2. Foundational Decisions (ADRs) | 2/2 | Complete    | 2026-06-25 |
 | 3. Deep Research | 6/6 | Complete    | 2026-06-25 |
-| 4. AI Grounding & Context Spec | 1/2 | In Progress|  |
+| 4. AI Grounding & Context Spec | 2/2 | Complete   | 2026-06-25 |
 | 5. PRD Finalization | 0/TBD | Not started | - |
