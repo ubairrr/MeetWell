@@ -117,9 +117,20 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
+**Wave 1**
+
 - [ ] 05-01-PLAN.md — Write 05-FEATURE-SPEC.md: feature spec with explicit MVP boundary table (D-01 through D-14)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 05-02-PLAN.md — Write 05-ARCHITECTURE.md: module map, TypeScript interfaces, FSM, IPC contracts, DB DDL, component tree
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 05-03-PLAN.md — Write 05-BUILD-ORDER.md: 6-phase dependency-driven build sequence
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
 - [ ] 05-04-PLAN.md — Write 05-PRD.md: hub document with executive summary and decisions index
 
 ## Progress
