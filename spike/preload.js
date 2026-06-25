@@ -10,15 +10,12 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('spikeAPI', {
-  // Get environment info (DEEPGRAM_API_KEY set?, versions)
   getEnv: () => ipcRenderer.invoke('get-env'),
-
-  // TODO (T3): Expose startCapturePath1 (native Chromium flags)
-  // startCapturePath1: () => ipcRenderer.invoke('start-capture-path1'),
-
-  // TODO (T4): Expose startCapturePath2 (AudioTee.js)
-  // startCapturePath2: () => ipcRenderer.invoke('start-capture-path2'),
-
-  // TODO (T3/T4): Expose transcript event listener
-  // onTranscript: (cb) => ipcRenderer.on('transcript', (_, data) => cb(data)),
+  startDGConnection: (pathName) => ipcRenderer.invoke('start-dg-connection', pathName),
+  stopDGConnection: () => ipcRenderer.invoke('stop-dg-connection'),
+  sendAudioChunk: (buffer) => ipcRenderer.invoke('send-audio-chunk', buffer),
+  startPath2AudioTee: () => ipcRenderer.invoke('start-path2-audiotee'),
+  stopPath2AudioTee: () => ipcRenderer.invoke('stop-path2-audiotee'),
+  onTranscript: (cb) => ipcRenderer.on('transcript', (_, data) => cb(data)),
+  onStatusChange: (cb) => ipcRenderer.on('status-change', (_, data) => cb(data)),
 });

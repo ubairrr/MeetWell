@@ -7,36 +7,26 @@
  *   Path 2: AudioTee.js (Core Audio Taps via 'audiotee' npm package)
  *
  * NOT product code. Committed as research record per RSCH-04.
- * See .planning/phases/03-deep-research/03-RSCH-04-SPIKE-REPORT.md for results.
  */
 
 const { app, BrowserWindow, ipcMain, session } = require('electron');
 const path = require('path');
+const { AudioTee } = require('audiotee');
+const { createClient, LiveTranscriptionEvents } = require('@deepgram/sdk');
 
 // ============================================================
 // PATH 1: Native Chromium Core Audio Tap flags
 // On macOS 15+ (including 26.x), use MacCatapSystemAudioLoopbackCapture
-// NOT MacSckSystemAudioLoopbackOverride (ScreenCaptureKit — deprecated on 15+)
-// For Electron 41+, no electron-audio-loopback package needed — native flags only
+// For Electron 41+, native flags support is built-in
 // ============================================================
 app.commandLine.appendSwitch('enable-features', 'MacLoopbackAudioForScreenShare');
 app.commandLine.appendSwitch('enable-features', 'MacCatapSystemAudioLoopbackCapture');
 
-// TODO (T3): Implement setDisplayMediaRequestHandler for loopback audio
-// TODO (T3): Wire both audio streams to Deepgram Nova-3 with diarization=true
-// TODO (T3): Verify coherent transcript returns for both mic and system audio channels
-
-// ============================================================
-// PATH 2: AudioTee.js (Core Audio Taps via Swift binary)
-// npm package: 'audiotee' v0.0.7
-// Requires entitlement: com.apple.security.cs.disable-library-validation
-// (acceptable for throwaway spike only — NOT for product)
-// ============================================================
-// TODO (T4): Integrate audiotee package for system audio capture
-// TODO (T4): Wire AudioTee.js output alongside mic stream to Deepgram
-// TODO (T4): Compare permissions UX (no purple indicator expected for Path 2)
-
 let mainWindow;
+let dgClient;
+let dgConnection;
+let activePath = null; // 'path1' or 'path2'
+let audioteeInstance = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -54,10 +44,10 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  // TODO (T3): Implement setDisplayMediaRequestHandler here for Path 1
-  // session.defaultSession.setDisplayMediaRequestHandler((request, callback) => {
-  //   callback({ audio: 'loopback' });
-  // });
+  // Set up loopback handler to bypass user screen share picker UI in Path 1
+  session.defaultSession.setDisplayMediaRequestHandler((request, callback) => {
+    callback({ audio: 'loopback' });
+  });
 
   createWindow();
 
@@ -70,11 +60,130 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// IPC handlers
-// TODO (T3/T4): Add IPC handlers for audio stream status and transcript output
+// Helper to connect to Deepgram
+async function connectDeepgram(pathName) {
+  const apiKey = process.env.DEEPGRAM_API_KEY;
+  if (!apiKey) {
+    throw new Error('DEEPGRAM_API_KEY not set');
+  }
+
+  if (dgConnection) {
+    try { dgConnection.requestClose(); } catch (e) {}
+  }
+
+  dgClient = createClient(apiKey);
+  dgConnection = dgClient.listen.live({
+    model: 'nova-3',
+    diarize: true,
+    smart_format: true,
+    encoding: 'linear16',
+    sample_rate: 16000,
+    channels: 1,
+    mip_opt_out: true, // DEC-02 compliance
+  });
+
+  activePath = pathName;
+
+  dgConnection.on(LiveTranscriptionEvents.Open, () => {
+    if (mainWindow) {
+      mainWindow.webContents.send('status-change', { status: 'connected', path: pathName });
+    }
+  });
+
+  dgConnection.on(LiveTranscriptionEvents.Transcript, (data) => {
+    const alt = data?.channel?.alternatives?.[0];
+    if (!alt?.transcript?.trim()) return;
+
+    if (mainWindow) {
+      mainWindow.webContents.send('transcript', {
+        path: activePath,
+        speaker: alt.words?.[0]?.speaker ?? '?',
+        text: alt.transcript,
+        isFinal: data.is_final,
+      });
+    }
+  });
+
+  dgConnection.on(LiveTranscriptionEvents.Error, (err) => {
+    console.error('Deepgram Error:', err);
+    if (mainWindow) {
+      mainWindow.webContents.send('status-change', { status: 'error', error: err.message || err });
+    }
+  });
+
+  dgConnection.on(LiveTranscriptionEvents.Close, () => {
+    if (mainWindow) {
+      mainWindow.webContents.send('status-change', { status: 'closed', path: activePath });
+    }
+    dgConnection = null;
+    activePath = null;
+  });
+}
+
+// IPC Handlers
 ipcMain.handle('get-env', () => ({
   deepgramKeySet: !!process.env.DEEPGRAM_API_KEY,
   nodeVersion: process.version,
   electronVersion: process.versions.electron,
   platform: process.platform,
 }));
+
+ipcMain.handle('start-dg-connection', async (event, pathName) => {
+  await connectDeepgram(pathName);
+  return { success: true };
+});
+
+ipcMain.handle('stop-dg-connection', async () => {
+  if (dgConnection) {
+    dgConnection.requestClose();
+  }
+  return { success: true };
+});
+
+ipcMain.handle('send-audio-chunk', (event, buffer) => {
+  if (dgConnection && activePath === 'path1') {
+    // Send raw linear16 PCM buffer from Path 1 (renderer)
+    dgConnection.send(Buffer.from(buffer));
+  }
+  return { success: true };
+});
+
+ipcMain.handle('start-path2-audiotee', async () => {
+  if (audioteeInstance) {
+    try { await audioteeInstance.stop(); } catch (e) {}
+  }
+
+  await connectDeepgram('path2');
+
+  audioteeInstance = new AudioTee({
+    sampleRate: 16000,
+    chunkDurationMs: 100,
+  });
+
+  audioteeInstance.on('data', (chunk) => {
+    if (chunk?.data && dgConnection && activePath === 'path2') {
+      dgConnection.send(chunk.data);
+    }
+  });
+
+  audioteeInstance.on('error', (err) => {
+    console.error('AudioTee process error:', err);
+    if (mainWindow) {
+      mainWindow.webContents.send('status-change', { status: 'error', error: `AudioTee: ${err.message}` });
+    }
+  });
+
+  await audioteeInstance.start();
+  return { success: true };
+});
+
+ipcMain.handle('stop-path2-audiotee', async () => {
+  if (audioteeInstance) {
+    await audioteeInstance.stop();
+    audioteeInstance = null;
+  }
+  if (dgConnection) {
+    dgConnection.requestClose();
+  }
+  return { success: true };
+});
