@@ -94,7 +94,12 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
+**Wave 1**
+
 - [ ] 04-01-PLAN.md — Write 04-AI-SPEC.md Sections 1+2: Faithfulness Contract (GRND-01) + ContextEngine Architecture (GRND-02)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 04-02-PLAN.md — Write 04-AI-SPEC.md Section 3: Adversarial Eval Harness (GRND-03) + finalize complete document
 
 ### Phase 5: PRD Finalization
