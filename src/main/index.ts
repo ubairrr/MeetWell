@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { app, BrowserWindow, screen, ipcMain } from 'electron'
 import { join } from 'path'
 import crypto from 'crypto'
