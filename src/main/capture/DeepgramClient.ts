@@ -88,6 +88,9 @@ export class DeepgramClient {
     this.socket.on('error', () => {
       void this.handleDisconnect()
     })
+
+    // WrappedListenV1Socket is lazy — must call connect() to initiate the WebSocket
+    this.socket.connect()
   }
 
   sendMedia(buffer: Buffer): void {
