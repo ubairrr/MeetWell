@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS transcript_segments (
   timestamp_end    REAL NOT NULL,
   text             TEXT NOT NULL,
   is_speech_final  INTEGER NOT NULL DEFAULT 1,
+  confidence       REAL,
   created_at       INTEGER NOT NULL DEFAULT (unixepoch() * 1000)
 );
 
@@ -110,6 +111,28 @@ CREATE TABLE IF NOT EXISTS epoch_summaries (
 `
 
 // ---------------------------------------------------------------------------
+// runMigrations — idempotent schema migrations, called after ALL_DDLS
+// ---------------------------------------------------------------------------
+export function runMigrations(db: Database.Database): void {
+  try {
+    const columns = db.pragma('table_info(transcript_segments)') as Array<{ name: string }>
+    const hasConfidence = columns.some((col) => col.name === 'confidence')
+    if (!hasConfidence) {
+      db.exec('ALTER TABLE transcript_segments ADD COLUMN confidence REAL')
+    }
+  } catch (err: unknown) {
+    // Swallow "duplicate column name" errors — safe re-run guard
+    if (
+      err instanceof Error &&
+      err.message.toLowerCase().includes('duplicate column name')
+    ) {
+      return
+    }
+    throw err
+  }
+}
+
+// ---------------------------------------------------------------------------
 // openDatabase — MUST be called only inside app.whenReady()
 // ---------------------------------------------------------------------------
 // 4-step sequence (order is mandatory):
@@ -151,6 +174,9 @@ export function openDatabase(): Database.Database {
   // explicit transaction. Executing with db.exec() directly is safe and
   // SQLite's implicit transaction handling ensures atomicity for DDL.
   db.exec(ALL_DDLS)
+
+  // ---- Step 5: run idempotent migrations ------------------------------
+  runMigrations(db)
 
   return db
 }
