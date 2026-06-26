@@ -92,8 +92,12 @@ export class DeepgramClient {
 
   sendMedia(buffer: Buffer): void {
     if (!this.socket) return
-    this.socket.sendMedia(buffer)
-    this.resetSilenceTimer()
+    try {
+      this.socket.sendMedia(buffer)
+      this.resetSilenceTimer()
+    } catch {
+      // socket exists but connection not yet open — drop silently
+    }
   }
 
   async disconnect(): Promise<void> {

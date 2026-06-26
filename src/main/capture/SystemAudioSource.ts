@@ -14,7 +14,7 @@ export class SystemAudioSource extends EventEmitter {
     if (app.isPackaged) {
       return path.join(process.resourcesPath, 'audiotee')
     }
-    return path.join(__dirname, '../../../node_modules/audiotee/bin/audiotee')
+    return path.join(__dirname, '../../node_modules/audiotee/bin/audiotee')
   }
 
   async start(): Promise<void> {
