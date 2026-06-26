@@ -7,6 +7,10 @@
 # node_modules tree. It exists locally as architectural reference only.
 DNA/
 
+# ── RSCH-04 throwaway capture spike ──
+# Findings are documented in .planning/phases/03-deep-research/03-RSCH-04-SPIKE-REPORT.md
+spike/
+
 # ── GSD framework tooling (installed, reinstallable; not project code) ──
 # .planning/ is intentionally NOT ignored — research, PRD and roadmap
 # are this milestone's deliverables and belong on GitHub.
