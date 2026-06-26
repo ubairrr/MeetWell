@@ -57,7 +57,15 @@ Plans:
   3. Both Deepgram WebSocket connections produce `speech_final` events with distinct speaker labels; mic channel always shows "You", system audio shows Speaker 1, Speaker 2, …
   4. `transcript_segments` table fills with rows during a real 10-minute meeting; `mip_opt_out: true` is hardcoded at SDK client initialization and verifiable
   5. Capture health status (silent / healthy / error) for both channels is visible in the overlay UI in real time; raw audio is discarded after each transcription batch
-**Plans**: TBD
+**Plans**: 7 plans
+Plans:
+- [ ] 07-01-PLAN.md — DB migration (confidence REAL column) + TranscriptStore
+- [ ] 07-02-PLAN.md — DeepgramClient single-channel WebSocket wrapper + SpeakerNormalizer
+- [ ] 07-03-PLAN.md — audiotee system audio source + packaging (extraResources)
+- [ ] 07-04-PLAN.md — AudioWorklet mic bridge: Float32→Int16, MicCapture module
+- [ ] 07-05-PLAN.md — CaptureService: orchestrate both channels, health, FSM hooks
+- [ ] 07-06-PLAN.md — CapturingScreen UI: two-dot health bar + Stop Meeting button
+- [ ] 07-07-PLAN.md — Main process wiring: replace stubs, instantiate CaptureService
 **UI hint**: yes
 
 ### Phase 8: ArtifactPipeline
