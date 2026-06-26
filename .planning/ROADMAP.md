@@ -16,7 +16,7 @@ Phase numbering continues from the Discovery & PRD milestone (Phases 1–5).
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 6: Foundation & Scaffold** - Electron app shell, overlay window, SQLCipher DB, hardened IPC, consent gate, SessionManager FSM skeleton
-- [ ] **Phase 7: Capture + TranscriptStore** - Dual-channel audio capture (audiotee primary / Chromium fallback), Deepgram Nova-3 dual-WebSocket, encrypted transcript persistence
+- [x] **Phase 7: Capture + TranscriptStore** - Dual-channel audio capture (audiotee primary / Chromium fallback), Deepgram Nova-3 dual-WebSocket, encrypted transcript persistence
 - [ ] **Phase 8: ArtifactPipeline** - End-of-meeting batch extraction, CitationValidator, ArtifactReview UI, .ics export, LLM adapter
 - [ ] **Phase 9: Overlay UI + Live Summary Board** - Full session flow, SummaryCardTimer, LiveSummaryBoard, SessionManager FSM end-to-end, settings panel
 - [ ] **Phase 10: ContextEngine + Break Assist** - Full ContextEngine, EpochCompressor, BreakAssist, 60-minute meeting test
@@ -131,7 +131,7 @@ Phases execute in dependency order: 6 → 7 → 8 → 9 → 10 → 11
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 6. Foundation & Scaffold | 7/7 | Complete | 2026-06-26 |
-| 7. Capture + TranscriptStore | 0/7 | Planned | - |
+| 7. Capture + TranscriptStore | 7/7 | Complete | 2026-06-27 |
 | 8. ArtifactPipeline | 0/TBD | Not started | - |
 | 9. Overlay UI + Live Summary Board | 0/TBD | Not started | - |
 | 10. ContextEngine + Break Assist | 0/TBD | Not started | - |
