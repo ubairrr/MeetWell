@@ -105,16 +105,28 @@ app.whenReady().then(async () => {
     }
 
     if (state === 'Processing') {
+      const meetingIdForQuery = currentMeetingId
+      currentMeetingId = null
       captureService.stopCapture()
         .then(() => {
-          // Phase 8 will handle the real pipeline here; for now advance immediately
+          if (meetingIdForQuery && db) {
+            const rows = db.prepare(
+              'SELECT speaker_label, channel, timestamp_start, timestamp_end, text, confidence FROM transcript_segments WHERE meeting_id = ? ORDER BY timestamp_start'
+            ).all(meetingIdForQuery) as Array<{
+              speaker_label: string; channel: string; timestamp_start: number;
+              timestamp_end: number; text: string; confidence: number | null
+            }>
+            console.log(`[DB] transcript_segments for meeting ${meetingIdForQuery}: ${rows.length} row(s)`)
+            rows.forEach((r, i) => {
+              console.log(`  [${i + 1}] [${r.channel}] ${r.speaker_label} (${r.timestamp_start.toFixed(2)}s–${r.timestamp_end.toFixed(2)}s, conf=${r.confidence ?? 'null'}): ${r.text}`)
+            })
+          }
           session.transition('pipeline-complete')
         })
         .catch((err: unknown) => {
           console.error('[MeetingAssist] CaptureService.stopCapture failed:', err)
           session.transition('pipeline-complete')
         })
-      currentMeetingId = null
     }
   })
 
