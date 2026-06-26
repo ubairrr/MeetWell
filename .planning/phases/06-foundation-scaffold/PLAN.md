@@ -976,7 +976,29 @@ Run the smoke test after writing the config:
 
 The output `.app` bundle will be in `dist/mac-arm64/MeetingAssist.app` (or `dist/mac/` on Intel). Launch it: `open dist/mac-arm64/MeetingAssist.app`. The overlay should appear at the right edge. No DB error in the Console.app logs (check `~/Library/Logs/MeetingAssist/`).
 
-If `sqlite-vec.load()` fails in the packaged app (open question A2 from RESEARCH.md), apply the fallback: modify `db.ts` to use `db.loadExtension(require.resolve('sqlite-vec'))` or the platform-specific path resolution. Do not leave a failing packaged build — resolve this before marking Plan 06-07 complete.
+If `sqlite-vec.load(db)` fails in the packaged app (Console.app shows `dlopen` or `No such file` errors), replace the single `sqliteVec.load(db)` call in `db.ts` with this exact fallback wrapper — copy it verbatim:
+
+```typescript
+function loadSqliteVec(db: Database): void {
+  try {
+    sqliteVec.load(db);
+  } catch {
+    // sqliteVec.load() failed to resolve from asar-unpacked — use explicit path.
+    const appPath = app.getAppPath();
+    const unpackedBase = appPath.replace('app.asar', 'app.asar.unpacked');
+    const arch = process.arch === 'arm64' ? 'darwin-arm64' : 'darwin-x64';
+    const extPath = path.join(
+      unpackedBase,
+      'node_modules',
+      `sqlite-vec-${arch}`,
+      'vec0.dylib'
+    );
+    db.loadExtension(extPath);
+  }
+}
+```
+
+Call `loadSqliteVec(db)` in place of `sqliteVec.load(db)` in the 4-step init sequence. Do not leave a failing packaged build — resolve this before marking Plan 06-07 complete.
 
 **Verify (automated):**
 `npm run build:mac-dir` exits 0. `ls dist/mac-arm64/MeetingAssist.app` exists.

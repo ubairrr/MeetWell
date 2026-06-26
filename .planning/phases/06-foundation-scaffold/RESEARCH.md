@@ -966,25 +966,33 @@ This is a greenfield phase — no existing runtime state to inventory. The `src/
 
 ## Open Questions
 
-1. **`sqlite-vec.load()` path resolution in packaged app**
-   - What we know: `sqliteVec.load(db)` works in dev. In a packaged app, the module resolves from `app.asar.unpacked`. The `load()` function is documented to handle this automatically.
-   - What's unclear: Whether `load()` correctly resolves from the `asar.unpacked` directory when the module is in `asarUnpack` — or whether a manual path override is needed (`db.loadExtension(resolvedPath)`).
-   - Recommendation: Test `electron-builder --mac --dir` early (Phase 6 acceptance criterion 5). If `load()` fails, fall back to: `db.loadExtension(require('sqlite-vec').getLoadablePath())` or manual path: `app.getAppPath().replace('app.asar', 'app.asar.unpacked') + '/node_modules/sqlite-vec-darwin-arm64/vec0.dylib'`.
+1. **`sqlite-vec.load()` path resolution in packaged app** — *empirically confirmed in Plan 06-07 Task 2*
+   - **Status:** Not pre-resolvable without running `electron-builder --mac --dir`. Resolved at execution time.
+   - **Primary path:** `sqliteVec.load(db)` — use this first; the npm package is documented to handle asar-unpacked resolution automatically.
+   - **Fallback (copy-paste ready):** If `load()` fails in the packaged build (Console.app shows `dlopen` or `No such file` errors), replace `sqliteVec.load(db)` in `db.ts` with:
+     ```typescript
+     function loadSqliteVec(db: Database): void {
+       try {
+         sqliteVec.load(db);
+       } catch {
+         const appPath = app.getAppPath();
+         const unpackedBase = appPath.replace('app.asar', 'app.asar.unpacked');
+         const arch = process.arch === 'arm64' ? 'darwin-arm64' : 'darwin-x64';
+         const extPath = path.join(unpackedBase, 'node_modules', `sqlite-vec-${arch}`, 'vec0.dylib');
+         db.loadExtension(extPath);
+       }
+     }
+     ```
+   - **This fallback is also embedded in Plan 06-07 Task 2** — the executor does not need to derive it.
 
-2. **Electron 41 vs 42 final decision**
-   - What we know: Both 41.9.0 and 42.5.0 are current. RSCH-04 spike ran on 42.5.0. `better-sqlite3-multiple-ciphers` explicitly supports both. `npm latest` tag resolves to 42.5.0.
-   - What's unclear: Whether there's an official "LTS" designation between 41 and 42 that matters for the build milestone timeline.
-   - Recommendation: Pin to 42.5.0. It is the current `latest` on npm, the spike-validated version, and `better-sqlite3-multiple-ciphers` explicitly added 42 support. Document the pin in `package.json` with a comment.
+2. **Electron 41 vs 42 final decision** — *RESOLVED: pin 42.5.0*
+   - 42.5.0 is the `npm latest` tag, the RSCH-04 spike-validated version, and has explicit `better-sqlite3-multiple-ciphers` 12.11.1 support. Pin `"electron": "42.5.0"` in `package.json`. No further decision needed.
 
-3. **`better-sqlite3-multiple-ciphers` first-run key storage location**
-   - What we know: `safeStorage.encryptString()` produces a Buffer. This Buffer must be persisted between runs (it is NOT stored in the Keychain directly — safeStorage uses the Keychain to encrypt the buffer, but you store the encrypted bytes yourself).
-   - What's unclear: Whether storing the encrypted key file in `app.getPath('userData')` is sufficient, or whether additional file-permission hardening is expected.
-   - Recommendation: Store in `userData` directory (standard Electron practice). Set file permissions to `0600` on write. This is adequate for v1. [ASSUMED]
+3. **`better-sqlite3-multiple-ciphers` first-run key storage location** — *RESOLVED: `userData` dir, mode 0o600*
+   - Store the `safeStorage`-encrypted key Buffer at `path.join(app.getPath('userData'), '.db-key')`. On write, call `fs.chmodSync(keyPath, 0o600)`. This is standard Electron practice and adequate for v1.
 
-4. **`setContentProtection(true)` in development**
-   - What we know: `setContentProtection(true)` prevents the window from appearing in screen-share. In dev mode, this also prevents the window from appearing in any recording tool.
-   - What's unclear: Whether this should be conditional (`process.env.NODE_ENV !== 'development'`) for developer ergonomics or always-on per the spec.
-   - Recommendation: Always-on per 05-ARCHITECTURE §9 spec. Developers can use DevTools console or IPC inspector; the UX requirement is unconditional.
+4. **`setContentProtection(true)` in development** — *RESOLVED: always-on, unconditional*
+   - Per 05-ARCHITECTURE.md §9, `setContentProtection(true)` is never conditional on `NODE_ENV`. Developers use DevTools console or IPC inspector tools. No toggle needed.
 
 ---
 
