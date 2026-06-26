@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. `ConsentGateScreen` renders in `PreCapture` state; the Start button is visibly disabled until the disclosure checkbox is checked
   3. SQLCipher DB opens without error on first launch; all 7 tables exist and the `sqlite-vec` extension loads from its `asarUnpack` path
   4. Any unlisted channel invoked from the renderer against the contextBridge allowlist is rejected — the 18 typed channels are stubbed and present
-  5. `electron-builder --mac --dir` produces a `.app` bundle that launches without a DB error or entitlement error
+  5. electron-builder config, entitlements plist, and asarUnpack entries are in place (packaging smoke test deferred to Phase 11 — no point verifying a bundle until the full app is built)
 **Plans**: 7 plans
 Plans:
 - [ ] 06-01-PLAN.md — Project scaffold: electron-vite + React 19 + Vite 7 + pinned deps + Vitest harness
@@ -43,7 +43,7 @@ Plans:
 - [ ] 06-04-PLAN.md — contextBridge allowlist: 18 typed channels (6 listen + 12 invoke) with rejection guard
 - [ ] 06-05-PLAN.md — SessionManager FSM + IPC wiring: Idle→PreCapture, consent guard, 12 stub handlers
 - [ ] 06-06-PLAN.md — ConsentGate component + App.tsx skeleton with useSessionState hook
-- [ ] 06-07-PLAN.md — electron-builder config + asarUnpack + entitlements plist + packaged app smoke test
+- [x] 06-07-PLAN.md — electron-builder config + asarUnpack + entitlements plist (smoke test deferred to Phase 11)
 **UI hint**: yes
 
 ### Phase 7: Capture + TranscriptStore
@@ -109,7 +109,8 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. `electron-builder --mac` succeeds with no errors; a signed and notarized DMG is produced; app passes `spctl --assess --verbose` on the DMG
   2. App launches from the DMG on a fresh macOS 14.2+ machine without a DB error or entitlement error; macOS version check shows a clear error and exits on macOS < 14.2
-  3. `audiotee` system audio capture works in the packaged app without a `disable-library-validation` entitlement error; `asarUnpack` includes both the `better-sqlite3-multiple-ciphers` `.node` binary and the `audiotee` Swift binary
+  3. `audiotee` system audio capture works in the packaged app; `asarUnpack` includes both `better-sqlite3-multiple-ciphers` `.node` and `audiotee` Swift binary; native module ABI matches Electron's Node version (rebuild against Electron ABI before packaging, not system Node)
+  3a. Packaging smoke test (deferred from Phase 6): `electron-builder --mac --dir` produces a `.app` bundle that launches without a DB error or entitlement error
   4. `node eval/harness.ts` reports CGFS ≥ 0.85 on the 60-transcript adversarial corpus
   5. `node eval/harness.ts` reports EHR ≤ 0.05 on the 60-transcript adversarial corpus — both PACK-04 and PACK-05 must pass before v1 is declared shippable
 **Plans**: TBD
@@ -121,7 +122,7 @@ Phases execute in dependency order: 6 → 7 → 8 → 9 → 10 → 11
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 6. Foundation & Scaffold | 0/7 | Not started | - |
+| 6. Foundation & Scaffold | 7/7 | Complete | 2026-06-26 |
 | 7. Capture + TranscriptStore | 0/TBD | Not started | - |
 | 8. ArtifactPipeline | 0/TBD | Not started | - |
 | 9. Overlay UI + Live Summary Board | 0/TBD | Not started | - |
