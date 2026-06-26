@@ -3,6 +3,9 @@ productName: MeetingAssist
 directories:
   buildResources: build
 asar: true
+extraResources:
+  - from: node_modules/audiotee/bin/audiotee
+    to: audiotee
 asarUnpack:
   - 'resources/**'
   - '**/node_modules/better-sqlite3-multiple-ciphers/**'
