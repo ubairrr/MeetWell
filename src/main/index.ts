@@ -60,6 +60,22 @@ app.whenReady().then(async () => {
     return
   }
 
+  // --- DEBUG: dump existing transcript_segments on startup ---
+  const allSegs = db.prepare(
+    'SELECT m.id as mid, m.started_at, s.channel, s.speaker_label, s.timestamp_start, s.timestamp_end, s.confidence, s.text ' +
+    'FROM transcript_segments s JOIN meetings m ON m.id = s.meeting_id ORDER BY m.started_at, s.timestamp_start'
+  ).all() as Array<{ mid: string; started_at: number; channel: string; speaker_label: string; timestamp_start: number; timestamp_end: number; confidence: number | null; text: string }>
+  console.log(`[DB STARTUP] transcript_segments total: ${allSegs.length}`)
+  let lastMid = ''
+  allSegs.forEach((s) => {
+    if (s.mid !== lastMid) {
+      console.log(`  Meeting ${s.mid} (${new Date(s.started_at).toISOString()})`)
+      lastMid = s.mid
+    }
+    console.log(`    [${s.channel}] ${s.speaker_label} ${s.timestamp_start.toFixed(2)}s–${s.timestamp_end.toFixed(2)}s conf=${s.confidence ?? 'null'}: "${s.text}"`)
+  })
+  // --- END DEBUG ---
+
   win = createOverlayWindow()
   win.setIgnoreMouseEvents(false)  // Idle state is interactive on startup
 
