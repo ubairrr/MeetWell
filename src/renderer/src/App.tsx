@@ -5,6 +5,7 @@ import { CapturingScreen } from './components/CapturingScreen'
 import type { HealthStatus } from './components/ChannelHealthDot'
 import { startMicCapture } from './audio/MicCapture'
 import type { MicCaptureHandle } from './audio/MicCapture'
+import { ArtifactReview } from './components/ArtifactReview'
 
 function useSessionState(): SessionState {
   const [state, setState] = useState<SessionState>('Idle')
@@ -34,10 +35,31 @@ function useCapturingHealth(): { healthMic: HealthStatus; healthSystem: HealthSt
   return { healthMic, healthSystem }
 }
 
+function useArtifactProposals() {
+  const [proposals, setProposals] = useState<{
+    meetingId: string
+    mom: { markdown_content: string }
+    summary: { summary_text: string }
+    keyPoints: { key_points: Array<{ text: string; speaker_label: string | null; source_quote_preview: string; confidence: 'direct' | 'inferred' }> }
+    actionItems: { action_items: Array<any> }
+    error?: boolean
+    errorMessage?: string
+  } | null>(null)
+
+  useEffect(() => {
+    window.electronAPI.on('artifact-proposals-ready', (payload: unknown) => {
+      setProposals(payload as any)
+    })
+  }, [])
+
+  return proposals
+}
+
 export default function App(): React.JSX.Element {
   const sessionState = useSessionState()
   const { healthMic, healthSystem } = useCapturingHealth()
   const micHandleRef = useRef<MicCaptureHandle | null>(null)
+  const proposals = useArtifactProposals()
 
   useEffect(() => {
     if (sessionState !== 'Capturing') return
