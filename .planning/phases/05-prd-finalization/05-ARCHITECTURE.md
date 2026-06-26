@@ -22,7 +22,7 @@ This document specifies the production-grade modular architecture for MeetingAss
 **What this document specifies:**
 - The module map: every service in `src/main/<domain>/` with its TypeScript interface
 - The SessionManager FSM: all 6 states, all transitions, the consent gate guard
-- The full IPC channel surface: all 16 channels with typed payload shapes
+- The full IPC channel surface: all 18 channels (6 inbound + 12 outbound) with typed payload shapes
 - The complete DB DDL: 7 tables (5 from RSCH-05 + 2 AI-SPEC additions)
 - Electron overlay BrowserWindow configuration
 - The top-level React component tree
@@ -574,7 +574,7 @@ CREATE TABLE IF NOT EXISTS epoch_summaries (
 
 1. DB key generated via `Electron.safeStorage.encryptString()` on first run; stored in macOS Keychain
 2. DB opened with `PRAGMA key = '...'` using the `safeStorage`-decrypted key
-3. `sqlite-vec` loaded immediately after open: `db.loadExtension(resolvedSqliteVecPath)` — path must resolve from `asar-unpacked`
+3. `sqlite-vec` loaded immediately after open: prefer `sqliteVec.load(db)` from the npm package (handles path internally); fallback to `db.loadExtension(resolvedSqliteVecPath)` with manual `asar-unpacked` path resolution if `load()` fails in a packaged build
 4. All 7 table DDLs executed via `db.exec()` in a single transaction
 5. `better-sqlite3-multiple-ciphers` must be rebuilt against Electron's Node ABI via `electron-rebuild`
 6. Both the `.node` file and the `audiotee` Swift binary must be in `asarUnpack` in `package.json`
