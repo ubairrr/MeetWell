@@ -131,7 +131,7 @@ Phases execute in dependency order: 6 → 7 → 8 → 9 → 10 → 11
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 6. Foundation & Scaffold | 7/7 | Complete | 2026-06-26 |
-| 7. Capture + TranscriptStore | 0/TBD | Not started | - |
+| 7. Capture + TranscriptStore | 0/7 | Planned | - |
 | 8. ArtifactPipeline | 0/TBD | Not started | - |
 | 9. Overlay UI + Live Summary Board | 0/TBD | Not started | - |
 | 10. ContextEngine + Break Assist | 0/TBD | Not started | - |
