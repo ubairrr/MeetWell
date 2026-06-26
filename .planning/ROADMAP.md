@@ -35,7 +35,15 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. SQLCipher DB opens without error on first launch; all 7 tables exist and the `sqlite-vec` extension loads from its `asarUnpack` path
   4. Any unlisted channel invoked from the renderer against the contextBridge allowlist is rejected — the 18 typed channels are stubbed and present
   5. `electron-builder --mac --dir` produces a `.app` bundle that launches without a DB error or entitlement error
-**Plans**: TBD
+**Plans**: 7 plans
+Plans:
+- [ ] 06-01-PLAN.md — Project scaffold: electron-vite + React 19 + Vite 7 + pinned deps + Vitest harness
+- [ ] 06-02-PLAN.md — DB initialization: safeStorage key, SQLCipher, sqlite-vec, all 7 DDLs + DB tests
+- [ ] 06-03-PLAN.md — Overlay window + app lifecycle: createOverlayWindow(), dock.hide(), content protection
+- [ ] 06-04-PLAN.md — contextBridge allowlist: 18 typed channels (6 listen + 12 invoke) with rejection guard
+- [ ] 06-05-PLAN.md — SessionManager FSM + IPC wiring: Idle→PreCapture, consent guard, 12 stub handlers
+- [ ] 06-06-PLAN.md — ConsentGate component + App.tsx skeleton with useSessionState hook
+- [ ] 06-07-PLAN.md — electron-builder config + asarUnpack + entitlements plist + packaged app smoke test
 **UI hint**: yes
 
 ### Phase 7: Capture + TranscriptStore
@@ -113,7 +121,7 @@ Phases execute in dependency order: 6 → 7 → 8 → 9 → 10 → 11
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 6. Foundation & Scaffold | 0/TBD | Not started | - |
+| 6. Foundation & Scaffold | 0/7 | Not started | - |
 | 7. Capture + TranscriptStore | 0/TBD | Not started | - |
 | 8. ArtifactPipeline | 0/TBD | Not started | - |
 | 9. Overlay UI + Live Summary Board | 0/TBD | Not started | - |
