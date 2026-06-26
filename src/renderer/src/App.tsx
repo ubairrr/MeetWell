@@ -99,25 +99,18 @@ export default function App(): React.JSX.Element {
   }
 
   if (sessionState === 'Complete') {
-    return (
-      <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
-        <div style={{ padding: '16px' }}>
-          <div style={{ fontSize: '13px', color: '#9ca3af', marginBottom: '12px' }}>
-            Meeting complete
+    if (!proposals) {
+      return (
+        <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
+          <div style={{ padding: '16px', fontSize: '13px', color: '#9ca3af' }}>
+            Processing artifacts...
           </div>
-          <button
-            onClick={() => window.electronAPI.invoke('start-meeting').catch(console.error)}
-            style={{ width: '100%', padding: '8px 0', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', fontWeight: 500, marginBottom: '8px' }}
-          >
-            Start New Meeting
-          </button>
-          <button
-            onClick={() => window.electronAPI.invoke('dismiss-session').catch(console.error)}
-            style={{ width: '100%', padding: '8px 0', backgroundColor: 'transparent', color: '#9ca3af', border: '1px solid #374151', borderRadius: '6px', fontSize: '13px', cursor: 'pointer' }}
-          >
-            Dismiss
-          </button>
         </div>
+      )
+    }
+    return (
+      <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff', overflowY: 'auto' }}>
+        <ArtifactReview meetingId={proposals.meetingId} artifacts={proposals} />
       </div>
     )
   }
