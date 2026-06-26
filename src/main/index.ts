@@ -1,7 +1,9 @@
 import { app, BrowserWindow, screen, ipcMain } from 'electron'
 import { join } from 'path'
+import crypto from 'crypto'
 import { openDatabase, closeDatabase } from './store/db'
 import { SessionManager } from './session/SessionManager'
+import { CaptureService } from './capture/CaptureService'
 import type Database from 'better-sqlite3-multiple-ciphers'
 
 const OVERLAY_WIDTH = 380
@@ -69,9 +71,43 @@ app.whenReady().then(async () => {
   // IPC handlers — wired in 06-05
   const session = new SessionManager()
 
+  // DEEPGRAM_API_KEY must be set in .env at project root (electron-vite loads it via dotenv)
+  // Or pass via shell: DEEPGRAM_API_KEY=dg_xxx npm run dev
+  const apiKey = process.env.DEEPGRAM_API_KEY ?? ''
+  if (!apiKey) {
+    console.warn('[MeetingAssist] DEEPGRAM_API_KEY not set — capture will fail until key is configured')
+  }
+  const captureService = new CaptureService(db!, win!, apiKey)
+
+  let currentMeetingId: string | null = null
+
   session.onStateChange((state, previous) => {
     if (win) {
       win.webContents.send('session-state-changed', { state, previous })
+    }
+
+    // Mouse event control: interactive during Capturing only
+    if (win) {
+      if (state === 'Capturing') {
+        win.setIgnoreMouseEvents(false)
+      } else {
+        win.setIgnoreMouseEvents(true, { forward: true })
+      }
+    }
+
+    // Capture lifecycle
+    if (state === 'Capturing') {
+      currentMeetingId = crypto.randomUUID()
+      captureService.startCapture(currentMeetingId).catch((err: unknown) => {
+        console.error('[MeetingAssist] CaptureService.startCapture failed:', err)
+      })
+    }
+
+    if (state === 'Processing') {
+      captureService.stopCapture().catch((err: unknown) => {
+        console.error('[MeetingAssist] CaptureService.stopCapture failed:', err)
+      })
+      currentMeetingId = null
     }
   })
 
@@ -85,8 +121,16 @@ app.whenReady().then(async () => {
   })
 
   // Stub handlers — implemented in later phases
-  ipcMain.handle('mic-audio-chunk', () => undefined)
-  ipcMain.handle('end-meeting', () => undefined)
+  ipcMain.handle('mic-audio-chunk', (_event, buffer: ArrayBuffer) => {
+    captureService.handleMicChunk(buffer)
+  })
+  ipcMain.handle('end-meeting', () => {
+    try {
+      session.transition('end-meeting')
+    } catch (err) {
+      console.error('[MeetingAssist] end-meeting transition failed:', err)
+    }
+  })
   ipcMain.handle('start-break', () => undefined)
   ipcMain.handle('end-break', () => undefined)
   ipcMain.handle('confirm-artifact', () => undefined)
