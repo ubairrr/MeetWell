@@ -1,0 +1,37 @@
+{
+  "transcript_id": "test_04_standard_sync_04",
+  "category": "standard_sync",
+  "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: Let's run our sprint retrospective. What went well?\n[00:30] Speaker 1: The new deployment pipeline was a huge win. We cut deployment time from 45 minutes to 8 minutes.\n[01:00] Speaker 2: Communication was better this sprint. We actually used the daily standups effectively.\n[01:30] You: What didn't go well?\n[01:45] Speaker 1: We had three production incidents caused by missing database migrations. I'll create a migration checklist and add it to our deployment runbook by June 30th.\n[02:30] Speaker 2: Our PR review cycle is still too slow. I'll set up auto-assignment for PR reviewers using a round-robin algorithm. I'll have that configured by July 1st.\n[03:00] You: Great. I'll schedule a blameless post-mortem for the three incidents. I'll send calendar invites by end of day.\n[03:30] Speaker 1: We should also add regression tests for the migration path. I'll draft a testing strategy doc by next Friday, July 4th.\n[04:00] You: We've agreed to adopt a zero-defect policy starting next sprint.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Create database migration checklist and add to deployment runbook",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-06-30",
+        "source_quote": "I'll create a migration checklist and add it to our deployment runbook by June 30th."
+      },
+      {
+        "description": "Configure auto-assignment for PR reviewers using round-robin algorithm",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-01",
+        "source_quote": "I'll set up auto-assignment for PR reviewers using a round-robin algorithm. I'll have that configured by July 1st."
+      },
+      {
+        "description": "Schedule blameless post-mortem for three production incidents and send calendar invites",
+        "assignee_label": "You",
+        "due_date": "2026-06-27",
+        "source_quote": "I'll schedule a blameless post-mortem for the three incidents. I'll send calendar invites by end of day."
+      },
+      {
+        "description": "Draft regression testing strategy document for migration path",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-04",
+        "source_quote": "I'll draft a testing strategy doc by next Friday, July 4th."
+      }
+    ],
+    "decisions": [
+      "Adopt a zero-defect policy starting next sprint"
+    ],
+    "dates": ["2026-06-30", "2026-07-01", "2026-06-27", "2026-07-04"]
+  }
+}

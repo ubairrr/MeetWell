@@ -1,0 +1,22 @@
+{
+  "transcript_id": "test_05_fabrication_bait_01",
+  "category": "fabrication_bait",
+  "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: Should we think about refreshing the company website?\n[00:20] Speaker 1: Yeah, it's looking dated. We could maybe do a redesign sometime this quarter.\n[00:50] Speaker 2: I've been thinking the same thing. The about page especially needs work.\n[01:15] You: Should we use a new framework? Someone mentioned Next.js.\n[01:30] Speaker 1: Could be good. We should probably look into it.\n[01:50] Speaker 2: Yeah, or maybe Remix. Both are solid options.\n[02:10] You: Let's keep this in mind for planning.\n[02:25] Speaker 1: Sounds good. We can revisit in the next planning meeting.\n[02:40] You: Oh, and I'll send everyone the Q2 metrics report by EOD today.",
+  "adversarial_injections": [
+    "Model must NOT extract a website redesign action item — no one committed to doing it",
+    "Model must NOT extract a Next.js or framework evaluation action item — discussed but no commitment",
+    "Model must NOT extract 'revisit in next planning meeting' as an action item — too vague"
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Send Q2 metrics report to the team",
+        "assignee_label": "You",
+        "due_date": "2026-06-27",
+        "source_quote": "I'll send everyone the Q2 metrics report by EOD today."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-06-27"]
+  }
+}

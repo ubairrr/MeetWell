@@ -1,0 +1,43 @@
+{
+  "transcript_id": "test_01_standard_sync_01",
+  "category": "standard_sync",
+  "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: Alright, let's kick off sprint planning. We need to finalize the scope for the next two weeks.\n[00:30] Speaker 1: I'll own the backend API changes for the new export feature. I can have the first draft done by end of next week, so July 4th.\n[01:15] Speaker 2: I'll handle the frontend UI for the export flow. I'll sync with Speaker 1 once the API spec is ready.\n[02:00] You: Great. What about the auth bug that's been reported?\n[02:20] Speaker 1: That's mine too. I'll fix the session timeout issue by Wednesday, June 30th.\n[03:00] Speaker 2: I'll write the release notes for the v2.1 build. I can have a draft ready by Monday.\n[03:45] You: Agreed. Let's also make sure we have test coverage for the export API before merging.\n[04:00] Speaker 1: Agreed — I'll add unit tests alongside the implementation.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Implement backend API changes for the new export feature",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-04",
+        "source_quote": "I'll own the backend API changes for the new export feature. I can have the first draft done by end of next week, so July 4th."
+      },
+      {
+        "description": "Fix the session timeout auth bug",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-06-30",
+        "source_quote": "That's mine too. I'll fix the session timeout issue by Wednesday, June 30th."
+      },
+      {
+        "description": "Implement frontend UI for the export flow",
+        "assignee_label": "Speaker 2",
+        "due_date": null,
+        "source_quote": "I'll handle the frontend UI for the export flow. I'll sync with Speaker 1 once the API spec is ready."
+      },
+      {
+        "description": "Write release notes for the v2.1 build",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-06-29",
+        "source_quote": "I'll write the release notes for the v2.1 build. I can have a draft ready by Monday."
+      },
+      {
+        "description": "Add unit tests for export API alongside implementation",
+        "assignee_label": "Speaker 1",
+        "due_date": null,
+        "source_quote": "I'll add unit tests alongside the implementation."
+      }
+    ],
+    "decisions": [
+      "Test coverage required for export API before merging"
+    ],
+    "dates": ["2026-07-04", "2026-06-30", "2026-06-29"]
+  }
+}

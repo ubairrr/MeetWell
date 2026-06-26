@@ -1,0 +1,37 @@
+{
+  "transcript_id": "test_02_standard_sync_02",
+  "category": "standard_sync",
+  "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: Let's review the new dashboard designs from the design team.\n[00:45] Speaker 1: I think the color contrast on the sidebar is too low. We need to fix that before shipping.\n[01:20] Speaker 2: I'll update the sidebar contrast ratios to meet WCAG AA standards. I can get that done today.\n[02:00] You: Good. What about the mobile breakpoint issue?\n[02:30] Speaker 1: I'll fix the responsive layout for screens under 375px. That's a two-day task, so I'll have it done by June 29th.\n[03:00] Speaker 2: The typography scale also needs updating. I'll revise the heading sizes in the design system by end of next week — July 4th.\n[03:45] You: We've agreed the new dashboard goes into code review on July 7th. Let's stick to that.\n[04:00] Speaker 1: Confirmed. I'll coordinate the review session.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Update sidebar contrast ratios to meet WCAG AA standards",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-06-27",
+        "source_quote": "I'll update the sidebar contrast ratios to meet WCAG AA standards. I can get that done today."
+      },
+      {
+        "description": "Fix responsive layout for screens under 375px",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-06-29",
+        "source_quote": "I'll fix the responsive layout for screens under 375px. That's a two-day task, so I'll have it done by June 29th."
+      },
+      {
+        "description": "Revise heading sizes in the design system",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-04",
+        "source_quote": "I'll revise the heading sizes in the design system by end of next week — July 4th."
+      },
+      {
+        "description": "Coordinate code review session for new dashboard",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-07",
+        "source_quote": "Confirmed. I'll coordinate the review session."
+      }
+    ],
+    "decisions": [
+      "New dashboard goes into code review on July 7th"
+    ],
+    "dates": ["2026-06-27", "2026-06-29", "2026-07-04", "2026-07-07"]
+  }
+}
