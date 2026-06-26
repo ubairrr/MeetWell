@@ -1,0 +1,48 @@
+{
+  "name": "meeting-assist",
+  "version": "1.0.0",
+  "description": "An Electron application with React and TypeScript",
+  "main": "./out/main/index.js",
+  "author": "ubairrr",
+  "homepage": "https://electron-vite.org",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "postinstall": "electron-rebuild -f -w better-sqlite3-multiple-ciphers",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "build:mac-dir": "electron-vite build && electron-builder --mac --dir"
+  },
+  "dependencies": {
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "better-sqlite3-multiple-ciphers": "12.11.1",
+    "sqlite-vec": "0.1.9",
+    "electron-store": "11.0.2",
+    "@electron-toolkit/preload": "^3.0.2",
+    "@electron-toolkit/utils": "^4.0.0"
+  },
+  "devDependencies": {
+    "@electron-toolkit/eslint-config-prettier": "^3.0.0",
+    "@electron-toolkit/eslint-config-ts": "^3.1.0",
+    "@electron-toolkit/tsconfig": "^2.0.0",
+    "@electron/notarize": "3.1.1",
+    "@electron/rebuild": "4.0.4",
+    "@types/node": "^22.19.1",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "5.1.4",
+    "electron": "42.5.0",
+    "electron-builder": "26.15.3",
+    "electron-vite": "5.0.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3",
+    "vite": "7.3.6",
+    "vitest": "^2.0.0"
+  }
+}

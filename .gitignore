@@ -32,7 +32,6 @@ spike/
 # ── Node / build artifacts ──
 node_modules/
 dist/
-build/
 out/
 release/
 coverage/

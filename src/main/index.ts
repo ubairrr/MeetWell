@@ -1,0 +1,109 @@
+import { app, BrowserWindow, screen, ipcMain } from 'electron'
+import { join } from 'path'
+import { openDatabase, closeDatabase } from './store/db'
+import { SessionManager } from './session/SessionManager'
+import type Database from 'better-sqlite3-multiple-ciphers'
+
+const OVERLAY_WIDTH = 380
+
+let win: BrowserWindow | null = null
+let db: Database.Database | null = null
+
+function createOverlayWindow(): BrowserWindow {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize
+
+  const window = new BrowserWindow({
+    width: OVERLAY_WIDTH,
+    height,
+    x: width - OVERLAY_WIDTH,
+    y: 0,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    hasShadow: false,
+    skipTaskbar: true,
+    focusable: false,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: false,
+      preload: join(__dirname, '../preload/index.js'),
+    },
+  })
+
+  window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+  window.setAlwaysOnTop(true, 'screen-saver')
+  window.setIgnoreMouseEvents(true, { forward: true })
+  window.setContentProtection(true)
+
+  return window
+}
+
+export function getMainWindow(): BrowserWindow | null {
+  return win
+}
+
+export function getDb(): Database.Database | null {
+  return db
+}
+
+app.whenReady().then(async () => {
+  app.dock.hide()
+
+  try {
+    db = openDatabase()
+  } catch (err) {
+    console.error('[MeetingAssist] DB init failed:', err)
+    app.quit()
+    return
+  }
+
+  win = createOverlayWindow()
+
+  if (process.env.VITE_DEV_SERVER_URL) {
+    win.loadURL(process.env.VITE_DEV_SERVER_URL)
+  } else {
+    win.loadFile(join(__dirname, '../renderer/index.html'))
+  }
+
+  // IPC handlers — wired in 06-05
+  const session = new SessionManager()
+
+  session.onStateChange((state, previous) => {
+    if (win) {
+      win.webContents.send('session-state-changed', { state, previous })
+    }
+  })
+
+  // Active handlers
+  ipcMain.handle('start-meeting', () => {
+    session.transition('start-meeting')
+  })
+
+  ipcMain.handle('consent-confirmed', (_event, _payload) => {
+    session.transition('consent-confirmed')
+  })
+
+  // Stub handlers — implemented in later phases
+  ipcMain.handle('mic-audio-chunk', () => undefined)
+  ipcMain.handle('end-meeting', () => undefined)
+  ipcMain.handle('start-break', () => undefined)
+  ipcMain.handle('end-break', () => undefined)
+  ipcMain.handle('confirm-artifact', () => undefined)
+  ipcMain.handle('edit-artifact', () => undefined)
+  ipcMain.handle('dismiss-artifact', () => undefined)
+  ipcMain.handle('export-ics', () => undefined)
+  ipcMain.handle('get-settings', () => undefined)
+  ipcMain.handle('set-setting', () => undefined)
+})
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit()
+})
+
+app.on('before-quit', () => {
+  if (db) {
+    closeDatabase(db)
+    db = null
+  }
+})
