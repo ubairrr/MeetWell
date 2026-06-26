@@ -193,6 +193,59 @@ describe('CaptureService', () => {
     )
   })
 
+  // Test 5b
+  it('speech_final segment from system channel writes with correct channel field', async () => {
+    await service.startCapture('mtg-2')
+
+    const sysInstance = deepgramInstances.find((i) => i.opts.channel === 'system')!
+    sysInstance.opts.onSegment(makeSegment('system'))
+
+    const row = mockAppendSegment.mock.calls[0][0]
+    expect(row.channel).toBe('system')
+    expect(row.meetingId).toBe('mtg-2')
+  })
+
+  // Test 5c
+  it('null confidence is stored as null, not coerced', async () => {
+    await service.startCapture('mtg-1')
+
+    const micInstance = deepgramInstances.find((i) => i.opts.channel === 'mic')!
+    micInstance.opts.onSegment({ ...makeSegment('mic'), confidence: null })
+
+    const row = mockAppendSegment.mock.calls[0][0]
+    expect(row.confidence).toBeNull()
+  })
+
+  // Test 5d
+  it('multiple consecutive segments each get an independent DB row with the same meetingId', async () => {
+    await service.startCapture('mtg-1')
+
+    const micInstance = deepgramInstances.find((i) => i.opts.channel === 'mic')!
+    micInstance.opts.onSegment({ ...makeSegment('mic'), transcript: 'First sentence' })
+    micInstance.opts.onSegment({ ...makeSegment('mic'), transcript: 'Second sentence' })
+    micInstance.opts.onSegment({ ...makeSegment('mic'), transcript: 'Third sentence' })
+
+    expect(mockAppendSegment).toHaveBeenCalledTimes(3)
+    const texts = mockAppendSegment.mock.calls.map((c) => c[0].text)
+    expect(texts).toEqual(['First sentence', 'Second sentence', 'Third sentence'])
+    const meetingIds = mockAppendSegment.mock.calls.map((c) => c[0].meetingId)
+    expect(meetingIds.every((id) => id === 'mtg-1')).toBe(true)
+  })
+
+  // Test 5e
+  it('segment arriving after stopCapture is dropped — no DB write', async () => {
+    await service.startCapture('mtg-1')
+
+    const micInstance = deepgramInstances.find((i) => i.opts.channel === 'mic')!
+
+    await service.stopCapture()
+
+    // onSegment fires after the capture has stopped
+    micInstance.opts.onSegment(makeSegment('mic'))
+
+    expect(mockAppendSegment).not.toHaveBeenCalled()
+  })
+
   // Test 6
   it('health update from system channel pushes capture-health-update IPC', async () => {
     await service.startCapture('mtg-1')
