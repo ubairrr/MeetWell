@@ -2,11 +2,23 @@
 
 ## What This Is
 
-MeetingAssist is a macOS desktop AI assistant that runs as a persistent **side overlay** during live meetings and turns the conversation into trustworthy, actionable artifacts — automatically. It captures a full meeting transcript, then generates minutes of meeting (MOM), key points, a summary, and extracted schedules / dates / deadlines / action items ready to drop into a calendar. On top of that it offers in-meeting intelligence: a **live assistant** triggered by a keyword or hotkey for on-the-fly questions and research (with a chat that keeps context across the whole meeting), and a **break assist** that summarizes everything that happened while the user stepped away.
+MeetingAssist is a macOS desktop AI assistant that runs as a persistent **side overlay** during live meetings and turns the conversation into trustworthy, actionable artifacts — automatically. It captures a full meeting transcript, then generates minutes of meeting (MOM), key points, a summary, and extracted schedules / dates / deadlines / action items ready to drop into a calendar. It adds a **live summary board** (5-minute interval cards stacked in the overlay) and a **break assist** that shows what was missed while the user stepped away.
 
-It is a new, purpose-built product that treats **Interview Helper as a reference** (the `DNA/` repo) — selectively borrowing the techniques that proved valuable rather than cloning it. Candidate techniques worth mining include real-time dual-channel transcription, provider-agnostic LLM integration, on-demand vision analysis, global hotkeys, and stealth-capable overlay rendering. Each is adopted only where it genuinely fits MeetingAssist; the rest is left behind. The DNA repo lives locally under `DNA/` as reference only — it is git-ignored and never pushed.
+The product is built fresh — the `DNA/` repo (Interview Helper) is a local reference only, selectively mined for proven techniques (dual-channel transcription, hardened IPC, overlay window) and never cloned wholesale. DNA is git-ignored and never pushed.
 
-> **Current milestone = Discovery & PRD (planning only).** This milestone produces a production-grade, modular **PRD + architecture**, not running code. The intended feature set below is the *subject* of research and specification. Building the application is the **next** milestone.
+> **Current milestone = Build.** The Discovery & PRD milestone is complete. All architectural decisions are locked in the PRD documents. This milestone implements the product per the PRD.
+
+## Current Milestone: v2.0 Build
+
+**Goal:** Implement MeetingAssist v1 — a working, packaged, notarized macOS app with a production-grade, modular codebase that captures dual-channel meeting audio, produces trustworthy artifacts, and shows a live summary board.
+
+**Target features:**
+- Production-grade Electron app shell: hardened contextBridge IPC, SQLCipher DB, overlay window, SessionManager FSM
+- Dual-channel audio capture (`audiotee` + Deepgram Nova-3) + encrypted transcript persistence
+- End-of-meeting artifact pipeline: MOM, summary, key points, action items (two-stage, citation-backed, proposed-with-confirm)
+- Overlay UI with live 5-minute summary board (SummaryCardTimer + LiveSummaryBoard)
+- ContextEngine + break assist (EpochCompressor, rolling context from `transcript_segments`)
+- Signed/notarized DMG + adversarial eval harness (CGFS ≥ 0.85 / EHR ≤ 0.05 shipping gate)
 
 ## Core Value
 
@@ -23,42 +35,59 @@ It is a new, purpose-built product that treats **Interview Helper as a reference
 
 ## Requirements
 
-> These are the requirements of the **product**. This milestone delivers the PRD that specifies them; it does **not** implement them. The deliverable requirements for *this* milestone live in `.planning/REQUIREMENTS.md`.
+> Full milestone requirements with REQ-IDs live in `.planning/REQUIREMENTS.md`. This section tracks product-level status.
 
 ### Validated
 
-<!-- Shipped and confirmed valuable. -->
+<!-- Shipped and confirmed valuable — moves here after build phases complete. -->
 
-(None yet — greenfield. The DNA repo is reference, not this product's shipped code.)
+- Discovery & PRD milestone (v1.0) complete — production-grade PRD, ARCHITECTURE, FEATURE-SPEC, BUILD-ORDER, AI-SPEC all produced. All architectural decisions locked. *(Phases 1–5)*
 
 ### Active
 
-<!-- Product hypotheses to specify in the PRD. -->
+<!-- Build milestone (v2.0) implementation targets. -->
 
-**Starter (table-stakes) capabilities:**
-- [ ] Persistent side-overlay UI that stays on during a meeting
-- [ ] Full meeting transcription, saved as a complete transcript at meeting end
-- [ ] Minutes of Meeting (MOM) generation
-- [ ] Important points extraction
-- [ ] Meeting summary generation
-- [ ] Extraction of schedules / dates / times / deadlines / action items for later calendaring
+**Foundation:**
+- [ ] Electron app shell with overlay window, hardened contextBridge IPC surface, SessionManager FSM
+- [ ] SQLCipher AES-256 DB with all 7 tables; `safeStorage`-backed key; `sqlite-vec` extension loaded
+- [ ] Consent gate UI enforced in main-process FSM (not renderer-only)
+- [ ] Production-grade codebase: `src/main/<domain>/` module boundaries, single Zod schema source of truth
 
-**Advanced capabilities:**
-- [ ] Live assistant activated by trigger keyword or hotkey for in-meeting questions & research
-- [ ] Context-preserving chat interface that retains meeting context throughout the session
-- [ ] Break assist — on activation, summarizes what happened until the user returns
-- [ ] Additional use cases & features to be discovered during research (list is intentionally open)
+**Capture + transcript:**
+- [ ] Dual-channel audio capture: `audiotee` 0.0.7 (primary) + Chromium loopback (fallback)
+- [ ] Deepgram Nova-3 dual-WebSocket: mic + system audio, diarization, `mip_opt_out:true` hardcoded
+- [ ] Encrypted transcript persistence in `transcript_segments` table
 
-**Quality bar:**
-- [ ] Highly professional, production-grade, modular architecture (specified in the final PRD phase)
+**Artifacts:**
+- [ ] Two-stage artifact extraction (Stage 1: verbatim quotes → Stage 2: structured content from quotes only)
+- [ ] MOM, summary, key points, action items — all `status: 'proposed'`, user confirms before export
+- [ ] CitationValidator: every artifact item traceable to a verbatim quote
+- [ ] .ics calendar export (zero OAuth — universal format)
+
+**Overlay UI + live summary:**
+- [ ] Full session flow in overlay: consent → capturing → on-break → artifact review
+- [ ] 5-minute SummaryCardTimer → LiveSummaryBoard (stacked cards)
+- [ ] ArtifactReview panel: confirm / edit / dismiss each proposed item
+
+**Context engine + break assist:**
+- [ ] ContextEngine: EpochCompressor reads from `transcript_segments` ONLY (not summary_cards)
+- [ ] BreakAssist: digest of missed content on return from break
+- [ ] 60-minute meeting test passes without memory pressure
+
+**Packaging:**
+- [ ] Signed + notarized DMG (`hardenedRuntime: true`, `notarytool`)
+- [ ] Adversarial eval harness: CGFS ≥ 0.85 + EHR ≤ 0.05 shipping gate
 
 ### Out of Scope
 
-<!-- For THIS (discovery/PRD) milestone. -->
+<!-- For THIS (build/v2.0) milestone. -->
 
-- Implementing or shipping the actual application — deferred to the next (build) milestone; this milestone ends at a finalized PRD.
-- Final lock of the tech stack beyond inherited DNA defaults — ratified/extended in the PRD, not assumed now.
-- The interview-assistance / exam use case — MeetingAssist is repositioned to legitimate meeting assistance; interview-cheating is explicitly not the product.
+- Live assistant chat UI (ContextEngine built in Phase 5; chat UI is v2)
+- Meeting-type-specific templates (v2 — needs real usage data first)
+- Cross-meeting search UX (DB infrastructure built; search UI is v2)
+- Named speaker attribution (v2 — v1 uses Speaker 1/2/3 labels)
+- Direct Google/Outlook calendar API (v2 — .ics is universal and sufficient for v1)
+- The interview-assistance / exam use case — explicitly not the product
 
 ## Context
 
@@ -70,25 +99,30 @@ It is a new, purpose-built product that treats **Interview Helper as a reference
   - **Hardened Electron** — `contextBridge` allowlist, context-isolated IPC, zero Node surface in renderer; 8 global hotkeys.
   - **Stack**: Electron 40, React 19 (hooks-only), Vite 7, `electron-store`, `@deepgram/sdk`, `openai`.
 - **Reference thesis**: The transcript+LLM+overlay+hotkey machinery from "answer interview questions" maps well onto "assist and document a meeting," so the DNA is a rich source of proven solutions to borrow. But MeetingAssist is built fresh — each DNA technique is adopted only where it is genuinely the right fit, not inherited by default. The hard, non-obvious engineering (audio DSP pipelines, stealth layering, multimodal round-trips) is *solved* in the DNA and worth learning from, even when reimplemented cleanly.
-- **Open questions for research** (non-exhaustive): consent/recording legality and ethics; whether to retain stealth or be visibly present; on-device vs. cloud transcription & privacy; speaker diarization & multi-participant attribution; calendar/integration targets (Google/Outlook/ICS); data retention & storage model; offline capability; cross-platform (macOS-only vs. Windows/Linux).
+- **Open questions resolved in PRD:** consent/recording posture (DEC-01 — disclosed-only, consent gate is mandatory), data handling (DEC-02 — local-first, AES-256, no cloud upload), audio capture (RSCH-04 — `audiotee` primary / Chromium loopback fallback), STT vendor (RSCH-03 — Deepgram paid plan, `mip_opt_out:true`), LLM (RSCH-03 — Gemini paid plan only, free tier disqualified). Stealth resolved: `setContentProtection(true)` hides overlay from screen-share; disclosed recording posture is unconditional.
 
 ## Constraints
 
-- **Platform**: macOS-first — DNA depends on macOS-only APIs (`NSWindowSharingNone`, `LSUIElement`, system-audio loopback). Cross-platform is a research/PRD question, not an assumption.
-- **Tech foundation**: Electron + React 19 + Vite + provider-agnostic OpenAI-compatible LLM layer + Deepgram STT, inherited from DNA — Why: reuse proven, non-trivial engineering instead of rebuilding; final stack ratified in the PRD.
-- **Architecture**: Must be production-grade and modular — Why: explicit user requirement; sets up a clean, maintainable build milestone.
-- **Milestone scope**: Discovery/PRD only — no application implementation this milestone — Why: user wants thorough planning (DNA understanding → research → PRD) before any code.
-- **Process / version control**: Every change is committed *and pushed* to the private GitHub repo `ubairrr/MeetingAssist` (auto-push Stop hook); `DNA/` and GSD tooling are git-ignored; `.planning/` is tracked — Why: user requires a complete, pushed history and the DNA's `.env` secrets must never leave the machine.
+- **Platform**: macOS 14.2+ required — `audiotee` Core Audio Taps primary capture path requires macOS 14.2+; Chromium loopback fallback requires 15.0+.
+- **Tech stack**: Locked. Electron 41 LTS, React 19, Vite 7, `audiotee` 0.0.7, Deepgram Nova-3, Gemini 2.5 Flash (paid), `better-sqlite3-multiple-ciphers` + `sqlite-vec` 0.1.9, `zod` + `zod-to-json-schema`, `tiktoken`. No architectural decisions without updating PRD docs.
+- **Architecture**: Production-grade, modular — `src/main/<domain>/` boundaries, typed IPC allowlist, single Zod schema source. All conventions from 05-ARCHITECTURE.md enforced throughout build.
+- **Milestone scope**: Build only — implement the product per the PRD. No new features outside FEATURE-SPEC.md D-01–D-10 without a PRD update.
+- **Process / version control**: Every change committed and pushed to `ubairrr/MeetingAssist`; `DNA/` and `.claude/` git-ignored; `.planning/` tracked.
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Use Interview Helper as a **reference**; selectively adopt its proven techniques (not a wholesale port) | The hard engineering (dual-channel real-time STT, multimodal pipelines, provider-agnostic LLM, hardened IPC) is proven and worth borrowing where it fits — but MeetingAssist is a fresh, purpose-built codebase | — Pending (selective-adoption catalogue is a Phase 1 deliverable) |
-| This milestone delivers a PRD + modular architecture only; build is the next milestone | De-risk by understanding the DNA and researching the space before writing product code | — Pending |
-| Private GitHub repo `ubairrr/MeetingAssist` + auto-push every change; ignore `DNA/` and GSD tooling | User wants a full, pushed version-control trail; DNA holds live secrets that must never be pushed | ✓ Good (done at init) |
-| Reposition from interview assistance to legitimate meeting assistance | Different, defensible product; meeting documentation is a broad, above-board need | — Pending |
-| Stealth / screen-share invisibility: carry over from DNA or not? | Recording-consent ethics & legality differ from the product framing; needs deliberate decision | — Pending (resolve in research) |
+| Use Interview Helper as a **reference**; selectively adopt its proven techniques | Hard engineering (dual-channel STT, hardened IPC, overlay window) is proven and worth borrowing — but MeetingAssist is a fresh codebase | ✓ Resolved — selective-adoption catalogue in Phase 1 |
+| Discovery/PRD milestone first; build is the next milestone | De-risk by researching and specifying before writing product code | ✓ Done — PRD complete, all decisions locked |
+| Private GitHub repo + auto-push; ignore `DNA/` and `.claude/` tooling | Full pushed version-control trail; DNA holds live secrets never to be pushed | ✓ Good (done at init) |
+| Reposition from interview assistance to legitimate meeting assistance | Different, defensible product; meeting documentation is a broad, above-board need | ✓ Resolved |
+| Stealth / screen-share: use `setContentProtection(true)` — hides overlay from screen-share, not from transcript disclosure | Recording-consent ethics require disclosed recording; hiding the overlay panel from screen-share is acceptable; hiding the fact of recording is not | ✓ Resolved — DEC-01 |
+| `audiotee` 0.0.7 (Core Audio Taps) as primary audio capture | RSCH-04 spike validated; pre-mixer quality; no purple indicator; supersedes `electron-audio-loopback` | ✓ Resolved — RSCH-04 |
+| Gemini paid plan only; free tier disqualified | Free tier allows training on submitted meeting data (RSCH-03 critical warning) | ✓ Resolved — DEC-02 / RSCH-03 |
+| `mip_opt_out:true` hardcoded in Deepgram SDK — never a user setting | Product-level privacy commitment (DEC-02) | ✓ Resolved — DEC-02 |
+| Two-stage artifact extraction (verbatim quotes → structured content) | Prevents hallucination; every output traceable to a transcript quote | ✓ Resolved — 04-AI-SPEC |
+| All artifacts `status: 'proposed'`; user confirms before any external write | Proposed-with-confirm contract is absolute — auto-writing to calendars is never allowed | ✓ Resolved — 04-AI-SPEC |
 
 ## Evolution
 
@@ -109,4 +143,4 @@ This document evolves at phase transitions and milestone boundaries.
 5. Update Context with current state
 
 ---
-*Last updated: 2026-06-25 — Phase 2 complete: DEC-01 and DEC-02 ADRs committed, consent and data-handling postures locked*
+*Last updated: 2026-06-26 — Build milestone (v2.0) started: Discovery & PRD complete, all decisions locked, codebase cleaned for implementation*
