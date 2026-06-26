@@ -63,8 +63,9 @@ app.whenReady().then(async () => {
   win = createOverlayWindow()
   win.setIgnoreMouseEvents(false)  // Idle state is interactive on startup
 
-  if (process.env.VITE_DEV_SERVER_URL) {
-    win.loadURL(process.env.VITE_DEV_SERVER_URL)
+  const rendererUrl = process.env['ELECTRON_RENDERER_URL'] || process.env['VITE_DEV_SERVER_URL']
+  if (rendererUrl) {
+    win.loadURL(rendererUrl)
   } else {
     win.loadFile(join(__dirname, '../renderer/index.html'))
   }
@@ -72,11 +73,11 @@ app.whenReady().then(async () => {
   // IPC handlers — wired in 06-05
   const session = new SessionManager()
 
-  // DEEPGRAM_API_KEY must be set in .env at project root (electron-vite loads it via dotenv)
-  // Or pass via shell: DEEPGRAM_API_KEY=dg_xxx npm run dev
-  const apiKey = process.env.DEEPGRAM_API_KEY ?? ''
+  // Use MAIN_VITE_ prefix so electron-vite injects it into the main process bundle
+  // Set MAIN_VITE_DEEPGRAM_API_KEY in .env at project root
+  const apiKey = process.env['MAIN_VITE_DEEPGRAM_API_KEY'] ?? ''
   if (!apiKey) {
-    console.warn('[MeetingAssist] DEEPGRAM_API_KEY not set — capture will fail until key is configured')
+    console.warn('[MeetingAssist] MAIN_VITE_DEEPGRAM_API_KEY not set — capture will fail until key is configured')
   }
   const captureService = new CaptureService(db!, win!, apiKey)
 
