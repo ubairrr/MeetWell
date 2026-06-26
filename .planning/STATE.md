@@ -2,14 +2,18 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Build
+current_phase: 7
+current_phase_name: next
 status: in_progress
-last_updated: "2026-06-26"
+stopped_at: Phase 7 context gathered
+last_updated: "2026-06-26T12:07:25.156Z"
 last_activity: 2026-06-26
+last_activity_desc: "Phase 6 (Foundation & Scaffold) complete: 7 plans, 11 tests passing, npm run dev works"
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 1
+  completed_plans: 1
   percent: 17
 ---
 
@@ -92,6 +96,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 All architectural decisions are locked — see PRD documents before coding any feature.
 
 Key decisions active in this milestone:
+
 - [DEC-01]: Disclosed-not-covert recording posture; consent gate is a hard precondition to any capture
 - [DEC-02]: Local-first, AES-256 encrypted storage; `mip_opt_out: true` hardcoded in Deepgram SDK — never a user setting
 - [RSCH-04]: `audiotee` 0.0.7 (Core Audio Taps) is primary audio capture; Chromium loopback is fallback
@@ -134,9 +139,9 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-26
-Stopped at: Phase 6 complete — Electron scaffold, SQLCipher DB, 18-channel IPC, SessionManager FSM, ConsentGate, electron-builder config
-Resume file: .planning/ROADMAP.md
+Last session: 2026-06-26T12:07:25.148Z
+Stopped at: Phase 7 context gathered
+Resume file: .planning/phases/07-capture-transcriptstore/07-CONTEXT.md
 Next action: `/gsd-plan-phase 7` — Phase 7: Capture + TranscriptStore
 
 **Dev run command:** `npm run dev` (launches Electron overlay; no packaging needed until Phase 11)
