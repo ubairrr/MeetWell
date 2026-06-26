@@ -45,6 +45,8 @@ export class DeepgramClient {
       sample_rate: 16000,
       interim_results: 'true',
       punctuate: 'true',
+      endpointing: 300,
+      utterance_end_ms: 1000,
       Authorization: this.options.apiKey,
       reconnectAttempts: 0,
     })
