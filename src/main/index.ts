@@ -89,7 +89,7 @@ app.whenReady().then(async () => {
 
     // Mouse event control: interactive during Idle, PreCapture, and Capturing
     if (win) {
-      if (state === 'Idle' || state === 'PreCapture' || state === 'Capturing') {
+      if (state === 'Idle' || state === 'PreCapture' || state === 'Capturing' || state === 'Complete') {
         win.setIgnoreMouseEvents(false)
       } else {
         win.setIgnoreMouseEvents(true, { forward: true })
