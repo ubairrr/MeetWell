@@ -91,52 +91,53 @@ describe('DeepgramClient', () => {
     })
   })
 
-  it('speech_final message triggers onSegment', async () => {
+  it('UtteranceEnd flushes accumulated is_final segments as one onSegment call', async () => {
     const { client, onSegment } = makeClient('mic')
     await client.connect('mtg-1')
 
+    // Two is_final chunks accumulate
     emit('message', {
       type: 'Results',
-      speech_final: true,
+      is_final: true,
+      speech_final: false,
       channel: {
-        alternatives: [
-          {
-            transcript: 'Hello world',
-            confidence: 0.95,
-            words: [{ word: 'Hello', speaker: 0, start: 0, end: 0.5, confidence: 0.95 }],
-          },
-        ],
+        alternatives: [{ transcript: 'Hello world', confidence: 0.95, words: [{ word: 'Hello', speaker: 0, start: 0, end: 0.5, confidence: 0.95 }] }],
       },
       start: 0,
       duration: 0.5,
     })
+    emit('message', {
+      type: 'Results',
+      is_final: true,
+      speech_final: false,
+      channel: {
+        alternatives: [{ transcript: 'how are you', confidence: 0.9, words: [{ word: 'how', speaker: 0, start: 0.5, end: 1.0, confidence: 0.9 }] }],
+      },
+      start: 0.5,
+      duration: 0.5,
+    })
+
+    expect(onSegment).not.toHaveBeenCalled()
+
+    // UtteranceEnd flushes
+    emit('message', { type: 'UtteranceEnd', last_word_end: 1.0 })
 
     expect(onSegment).toHaveBeenCalledOnce()
-    expect(onSegment).toHaveBeenCalledWith({
-      transcript: 'Hello world',
-      confidence: 0.95,
-      channel: 'mic',
-      speakerLabel: 'You',
-      timestampStart: 0,
-      timestampEnd: 0.5,
-    })
+    expect(onSegment).toHaveBeenCalledWith(
+      expect.objectContaining({ transcript: 'Hello world how are you', channel: 'mic', speakerLabel: 'You' })
+    )
   })
 
-  it('non-speech_final message does not trigger onSegment', async () => {
+  it('interim-only Results message does not trigger onSegment', async () => {
     const { client, onSegment } = makeClient('mic')
     await client.connect('mtg-1')
 
     emit('message', {
       type: 'Results',
+      is_final: false,
       speech_final: false,
       channel: {
-        alternatives: [
-          {
-            transcript: 'Hello world',
-            confidence: 0.95,
-            words: [{ word: 'Hello', speaker: 0, start: 0, end: 0.5, confidence: 0.95 }],
-          },
-        ],
+        alternatives: [{ transcript: 'Hello world', confidence: 0.95, words: [] }],
       },
       start: 0,
       duration: 0.5,

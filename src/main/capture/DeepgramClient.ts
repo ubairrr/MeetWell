@@ -46,7 +46,8 @@ export class DeepgramClient {
       interim_results: 'true',
       punctuate: 'true',
       smart_format: true,
-      endpointing: 500,
+      endpointing: 100,
+      utterance_end_ms: 1000,
       Authorization: this.options.apiKey,
       reconnectAttempts: 0,
     })
@@ -68,6 +69,22 @@ export class DeepgramClient {
     this.socket.on('message', (data) => {
       this.resetSilenceTimer()
 
+      if (data.type === 'UtteranceEnd') {
+        const fullText = isFinalsBuffer.join(' ').trim()
+        isFinalsBuffer.length = 0
+        if (!fullText) return
+        const speakerLabel = this.normalizer.normalize(utteranceSpeakerId)
+        this.options.onSegment({
+          transcript: fullText,
+          speakerLabel,
+          channel: this.options.channel,
+          timestampStart: utteranceStart,
+          timestampEnd: utteranceEnd,
+          confidence: utteranceConfidence,
+        })
+        return
+      }
+
       if (data.type !== 'Results') return
       const alt = data.channel?.alternatives?.[0]
       if (!alt) return
@@ -82,34 +99,6 @@ export class DeepgramClient {
         utteranceConfidence = alt.confidence ?? null
         utteranceSpeakerId = alt.words?.find((w) => w.speaker !== undefined)?.speaker
         isFinalsBuffer.push(transcript)
-      }
-
-      if (data.speech_final) {
-        // If speech_final arrived without a prior is_final (edge case), include it
-        if (!data.is_final && transcript) {
-          if (isFinalsBuffer.length === 0) {
-            utteranceStart = data.start ?? 0
-          }
-          utteranceEnd = (data.start ?? 0) + (data.duration ?? 0)
-          utteranceConfidence = alt.confidence ?? null
-          utteranceSpeakerId = alt.words?.find((w) => w.speaker !== undefined)?.speaker
-          isFinalsBuffer.push(transcript)
-        }
-
-        const fullText = isFinalsBuffer.join(' ').trim()
-        isFinalsBuffer.length = 0
-
-        if (!fullText) return
-
-        const speakerLabel = this.normalizer.normalize(utteranceSpeakerId)
-        this.options.onSegment({
-          transcript: fullText,
-          speakerLabel,
-          channel: this.options.channel,
-          timestampStart: utteranceStart,
-          timestampEnd: utteranceEnd,
-          confidence: utteranceConfidence,
-        })
       }
     })
 
