@@ -14,6 +14,7 @@ const INVOKE_CHANNELS = [
   'mic-audio-chunk',
   'start-meeting',
   'end-meeting',
+  'dismiss-session',
   'start-break',
   'end-break',
   'confirm-artifact',

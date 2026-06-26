@@ -105,9 +105,15 @@ app.whenReady().then(async () => {
     }
 
     if (state === 'Processing') {
-      captureService.stopCapture().catch((err: unknown) => {
-        console.error('[MeetingAssist] CaptureService.stopCapture failed:', err)
-      })
+      captureService.stopCapture()
+        .then(() => {
+          // Phase 8 will handle the real pipeline here; for now advance immediately
+          session.transition('pipeline-complete')
+        })
+        .catch((err: unknown) => {
+          console.error('[MeetingAssist] CaptureService.stopCapture failed:', err)
+          session.transition('pipeline-complete')
+        })
       currentMeetingId = null
     }
   })
@@ -130,6 +136,13 @@ app.whenReady().then(async () => {
       session.transition('end-meeting')
     } catch (err) {
       console.error('[MeetingAssist] end-meeting transition failed:', err)
+    }
+  })
+  ipcMain.handle('dismiss-session', () => {
+    try {
+      session.transition('session-dismissed')
+    } catch (err) {
+      console.error('[MeetingAssist] dismiss-session transition failed:', err)
     }
   })
   ipcMain.handle('start-break', () => undefined)
