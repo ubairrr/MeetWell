@@ -1,113 +1,128 @@
-# Requirements: MeetingAssist — Discovery & PRD Milestone
+# Requirements: MeetingAssist v2.0 Build
 
-**Defined:** 2026-06-25
-**Core Value:** A user walks out of any meeting with an accurate, trustworthy record and a ready-to-act set of artifacts (minutes, decisions, action items, dates) — without having taken a single note.
+**Defined:** 2026-06-26
+**Core Value:** A user walks out of any meeting with an accurate, trustworthy record and a ready-to-act set of artifacts — minutes, decisions, action items, dates — without having taken a single note.
 
-> **What these requirements are.** This is the **Discovery & PRD milestone**. Its deliverable is a production-grade PRD + modular architecture and the decisions that de-risk the build — **not** the running application. So the v1 requirements below are **discovery deliverables** ("done" = a decision is made, research is complete, a spec is written), not product features. The *product* features (transcription, MOM, summary, live assistant, break assist, etc.) are the **subject** of this work and are specified *inside* the PRD this milestone produces; they become the v1 requirements of the **next (build) milestone**. The product vision lives in `PROJECT.md`.
+**PRD source documents:**
+- Feature scope: `.planning/phases/05-prd-finalization/05-FEATURE-SPEC.md` (D-01–D-10)
+- Module interfaces: `.planning/phases/05-prd-finalization/05-ARCHITECTURE.md`
+- Build order: `.planning/phases/05-prd-finalization/05-BUILD-ORDER.md`
+- AI faithfulness contract: `.planning/phases/04-ai-grounding-context-spec-ai-spec/04-AI-SPEC.md`
+
+---
 
 ## v1 Requirements
 
-Requirements for this milestone's "done." Each maps to a roadmap phase (see Traceability).
+### Foundation (App Shell)
 
-### Setup (SETUP)
+- [ ] **FOUND-01**: App launches from `npm run dev` and displays an overlay panel on the right edge of the screen
+- [ ] **FOUND-02**: Overlay window is always-on-top (`screen-saver` level), has no dock icon, and is hidden from the user's own screen-share via `setContentProtection(true)`
+- [ ] **FOUND-03**: SQLCipher AES-256 DB opens successfully on first launch; `safeStorage` generates and stores the encryption key in macOS Keychain
+- [ ] **FOUND-04**: All 7 DB tables are created on first launch (`meetings`, `transcript_segments`, `artifacts`, `action_items`, `vec_chunks`, `summary_cards`, `epoch_summaries`)
+- [ ] **FOUND-05**: `sqlite-vec` extension loads from `asarUnpack` path immediately after DB open
+- [ ] **FOUND-06**: Hardened `contextBridge` allowlist is wired with all 18 typed channels; any unlisted channel invocation from the renderer is rejected
+- [ ] **FOUND-07**: `SessionManager` FSM enforces the `Idle → PreCapture` transition and blocks `PreCapture → Capturing` until the consent event is received from the main process
+- [ ] **FOUND-08**: Consent gate UI (`ConsentGateScreen`) renders in `PreCapture` state; Start button is disabled until the disclosure checkbox is checked
+- [ ] **FOUND-09**: `electron-builder --mac --dir` produces a `.app` bundle that launches without a DB error
 
-- [x] **SETUP-01**: Private GitHub repo `ubairrr/MeetingAssist` connected; every change auto-committed and pushed (Stop-hook auto-push)
-- [x] **SETUP-02**: `.gitignore` excludes `DNA/`, GSD tooling, and secrets; `.planning/` is tracked
-- [x] **SETUP-03**: Project conventions and local dev baseline documented (toolchain, Node/Electron line, repo layout for the future app)
+### Capture + Transcript
 
-### DNA Deep-Dive — Selective Reference Mining (DNA)
+- [ ] **CAPT-01**: Microphone audio is captured via Web Audio API AudioWorklet in the renderer and PCM frames are streamed to the main process via IPC
+- [ ] **CAPT-02**: System audio is captured via `audiotee` 0.0.7 (Core Audio Taps, macOS 14.2+ primary path) without triggering the persistent purple screen-recording indicator
+- [ ] **CAPT-03**: Chromium loopback flags serve as fallback system audio capture when `audiotee` is unavailable (macOS 15.0+ tested); capture health status reflects the active path
+- [ ] **CAPT-04**: Both audio channels stream independently to separate Deepgram Nova-3 WebSocket connections with `diarize: true` and `mip_opt_out: true` hardcoded
+- [ ] **CAPT-05**: Each Deepgram `speech_final` event produces a `TranscriptSegment` record with speaker label, timestamps, channel ID, and confidence score
+- [ ] **CAPT-06**: Mic channel always labels speaker 0 as "You"; system audio channel assigns Speaker 1, Speaker 2, … sequentially (v1 cap: 8 speakers)
+- [ ] **CAPT-07**: Every `TranscriptSegment` is persisted to the encrypted `transcript_segments` table as it arrives
+- [ ] **CAPT-08**: Capture health status (silent / healthy / error) for both channels is surfaced in the overlay UI in real time
+- [ ] **CAPT-09**: Raw audio is discarded immediately after each transcription batch — only the text transcript is retained
 
-> The DNA is a **reference, not a base to clone.** The goal is to identify the *working, valuable* pieces worth borrowing (adapted to MeetingAssist's needs) and to consciously leave the rest behind. MeetingAssist is a fresh, purpose-built codebase — not a fork of Interview Helper.
+### Artifact Pipeline
 
-- [x] **DNA-01**: Relevant DNA source modules read and understood (`main.js`, `preload.js`, `audio.js`, renderer `App.jsx`, IPC surface, build/packaging) — enough to judge what is worth borrowing
-- [x] **DNA-02**: Catalogue of the **proven techniques/patterns worth adopting** from the DNA (e.g. dual-channel STT handling, the OpenAI-`baseURL` provider seam, hardened contextBridge IPC, the vision round-trip, overlay/stealth window setup) — with an explicit list of what to **leave behind**
-- [x] **DNA-03**: Selective-adoption plan — for each candidate piece, whether it is lifted-and-adapted or merely a design reference; explicitly **not** a wholesale port of the DNA
-- [x] **DNA-04**: DNA's real audio-capture approach and effective minimum macOS version assessed (input to the RSCH-04 capture spike and the supported-OS floor)
+- [ ] **ART-01**: At meeting end, Stage 1 extraction produces verbatim quote anchors from the `transcript_segments` table (never from `summary_cards`)
+- [ ] **ART-02**: Stage 2 generation produces structured artifact content constrained to Stage 1 quotes only — never from the raw transcript directly
+- [ ] **ART-03**: MOM (minutes of meeting) document is generated at meeting end and includes agenda items, attendees, and discussion summary backed by verbatim citations
+- [ ] **ART-04**: Key points list is generated at meeting end; each item is traceable to a verbatim quote via CitationValidator (≥ 90% token overlap)
+- [ ] **ART-05**: Meeting summary paragraph is generated at meeting end
+- [ ] **ART-06**: Action items are extracted with owner, due date (where stated), and verbatim quote anchor; each item is created with `status: 'proposed'`
+- [ ] **ART-07**: All artifact items are created with `status: 'proposed'`; no artifact is auto-written to any external system without explicit user confirmation
+- [ ] **ART-08**: ArtifactReview UI shows each proposed item with a "Verify" toggle that reveals the verbatim quote anchor
+- [ ] **ART-09**: User can confirm, edit, or dismiss each proposed artifact item before export
+- [ ] **ART-10**: Confirmed action items are exported as a `.ics` iCalendar file via the `ics` package (zero OAuth required)
+- [ ] **ART-11**: All LLM structured outputs are validated against Zod schemas defined in `src/shared/schemas/index.ts`; invalid responses are retried, not silently accepted
 
-### Foundational Decisions — ADRs (DEC)
+### Overlay UI + Live Summary Board
 
-- [x] **DEC-01**: **Consent & Recording Posture** ADR — disclosed-not-covert; all-party-consent default; separates "hide own panel from own screen-share" (keep) from "conceal the fact of recording" (never ship); consent gate as a hard precondition to capture
-- [x] **DEC-02**: **Data-handling & Privacy** ADR — local-first storage, encryption at rest (SQLCipher + `safeStorage`), retention defaults + per-meeting delete, transcribe-then-delete-raw-audio stance, optional on-device mode
+- [ ] **UI-01**: Full session flow renders in the overlay: consent gate → capturing state → on-break state → processing → artifact review
+- [ ] **UI-02**: `SummaryCardTimer` fires every 5 minutes during capture and triggers a summary card generation cycle
+- [ ] **UI-03**: `LiveSummaryBoard` renders the stack of generated summary cards in the overlay, newest at top
+- [ ] **UI-04**: `ArtifactReview` panel renders all proposed artifacts grouped by type (MOM, key points, action items) after meeting end
+- [ ] **UI-05**: `AudioWorkletHost` component manages mic capture lifecycle from the renderer side; captures and forwards PCM frames via IPC
+- [ ] **UI-06**: All IPC calls from the renderer use the typed contextBridge allowlist; no raw `ipcRenderer` is exposed
 
-### Deep Research (RSCH)
+### Context Engine + Break Assist
 
-- [x] **RSCH-01**: Persona, positioning, and monetization model defined (resolves PROJECT.md TBDs: customer, revenue model, success metric)
-- [x] **RSCH-02**: Speaker-diarization approach decided ("You vs Others" reliable baseline; whether/when to attempt 3+ speaker naming, and the trust bar)
-- [x] **RSCH-03**: Vendor DPA / no-training terms confirmed for Deepgram and the chosen LLM provider(s) (gates DEC-02)
-- [x] **RSCH-04**: System-audio capture validated via a **hands-on throwaway spike** — `electron-audio-loopback` vs `AudioTee.js` across the supported macOS range; declared supported-OS floor; capture-health/silent-audio detection approach (highest technical risk; isolated experimental code, not product code)
-- [x] **RSCH-05**: Cross-meeting memory data model designed (`sqlite-vec`), even though the feature ships in a later milestone
-- [x] **RSCH-06**: Expanded use-case & feature discovery beyond the starter list, consolidated for PRD scoping (the feature list is intentionally open)
+- [ ] **CTX-01**: `ContextEngine` maintains a rolling meeting context using `EpochCompressor` reading from `transcript_segments` ONLY — never from `summary_cards`
+- [ ] **CTX-02**: `EpochCompressor` compresses completed epoch windows into `epoch_summaries` table entries
+- [ ] **CTX-03**: Summary cards are generated from the rolling context as a side effect of the passive path; stored in `summary_cards` table
+- [ ] **CTX-04**: Break assist shows a digest of all content missed during break when "I'm Back" is triggered; digest uses `summary_cards` and `epoch_summaries` generated during the break window
+- [ ] **CTX-05**: SessionManager FSM transitions correctly through `Capturing → OnBreak → Capturing` cycle
+- [ ] **CTX-06**: A 60-minute meeting test completes without memory pressure or token budget overflow
 
-### AI Grounding & Context Spec (GRND)
+### Packaging + Eval Harness
 
-- [x] **GRND-01**: AI-artifact grounding/faithfulness design contract — quote-backed extraction, per-artifact transcript citations, "proposed-with-confirm" UX (never auto-write to calendar), conservative date handling
-- [x] **GRND-02**: ContextEngine + two-speed processing architecture spec (rolling window + RAG + epoch summaries; real-time hot path vs end-of-meeting batch map-reduce) for long meetings
-- [x] **GRND-03**: Adversarial-transcript evaluation harness + faithfulness metric defined (how grounding will be tested)
+- [ ] **PACK-01**: Notarized, signed DMG is produced via `electron-builder` + `@electron/notarize` (notarytool); `hardenedRuntime: true`; `altool` is not used
+- [ ] **PACK-02**: `mac.entitlements` plist includes `allow-jit` and `allow-unsigned-executable-memory` for Chromium
+- [ ] **PACK-03**: `asarUnpack` includes `better-sqlite3-multiple-ciphers` `.node` binary and `audiotee` Swift binary
+- [ ] **PACK-04**: Adversarial eval harness runs against a ≥ 5-meeting corpus; Citation Grounding Fidelity Score (CGFS) ≥ 0.85
+- [ ] **PACK-05**: Hallucination Error Rate (EHR) ≤ 0.05 in the eval corpus — shipping gate; v1 is not declared shippable until both PACK-04 and PACK-05 pass
 
-### PRD Finalization (PRD)
+---
 
-- [ ] **PRD-01**: Feature spec with explicit MVP boundary — table stakes vs differentiators vs deferred (v2+)
-- [ ] **PRD-02**: Production-grade modular architecture — `main/<domain>/` service layer, port/adapter contracts, and the core components (TranscriptStore, SessionManager FSM, ContextEngine, ArtifactPipeline)
-- [ ] **PRD-03**: Recommended dependency-driven build order / phasing for the next (build) milestone
-- [ ] **PRD-04**: Consolidated, production-grade PRD assembling all decisions, research, scope, and architecture into one authoritative document
+## v2 Requirements (Deferred)
 
-## v2 Requirements
+### Advanced Features
 
-Deferred to the **next (build) milestone** — tracked, not in this roadmap.
+- **ADV-01**: Live assistant interactive chat UI — hotkey/keyword-triggered in-meeting Q&A (ContextEngine architecture is built in v1; this is the UI layer)
+- **ADV-02**: Meeting-type-specific artifact templates (standup, sales call, 1:1, design review)
+- **ADV-03**: Cross-meeting semantic search UX (`sqlite-vec` infrastructure is v1; search UX is v2)
+- **ADV-04**: Named speaker attribution — "Alice" / "Bob" in place of Speaker 1/2/3
+- **ADV-05**: Google Calendar / Outlook direct API integration (`.ics` export covers v1; OAuth is v2)
+- **ADV-06**: Slack, Notion, CRM integrations
 
-### Build the Product (BUILD)
-
-- **BUILD-01**: Implement the application per the finalized PRD and modular architecture
-- **BUILD-02**: Ship the v1 product feature set (transcription → MOM/summary/key-points/action-items/dates, `.ics` export, consent gate, live assistant, context chat, break assist) as specified in the PRD
-- **BUILD-03**: Productionize — packaging, signing, notarization, and the capture-failure/permission-onboarding UX
+---
 
 ## Out of Scope
 
-Explicitly excluded from this milestone.
-
 | Feature | Reason |
 |---------|--------|
-| Building or shipping the application | This milestone ends at a finalized PRD; implementation is the next milestone |
-| Final tech-stack version pinning | Re-verify and pin at build time — versions/pricing move fast |
-| Legal sign-off on consent posture | Research is directional, not legal advice; PRD adopts the strictest posture and recommends external counsel before GA |
-| "Undetectable" recording / concealing the fact of recording | Existential legal liability; the product is a disclosed, consent-first recorder |
-| Auto-joining meeting bots | Wrong architectural camp; MeetingAssist is local-capture, no-bot |
+| Live assistant chat UI | ContextEngine built in v1; interactive chat is post-launch — needs usage data to design UX well |
+| Named speaker attribution | v1 ships Speaker 1/2/3 labels; name confirmation UX requires additional design |
+| Cross-meeting search UX | DB infrastructure ships in v1; search UX is a standalone post-launch feature |
+| Meeting templates | One universal template in v1; template variety needs real usage data |
+| Google/Outlook direct API | `.ics` export covers all calendar apps; OAuth complexity disproportionate to v1 value |
+| Interview-assistance / exam use case | MeetingAssist is legitimate meeting assistance only; interview-cheating is explicitly not the product |
+| Gemini free-tier API | Free tier allows training on meeting data — disqualified (RSCH-03 critical warning) |
+| Auto-writing artifacts to external systems | Proposed-with-confirm contract is absolute; user must confirm before any external write |
+
+---
 
 ## Traceability
 
-Which phase covers which requirement. Finalized during roadmap creation (2026-06-25) — confirmed against ROADMAP.md: 5 phases, 22/22 v1 requirements mapped, no orphans.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SETUP-01 | Phase 1 | Complete |
-| SETUP-02 | Phase 1 | Complete |
-| SETUP-03 | Phase 1 | Complete |
-| DNA-01 | Phase 1 | Complete |
-| DNA-02 | Phase 1 | Complete |
-| DNA-03 | Phase 1 | Complete |
-| DNA-04 | Phase 1 | Complete |
-| DEC-01 | Phase 2 | Complete |
-| DEC-02 | Phase 2 | Complete |
-| RSCH-01 | Phase 3 | Complete |
-| RSCH-02 | Phase 3 | Complete |
-| RSCH-03 | Phase 3 | Complete |
-| RSCH-04 | Phase 3 | Complete |
-| RSCH-05 | Phase 3 | Complete |
-| RSCH-06 | Phase 3 | Complete |
-| GRND-01 | Phase 4 | Complete |
-| GRND-02 | Phase 4 | Complete |
-| GRND-03 | Phase 4 | Complete |
-| PRD-01 | Phase 5 | Pending |
-| PRD-02 | Phase 5 | Pending |
-| PRD-03 | Phase 5 | Pending |
-| PRD-04 | Phase 5 | Pending |
+| FOUND-01 through FOUND-09 | Phase 6: Foundation & Scaffold | Pending |
+| CAPT-01 through CAPT-09 | Phase 7: Capture + TranscriptStore | Pending |
+| ART-01 through ART-11 | Phase 8: ArtifactPipeline | Pending |
+| UI-01 through UI-06 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| CTX-01 through CTX-06 | Phase 10: ContextEngine + Break Assist | Pending |
+| PACK-01 through PACK-05 | Phase 11: Packaging + Eval Harness | Pending |
 
 **Coverage:**
-
-- v1 requirements: 22 total
-- Mapped to phases: 22
+- v1 requirements: 46 total
+- Mapped to phases: 46
 - Unmapped: 0 ✓
 
 ---
-*Requirements defined: 2026-06-25*
-*Last updated: 2026-06-25 after roadmap creation (traceability confirmed against ROADMAP.md)*
+*Requirements defined: 2026-06-26*
+*Last updated: 2026-06-26 — Initial definition for Build milestone v2.0*
