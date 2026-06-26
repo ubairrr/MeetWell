@@ -62,6 +62,7 @@ app.whenReady().then(async () => {
   }
 
   win = createOverlayWindow()
+  win.setIgnoreMouseEvents(false)  // Idle state is interactive on startup
 
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL)
@@ -87,9 +88,9 @@ app.whenReady().then(async () => {
       win.webContents.send('session-state-changed', { state, previous })
     }
 
-    // Mouse event control: interactive during Capturing only
+    // Mouse event control: interactive during Idle, PreCapture, and Capturing
     if (win) {
-      if (state === 'Capturing') {
+      if (state === 'Idle' || state === 'PreCapture' || state === 'Capturing') {
         win.setIgnoreMouseEvents(false)
       } else {
         win.setIgnoreMouseEvents(true, { forward: true })
