@@ -76,6 +76,31 @@ export default function App(): React.JSX.Element {
     )
   }
 
+  if (sessionState === 'Idle') {
+    return (
+      <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
+        <div style={{ padding: '16px' }}>
+          <button
+            onClick={() => window.electronAPI.invoke('start-meeting').catch(console.error)}
+            style={{
+              width: '100%',
+              padding: '8px 0',
+              backgroundColor: '#2563eb',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '13px',
+              cursor: 'pointer',
+              fontWeight: 500,
+            }}
+          >
+            Start Meeting
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
       <div style={{ padding: '16px', fontSize: '13px', color: '#ccc' }}>
