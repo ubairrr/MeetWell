@@ -45,11 +45,19 @@ export class DeepgramClient {
       sample_rate: 16000,
       interim_results: 'true',
       punctuate: 'true',
+      smart_format: true,
       endpointing: 300,
-      utterance_end_ms: 1000,
       Authorization: this.options.apiKey,
       reconnectAttempts: 0,
     })
+
+    // Buffer is_final segments — speech_final only contains the last chunk,
+    // not the full sentence. Accumulate all is_final chunks, emit on speech_final.
+    const isFinalsBuffer: string[] = []
+    let utteranceStart = 0
+    let utteranceEnd = 0
+    let utteranceConfidence: number | null = null
+    let utteranceSpeakerId: number | undefined
 
     this.socket.on('open', () => {
       this.retryCount = 0
@@ -58,27 +66,49 @@ export class DeepgramClient {
     })
 
     this.socket.on('message', (data) => {
-      // Reset silence timer on every data event, even non-speech-final
       this.resetSilenceTimer()
 
-      if (data.type === 'Results' && data.speech_final === true) {
-        const alt = data.channel?.alternatives?.[0]
-        if (!alt) return
+      if (data.type !== 'Results') return
+      const alt = data.channel?.alternatives?.[0]
+      if (!alt) return
 
-        const transcript = alt.transcript ?? ''
-        const confidence = alt.confidence ?? null
-        const speakerId = alt.words?.find((w) => w.speaker !== undefined)?.speaker
-        const speakerLabel = this.normalizer.normalize(speakerId)
-        const timestampStart = data.start ?? 0
-        const timestampEnd = (data.start ?? 0) + (data.duration ?? 0)
+      const transcript = (alt.transcript ?? '').trim()
 
+      if (data.is_final && transcript) {
+        if (isFinalsBuffer.length === 0) {
+          utteranceStart = data.start ?? 0
+        }
+        utteranceEnd = (data.start ?? 0) + (data.duration ?? 0)
+        utteranceConfidence = alt.confidence ?? null
+        utteranceSpeakerId = alt.words?.find((w) => w.speaker !== undefined)?.speaker
+        isFinalsBuffer.push(transcript)
+      }
+
+      if (data.speech_final) {
+        // If speech_final arrived without a prior is_final (edge case), include it
+        if (!data.is_final && transcript) {
+          if (isFinalsBuffer.length === 0) {
+            utteranceStart = data.start ?? 0
+          }
+          utteranceEnd = (data.start ?? 0) + (data.duration ?? 0)
+          utteranceConfidence = alt.confidence ?? null
+          utteranceSpeakerId = alt.words?.find((w) => w.speaker !== undefined)?.speaker
+          isFinalsBuffer.push(transcript)
+        }
+
+        const fullText = isFinalsBuffer.join(' ').trim()
+        isFinalsBuffer.length = 0
+
+        if (!fullText) return
+
+        const speakerLabel = this.normalizer.normalize(utteranceSpeakerId)
         this.options.onSegment({
-          transcript,
+          transcript: fullText,
           speakerLabel,
           channel: this.options.channel,
-          timestampStart,
-          timestampEnd,
-          confidence,
+          timestampStart: utteranceStart,
+          timestampEnd: utteranceEnd,
+          confidence: utteranceConfidence,
         })
       }
     })

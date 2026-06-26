@@ -14,6 +14,7 @@ const mockSocket = {
     if (!handlers[event]) handlers[event] = []
     handlers[event].push(cb)
   },
+  connect: vi.fn(),
   sendMedia: mockSendMedia,
   finish: mockFinish,
   close: mockClose,
