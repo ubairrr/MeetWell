@@ -73,11 +73,10 @@ app.whenReady().then(async () => {
   // IPC handlers — wired in 06-05
   const session = new SessionManager()
 
-  // Use MAIN_VITE_ prefix so electron-vite injects it into the main process bundle
-  // Set MAIN_VITE_DEEPGRAM_API_KEY in .env at project root
-  const apiKey = process.env['MAIN_VITE_DEEPGRAM_API_KEY'] ?? ''
+  // DEEPGRAM_API_KEY is read from .env at project root via loadEnv in electron.vite.config.ts
+  const apiKey = process.env.DEEPGRAM_API_KEY ?? ''
   if (!apiKey) {
-    console.warn('[MeetingAssist] MAIN_VITE_DEEPGRAM_API_KEY not set — capture will fail until key is configured')
+    console.warn('[MeetingAssist] DEEPGRAM_API_KEY not set — capture will fail until key is configured')
   }
   const captureService = new CaptureService(db!, win!, apiKey)
 
