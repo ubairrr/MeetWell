@@ -46,7 +46,7 @@ export class DeepgramClient {
       interim_results: 'true',
       punctuate: 'true',
       smart_format: true,
-      endpointing: 800,
+      endpointing: 500,
       Authorization: this.options.apiKey,
       reconnectAttempts: 0,
     })
