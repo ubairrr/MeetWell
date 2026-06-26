@@ -111,18 +111,58 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 through FOUND-09 | Phase 6: Foundation & Scaffold | Pending |
-| CAPT-01 through CAPT-09 | Phase 7: Capture + TranscriptStore | Pending |
-| ART-01 through ART-11 | Phase 8: ArtifactPipeline | Pending |
-| UI-01 through UI-06 | Phase 9: Overlay UI + Live Summary Board | Pending |
-| CTX-01 through CTX-06 | Phase 10: ContextEngine + Break Assist | Pending |
-| PACK-01 through PACK-05 | Phase 11: Packaging + Eval Harness | Pending |
+| FOUND-01 | Phase 6: Foundation & Scaffold | Pending |
+| FOUND-02 | Phase 6: Foundation & Scaffold | Pending |
+| FOUND-03 | Phase 6: Foundation & Scaffold | Pending |
+| FOUND-04 | Phase 6: Foundation & Scaffold | Pending |
+| FOUND-05 | Phase 6: Foundation & Scaffold | Pending |
+| FOUND-06 | Phase 6: Foundation & Scaffold | Pending |
+| FOUND-07 | Phase 6: Foundation & Scaffold | Pending |
+| FOUND-08 | Phase 6: Foundation & Scaffold | Pending |
+| FOUND-09 | Phase 6: Foundation & Scaffold | Pending |
+| CAPT-01 | Phase 7: Capture + TranscriptStore | Pending |
+| CAPT-02 | Phase 7: Capture + TranscriptStore | Pending |
+| CAPT-03 | Phase 7: Capture + TranscriptStore | Pending |
+| CAPT-04 | Phase 7: Capture + TranscriptStore | Pending |
+| CAPT-05 | Phase 7: Capture + TranscriptStore | Pending |
+| CAPT-06 | Phase 7: Capture + TranscriptStore | Pending |
+| CAPT-07 | Phase 7: Capture + TranscriptStore | Pending |
+| CAPT-08 | Phase 7: Capture + TranscriptStore | Pending |
+| CAPT-09 | Phase 7: Capture + TranscriptStore | Pending |
+| ART-01 | Phase 8: ArtifactPipeline | Pending |
+| ART-02 | Phase 8: ArtifactPipeline | Pending |
+| ART-03 | Phase 8: ArtifactPipeline | Pending |
+| ART-04 | Phase 8: ArtifactPipeline | Pending |
+| ART-05 | Phase 8: ArtifactPipeline | Pending |
+| ART-06 | Phase 8: ArtifactPipeline | Pending |
+| ART-07 | Phase 8: ArtifactPipeline | Pending |
+| ART-08 | Phase 8: ArtifactPipeline | Pending |
+| ART-09 | Phase 8: ArtifactPipeline | Pending |
+| ART-10 | Phase 8: ArtifactPipeline | Pending |
+| ART-11 | Phase 8: ArtifactPipeline | Pending |
+| UI-01 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| UI-02 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| UI-03 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| UI-04 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| UI-05 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| UI-06 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| CTX-01 | Phase 10: ContextEngine + Break Assist | Pending |
+| CTX-02 | Phase 10: ContextEngine + Break Assist | Pending |
+| CTX-03 | Phase 10: ContextEngine + Break Assist | Pending |
+| CTX-04 | Phase 10: ContextEngine + Break Assist | Pending |
+| CTX-05 | Phase 10: ContextEngine + Break Assist | Pending |
+| CTX-06 | Phase 10: ContextEngine + Break Assist | Pending |
+| PACK-01 | Phase 11: Packaging + Eval Harness | Pending |
+| PACK-02 | Phase 11: Packaging + Eval Harness | Pending |
+| PACK-03 | Phase 11: Packaging + Eval Harness | Pending |
+| PACK-04 | Phase 11: Packaging + Eval Harness | Pending |
+| PACK-05 | Phase 11: Packaging + Eval Harness | Pending |
 
 **Coverage:**
 - v1 requirements: 46 total
 - Mapped to phases: 46
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-26*
-*Last updated: 2026-06-26 — Initial definition for Build milestone v2.0*
+*Last updated: 2026-06-26 — Traceability table expanded to per-requirement mapping for Build milestone v2.0*

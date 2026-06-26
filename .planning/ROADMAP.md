@@ -1,147 +1,121 @@
-# Roadmap: MeetingAssist — Discovery & PRD Milestone
+# Roadmap: MeetingAssist — Build Milestone (v2.0)
 
 ## Overview
 
-This is a **planning milestone**: it ships a production-grade PRD + modular architecture and the de-risking decisions behind it — not running code (the one exception is RSCH-04, an isolated throwaway capture spike). The journey runs decisions-before-design-before-specification: first absorb the Interview Helper DNA as a selective reference and document the dev baseline (Phase 1); then fix the two existential product decisions as ADRs — consent/recording posture and data-handling/privacy (Phase 2); resolve the flagged open questions through deep research, including a hands-on system-audio capture spike (Phase 3); design the AI grounding/faithfulness contract and the ContextEngine/two-speed processing spec (Phase 4); and finally assemble everything into one authoritative, modular PRD with a recommended build order for the next milestone (Phase 5). Each phase's "done" is an artifact that exists — a catalogue, an ADR, a research finding, a spec, a PRD section — not a user-facing feature.
+This is the **build milestone**: it ships MeetingAssist v1 — a working, packaged, notarized macOS app that captures dual-channel meeting audio, persists an encrypted transcript, produces trustworthy citation-backed artifacts, shows a live summary board, handles breaks, and passes the adversarial faithfulness eval gate before declaring v1 shippable. All architectural decisions are locked in the PRD documents from the previous milestone. The journey follows a strict dependency chain: stand up the hosting container and consent gate (Phase 6); validate the highest-risk plumbing — dual-channel audio capture and transcript persistence (Phase 7); build the batch artifact pipeline that establishes the LLM → Zod → IPC pattern (Phase 8); layer in the full overlay UI and live summary board reusing that pattern (Phase 9); complete the context engine and break assist (Phase 10); package, notarize, and gate on eval harness results (Phase 11).
+
+Phase numbering continues from the Discovery & PRD milestone (Phases 1–5).
 
 ## Phases
 
 **Phase Numbering:**
 
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+- Integer phases (6, 7, 8…): Planned milestone work
+- Decimal phases (7.1, 7.2): Urgent insertions (marked with INSERTED)
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: DNA Deep-Dive & Project Setup** - Mine the DNA as a selective reference and document the dev baseline/conventions (completed 2026-06-25)
-- [x] **Phase 2: Foundational Decisions (ADRs)** - Fix the two existential product decisions: consent/recording posture and data-handling/privacy (completed 2026-06-25)
-- [x] **Phase 3: Deep Research** - Resolve the flagged open questions, including a hands-on system-audio capture spike (completed 2026-06-25)
-- [x] **Phase 4: AI Grounding & Context Spec (AI-SPEC)** - Design the faithfulness contract and the ContextEngine/two-speed processing architecture (completed 2026-06-25)
-- [ ] **Phase 5: PRD Finalization** - Assemble all decisions, research, scope, and architecture into one authoritative PRD
+- [ ] **Phase 6: Foundation & Scaffold** - Electron app shell, overlay window, SQLCipher DB, hardened IPC, consent gate, SessionManager FSM skeleton
+- [ ] **Phase 7: Capture + TranscriptStore** - Dual-channel audio capture (audiotee primary / Chromium fallback), Deepgram Nova-3 dual-WebSocket, encrypted transcript persistence
+- [ ] **Phase 8: ArtifactPipeline** - End-of-meeting batch extraction, CitationValidator, ArtifactReview UI, .ics export, LLM adapter
+- [ ] **Phase 9: Overlay UI + Live Summary Board** - Full session flow, SummaryCardTimer, LiveSummaryBoard, SessionManager FSM end-to-end, settings panel
+- [ ] **Phase 10: ContextEngine + Break Assist** - Full ContextEngine, EpochCompressor, BreakAssist, 60-minute meeting test
+- [ ] **Phase 11: Packaging + Eval Harness** - Signed/notarized DMG, adversarial eval corpus, CGFS ≥ 0.85 / EHR ≤ 0.05 shipping gate
 
 ## Phase Details
 
-### Phase 1: DNA Deep-Dive & Project Setup
+### Phase 6: Foundation & Scaffold
 
-**Goal**: Build an in-depth understanding of the Interview Helper DNA as a selective reference (what proven techniques to borrow vs. leave behind), and document the project conventions and local dev baseline for the future app. The GitHub repo, auto-push, and `.gitignore` are already wired at init — this phase documents and analyzes, it does not re-do git setup.
-**Depends on**: Nothing (first phase)
-**Requirements**: SETUP-01, SETUP-02, SETUP-03, DNA-01, DNA-02, DNA-03, DNA-04
+**Goal**: An Electron app launches, shows the consent gate overlay, opens a SQLCipher DB, and exposes the hardened contextBridge IPC surface — no audio capture yet.
+**Depends on**: Nothing (first phase of this milestone)
+**Requirements**: FOUND-01, FOUND-02, FOUND-03, FOUND-04, FOUND-05, FOUND-06, FOUND-07, FOUND-08, FOUND-09
 **Success Criteria** (what must be TRUE):
+  1. App launches from `npm run dev` and the overlay panel appears on the right edge of the screen as always-on-top, dock-icon-free, and hidden from screen-share
+  2. `ConsentGateScreen` renders in `PreCapture` state; the Start button is visibly disabled until the disclosure checkbox is checked
+  3. SQLCipher DB opens without error on first launch; all 7 tables exist and the `sqlite-vec` extension loads from its `asarUnpack` path
+  4. Any unlisted channel invoked from the renderer against the contextBridge allowlist is rejected — the 18 typed channels are stubbed and present
+  5. `electron-builder --mac --dir` produces a `.app` bundle that launches without a DB error or entitlement error
+**Plans**: TBD
+**UI hint**: yes
 
-  1. A written record confirms the SETUP baseline is in place: the private repo + auto-push and the `.gitignore` rules (DNA/, GSD tooling, secrets ignored; `.planning/` tracked) are documented as the operating conventions
-  2. A project-conventions / dev-baseline document exists, fixing the toolchain, the Node/Electron line, and the repo layout for the future app
-  3. A selective-adoption catalogue exists listing each proven DNA technique (dual-channel STT handling, OpenAI-`baseURL` provider seam, hardened contextBridge IPC, vision round-trip, overlay/stealth window setup) with an explicit verdict to borrow-and-adapt vs. design-reference vs. leave behind — explicitly not a wholesale port
-  4. The DNA's real audio-capture approach and its effective minimum macOS version are assessed and written down as input to the RSCH-04 spike and the supported-OS floor
+### Phase 7: Capture + TranscriptStore
 
-**Plans**: 3/3 plans complete
-
-- [x] 01-01-PLAN.md
-- [x] 01-02-PLAN.md
-- [x] 01-03-PLAN.md
-
-### Phase 2: Foundational Decisions (ADRs)
-
-**Goal**: Make the two existential product decisions that gate the legitimacy of the entire product and constrain everything downstream (capture, marketing, persistence, stack). Each decision lands as a committed ADR.
-**Depends on**: Phase 1
-**Requirements**: DEC-01, DEC-02
+**Goal**: A real meeting can be started after consent, both audio channels stream to Deepgram Nova-3, `speech_final` segments arrive with speaker labels, and the full transcript is persisted to the encrypted DB.
+**Depends on**: Phase 6
+**Requirements**: CAPT-01, CAPT-02, CAPT-03, CAPT-04, CAPT-05, CAPT-06, CAPT-07, CAPT-08, CAPT-09
 **Success Criteria** (what must be TRUE):
+  1. `audiotee` 0.0.7 captures system audio on macOS 14.2+ without triggering the persistent purple screen-recording indicator; Chromium loopback activates as fallback when audiotee is unavailable
+  2. Mic AudioWorklet PCM frames arrive at the main process via the `mic-audio-chunk` IPC channel at the expected sample rate
+  3. Both Deepgram WebSocket connections produce `speech_final` events with distinct speaker labels; mic channel always shows "You", system audio shows Speaker 1, Speaker 2, …
+  4. `transcript_segments` table fills with rows during a real 10-minute meeting; `mip_opt_out: true` is hardcoded at SDK client initialization and verifiable
+  5. Capture health status (silent / healthy / error) for both channels is visible in the overlay UI in real time; raw audio is discarded after each transcription batch
+**Plans**: TBD
+**UI hint**: yes
 
-  1. A Consent & Recording Posture ADR exists fixing the posture: disclosed-not-covert, all-party-consent default, and a consent gate as a hard precondition to capture
-  2. That ADR explicitly separates "hide the user's own panel from their own screen-share" (keep) from "conceal the fact of recording" (never ship)
-  3. A Data-handling & Privacy ADR exists fixing local-first storage, encryption at rest (SQLCipher + `safeStorage`), retention defaults + per-meeting delete, the transcribe-then-delete-raw-audio stance, and an optional on-device mode
-  4. Both ADRs note their open dependencies (e.g. the data-handling ADR flags that final no-training/DPA confirmation comes from RSCH-03)
+### Phase 8: ArtifactPipeline
 
-**Plans**: 2/2 plans complete
-
-Plans:
-
-- [x] 02-01-PLAN.md — Write DEC-01 Consent & Recording Posture ADR (MADR format, decisions D-02 through D-05)
-- [x] 02-02-PLAN.md — Write DEC-02 Data-handling & Privacy ADR (MADR format, decisions D-06 through D-09, RSCH-03 dependency flagged)
-
-### Phase 3: Deep Research
-
-**Goal**: Resolve the flagged open questions that the PRD depends on — persona/positioning/monetization, diarization approach, vendor terms, the highest-risk system-audio capture validation, the cross-meeting memory data model, and expanded use-case discovery. This phase warrants deeper per-question research when planned; RSCH-04 is a hands-on throwaway spike (isolated experimental code, not product code).
-**Depends on**: Phase 2
-**Requirements**: RSCH-01, RSCH-02, RSCH-03, RSCH-04, RSCH-05, RSCH-06
+**Goal**: At meeting end, the system runs two-stage batch extraction over the full transcript, produces Zod-validated artifact proposals, and renders them in the ArtifactReview UI for user confirmation or dismissal.
+**Depends on**: Phase 7
+**Requirements**: ART-01, ART-02, ART-03, ART-04, ART-05, ART-06, ART-07, ART-08, ART-09, ART-10, ART-11
 **Success Criteria** (what must be TRUE):
+  1. End-of-meeting run on a 30-minute test transcript produces `MeetingArtifactsSchema`-validated MOM, key points, summary, and action items in under 120 seconds; Stage 1 reads from `transcript_segments` only, Stage 2 is constrained to Stage 1 quotes
+  2. All extracted items have `status: 'proposed'` in the DB immediately after the pipeline run; zero items have any other status
+  3. CitationValidator rejects a synthetic item with a fabricated citation (90% token overlap threshold enforced); invalid LLM responses are retried, not silently accepted
+  4. User confirms an action item → DB row status updates to `'confirmed'`; item appears in a `.ics` file that is importable into Apple Calendar
+  5. ArtifactReview UI shows each proposed item with a "Verify" toggle that reveals the verbatim quote anchor; user can confirm, edit, or dismiss each item
+**Plans**: TBD
+**UI hint**: yes
 
-  1. Persona, positioning, and monetization model are defined, resolving the PROJECT.md TBDs (customer, revenue model, success metric)
-  2. A speaker-diarization approach is decided — a reliable "You vs Others" baseline, plus whether/when to attempt 3+ speaker naming and the trust bar it must clear
-  3. Deepgram and the chosen LLM provider(s) no-training / DPA terms are confirmed in writing, unblocking the data-handling ADR (DEC-02)
-  4. A capture-spike report exists comparing `electron-audio-loopback` vs `AudioTee.js` across the supported macOS range, declaring a supported-macOS floor and a silent-audio / capture-health detection approach
-  5. A cross-meeting memory data model (`sqlite-vec`) is designed, and expanded use cases beyond the starter list are discovered and consolidated for PRD scoping
+### Phase 9: Overlay UI + Live Summary Board
 
-**Plans**: 6/6 plans complete
-
-- [x] 03-01-PLAN.md — RSCH-01: Write Persona, Positioning & Monetization Report
-- [x] 03-02-PLAN.md — RSCH-02: Write Speaker Diarization Approach Report
-- [x] 03-03-PLAN.md — RSCH-03: Confirm Vendor Terms & Update DEC-02 ADR
-- [x] 03-04-PLAN.md — RSCH-05: Write Cross-Meeting Memory Data Model Design
-- [x] 03-05-PLAN.md — RSCH-06: Write Use-Case & Feature Discovery Report
-- [x] 03-06-PLAN.md — RSCH-04: System-Audio Capture Spike (autonomous: false)
-
-### Phase 4: AI Grounding & Context Spec (AI-SPEC)
-
-**Goal**: Produce the design contract that prevents the #1 trust-killer (fabricated artifacts) and keeps long meetings within budget. This is an AI-SPEC contract that must exist before any extraction is specified in the PRD.
-**Depends on**: Phase 3
-**Requirements**: GRND-01, GRND-02, GRND-03
+**Goal**: The overlay UI is fully functional during a live meeting: the SessionManager FSM drives all state transitions end-to-end, and 5-minute SummaryCards stack on the overlay in real time.
+**Depends on**: Phase 8
+**Requirements**: UI-01, UI-02, UI-03, UI-04, UI-05, UI-06
 **Success Criteria** (what must be TRUE):
+  1. A `SummaryCard` appears in the overlay every 5 minutes during a live meeting; each card shows a topic headline and at least 3 key points; the `summary-card-ready` IPC event arrives in the renderer within 30 seconds of the 5-minute interval boundary
+  2. SessionManager FSM transitions end-to-end from ConsentGate → Capturing → End Meeting → ArtifactReview → Idle in a single test session without errors
+  3. `LiveSummaryBoard` stacks all generated cards with the newest at top; all IPC calls from the renderer use the typed contextBridge allowlist with no raw `ipcRenderer` exposed
+  4. Overlay click-through works: clicking the desktop behind the overlay operates normally in passive mode; the overlay becomes interactive when the cursor enters the panel
+  5. `setContentProtection(true)` prevents the overlay from appearing in a Zoom screen-share test on macOS 14.2+
+**Plans**: TBD
+**UI hint**: yes
 
-  1. An AI-SPEC grounding/faithfulness contract exists requiring quote-backed extraction, per-artifact transcript citations, a "proposed-with-confirm" UX (never auto-write to calendar), and conservative date handling
-  2. A ContextEngine + two-speed processing architecture spec exists (rolling window + RAG + epoch summaries; real-time hot path vs. end-of-meeting batch map-reduce) addressing long-meeting cost/context overflow
-  3. An adversarial-transcript evaluation harness and a faithfulness metric are defined, specifying how grounding will be tested
+### Phase 10: ContextEngine + Break Assist
 
-**Plans**: 2/2 plans complete
-
-Plans:
-**Wave 1**
-
-- [x] 04-01-PLAN.md — Write 04-AI-SPEC.md Sections 1+2: Faithfulness Contract (GRND-01) + ContextEngine Architecture (GRND-02)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 04-02-PLAN.md — Write 04-AI-SPEC.md Section 3: Adversarial Eval Harness (GRND-03) + finalize complete document
-
-### Phase 5: PRD Finalization
-
-**Goal**: Synthesize all prior decisions, research, and the grounding spec into the milestone deliverable: a consolidated, production-grade, modular PRD with an explicit MVP boundary and a recommended build order for the next (build) milestone.
-**Depends on**: Phase 4
-**Requirements**: PRD-01, PRD-02, PRD-03, PRD-04
+**Goal**: The full ContextEngine is operational (rolling window, TokenMonitor, EpochCompressor, ContextComposer); Break Assist works end-to-end; the app handles a 60-minute+ meeting without context overflow or memory pressure.
+**Depends on**: Phase 9
+**Requirements**: CTX-01, CTX-02, CTX-03, CTX-04, CTX-05, CTX-06
 **Success Criteria** (what must be TRUE):
+  1. ContextEngine processes a 60-minute test transcript without exceeding the 800K token ceiling; EpochCompressor fires exactly once at the 560K token threshold and produces one `epoch_summaries` DB record
+  2. EpochCompressor reads exclusively from `transcript_segments` — not `summary_cards` — as verified by code review
+  3. Break Assist digest renders the correct cards missed (cards generated between break_start and end-break IPC) in a test with a simulated 15-minute break
+  4. `ContextComposer.getContext()` returns a valid `ContextWindow` (rolling segments + epoch summaries) for a post-break LLM test call; at least one epoch embedding is stored in `vec_chunks`
+  5. SessionManager FSM transitions correctly through the `Capturing → OnBreak → Capturing` cycle; summary cards continue to be generated from `transcript_segments` context during the break window
+**Plans**: TBD
 
-  1. A feature spec exists with an explicit MVP boundary — table stakes vs. differentiators vs. deferred (v2+)
-  2. A production-grade modular architecture is specified: the `main/<domain>/` service layer, port/adapter contracts, and the core components (TranscriptStore, SessionManager FSM, ContextEngine, ArtifactPipeline)
-  3. A recommended dependency-driven build order / phasing for the next (build) milestone is documented
-  4. A single consolidated, authoritative PRD document assembles all decisions, research, scope, and architecture in one place
+### Phase 11: Packaging + Eval Harness
 
-**Plans**: 4 plans
-
-Plans:
-**Wave 1**
-
-- [ ] 05-01-PLAN.md — Write 05-FEATURE-SPEC.md: feature spec with explicit MVP boundary table (D-01 through D-14)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [ ] 05-02-PLAN.md — Write 05-ARCHITECTURE.md: module map, TypeScript interfaces, FSM, IPC contracts, DB DDL, component tree
-
-**Wave 3** *(blocked on Wave 2 completion)*
-
-- [ ] 05-03-PLAN.md — Write 05-BUILD-ORDER.md: 6-phase dependency-driven build sequence
-
-**Wave 4** *(blocked on Wave 3 completion)*
-
-- [ ] 05-04-PLAN.md — Write 05-PRD.md: hub document with executive summary and decisions index
+**Goal**: The app is packaged, signed, notarized, and passes the adversarial eval harness faithfulness gates (CGFS ≥ 0.85, EHR ≤ 0.05) before declaring v1 shippable.
+**Depends on**: Phase 10
+**Requirements**: PACK-01, PACK-02, PACK-03, PACK-04, PACK-05
+**Success Criteria** (what must be TRUE):
+  1. `electron-builder --mac` succeeds with no errors; a signed and notarized DMG is produced; app passes `spctl --assess --verbose` on the DMG
+  2. App launches from the DMG on a fresh macOS 14.2+ machine without a DB error or entitlement error; macOS version check shows a clear error and exits on macOS < 14.2
+  3. `audiotee` system audio capture works in the packaged app without a `disable-library-validation` entitlement error; `asarUnpack` includes both the `better-sqlite3-multiple-ciphers` `.node` binary and the `audiotee` Swift binary
+  4. `node eval/harness.ts` reports CGFS ≥ 0.85 on the 60-transcript adversarial corpus
+  5. `node eval/harness.ts` reports EHR ≤ 0.05 on the 60-transcript adversarial corpus — both PACK-04 and PACK-05 must pass before v1 is declared shippable
+**Plans**: TBD
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in dependency order: 6 → 7 → 8 → 9 → 10 → 11
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. DNA Deep-Dive & Project Setup | 3/3 | Complete    | 2026-06-25 |
-| 2. Foundational Decisions (ADRs) | 2/2 | Complete    | 2026-06-25 |
-| 3. Deep Research | 6/6 | Complete    | 2026-06-25 |
-| 4. AI Grounding & Context Spec | 2/2 | Complete    | 2026-06-25 |
-| 5. PRD Finalization | 0/TBD | Not started | - |
+| 6. Foundation & Scaffold | 0/TBD | Not started | - |
+| 7. Capture + TranscriptStore | 0/TBD | Not started | - |
+| 8. ArtifactPipeline | 0/TBD | Not started | - |
+| 9. Overlay UI + Live Summary Board | 0/TBD | Not started | - |
+| 10. ContextEngine + Break Assist | 0/TBD | Not started | - |
+| 11. Packaging + Eval Harness | 0/TBD | Not started | - |

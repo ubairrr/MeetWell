@@ -3,10 +3,10 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Build
 status: planning
-last_updated: "2026-06-26T03:43:55.163Z"
+last_updated: "2026-06-26"
 last_activity: 2026-06-26
 progress:
-  total_phases: 0
+  total_phases: 6
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -17,29 +17,57 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-25)
+See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** A user walks out of any meeting with an accurate, trustworthy record and a ready-to-act set of artifacts — without having taken a single note.
-**Current focus:** Phase 04 — ai-grounding-context-spec-ai-spec
+**Current focus:** Phase 6 — Foundation & Scaffold (starting)
 
-> **Milestone framing:** This is the Discovery & PRD milestone — the deliverable is a production-grade PRD + modular architecture + de-risking decisions, NOT running code. The only hands-on code is RSCH-04's throwaway capture spike (isolated experimental code).
+> **Milestone framing:** This is the Build milestone — the deliverable is a working, packaged, notarized macOS app. All architectural decisions are locked in the PRD documents. Start with Phase 6 (Foundation & Scaffold).
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: Not started
 Plan: —
-Status: Defining requirements
-Last activity: 2026-06-26 — Milestone v2.0 started
+Status: Roadmap created; ready to begin Phase 6
+Last activity: 2026-06-26 — Build milestone roadmap defined (6 phases, 46 requirements mapped)
+
+```
+Progress: [                              ] 0% (0/6 phases)
+```
+
+## Phase Structure
+
+| Phase | Name | Requirements | Status |
+|-------|------|--------------|--------|
+| 6 | Foundation & Scaffold | FOUND-01–09 (9 reqs) | Not started |
+| 7 | Capture + TranscriptStore | CAPT-01–09 (9 reqs) | Not started |
+| 8 | ArtifactPipeline | ART-01–11 (11 reqs) | Not started |
+| 9 | Overlay UI + Live Summary Board | UI-01–06 (6 reqs) | Not started |
+| 10 | ContextEngine + Break Assist | CTX-01–06 (6 reqs) | Not started |
+| 11 | Packaging + Eval Harness | PACK-01–05 (5 reqs) | Not started |
+
+**Total v1 requirements: 46 / 46 mapped**
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 13
+- Total plans completed: 0 (build milestone; previous milestone completed 13 plans across Phases 1–5)
 - Average duration: -
 - Total execution time: 0.0 hours
 
-**By Phase:**
+**By Phase (build milestone):**
+
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| 06 | TBD | - | - |
+| 07 | TBD | - | - |
+| 08 | TBD | - | - |
+| 09 | TBD | - | - |
+| 10 | TBD | - | - |
+| 11 | TBD | - | - |
+
+**Previous milestone (Discovery & PRD, Phases 1–5):**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
@@ -61,11 +89,24 @@ Last activity: 2026-06-26 — Milestone v2.0 started
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
+All architectural decisions are locked — see PRD documents before coding any feature.
 
-- [Init]: Interview Helper DNA is a selective reference to mine, not a base to clone or port (selective-adoption catalogue is a Phase 1 deliverable)
-- [Init]: This milestone delivers a PRD + modular architecture only; the build is the next milestone
-- [Init]: GitHub repo `ubairrr/MeetingAssist` + auto-push + `.gitignore` already wired at init (Phase 1 documents conventions, does not re-do setup)
+Key decisions active in this milestone:
+- [DEC-01]: Disclosed-not-covert recording posture; consent gate is a hard precondition to any capture
+- [DEC-02]: Local-first, AES-256 encrypted storage; `mip_opt_out: true` hardcoded in Deepgram SDK — never a user setting
+- [RSCH-04]: `audiotee` 0.0.7 (Core Audio Taps) is primary audio capture; Chromium loopback is fallback
+- [RSCH-03]: Gemini paid plan only — free tier disqualified (allows training on meeting data)
+- [04-AI-SPEC]: Two-stage extraction (verbatim quotes → structured content); proposed-with-confirm is absolute
+- [ARCH]: All audio/STT/DB/LLM/session logic in Electron main process; renderer is display-only
+
+### Critical Anti-Patterns to Enforce
+
+- EpochCompressor must read from `transcript_segments` ONLY — never from `summary_cards` (AI-SPEC §2.2 Pitfall 4)
+- No raw `ipcRenderer` exposed in renderer — typed contextBridge allowlist only
+- `mip_opt_out: true` hardcoded at Deepgram SDK client init — verify before any Deepgram testing
+- All artifact items created with `status: 'proposed'` — auto-writing to external systems is never allowed
+- `asarUnpack` must include both `better-sqlite3-multiple-ciphers` `.node` and `audiotee` Swift binary from Phase 7 onward
+- `SessionManager` FSM consent gate enforced in main process — not just the UI
 
 ### Pending Todos
 
@@ -75,11 +116,9 @@ None yet.
 
 ### Blockers/Concerns
 
-[Issues that affect future work]
-
-- Phase 3 (RSCH-04): System-audio capture is the highest technical risk — the stack cannot be ratified (Phase 5) until the capture spike validates it across the supported macOS range.
-- Phase 2 (DEC-02): The data-handling ADR cannot be finalized until RSCH-03 confirms Deepgram + LLM no-training/DPA terms in writing.
-- Phases 3 and 4 each likely warrant deeper per-phase research when planned (persona/monetization, diarization, vendor terms, grounding/eval).
+- Phase 7 (CAPT): Dual-channel audio capture is the highest technical risk in the build milestone. `audiotee` Swift binary requires `asarUnpack` + `disable-library-validation` entitlement; binary signing must be configured correctly from Phase 7 onward.
+- Phase 8 (ART): CitationValidator 90% token overlap threshold may need calibration in practice — record rejection rates in test runs.
+- Phase 11 (PACK): CGFS/EHR gate may require prompt tuning passes before passing; budget time for 2–3 iteration cycles. Eval harness corpus seeding should begin in Phase 8 (not deferred to Phase 11).
 
 ## Deferred Items
 
@@ -87,10 +126,15 @@ Items acknowledged and carried forward from previous milestone close:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| *(none)* | | | |
+| v2 feature | Live assistant chat UI | Deferred to v2 | PRD milestone |
+| v2 feature | Named speaker attribution | Deferred to v2 | PRD milestone |
+| v2 feature | Cross-meeting search UX | Deferred to v2 | PRD milestone |
+| v2 feature | Meeting-type-specific templates | Deferred to v2 | PRD milestone |
+| v2 feature | Google/Outlook direct API | Deferred to v2 | PRD milestone |
 
 ## Session Continuity
 
-Last session: 2026-06-25T22:24:27.718Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-prd-finalization/05-CONTEXT.md
+Last session: 2026-06-26
+Stopped at: Build milestone roadmap created (Phases 6–11, 46 requirements mapped)
+Resume file: .planning/ROADMAP.md
+Next action: `/gsd-plan-phase 6` — Phase 6: Foundation & Scaffold
