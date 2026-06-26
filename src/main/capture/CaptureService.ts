@@ -105,6 +105,7 @@ export class CaptureService {
     }
 
     this.transcriptStore.appendSegment(row)
+    console.log(`[TRANSCRIPT] [${row.channel}] ${row.speakerLabel}: ${row.text}`)
 
     // Push to renderer — display-only, no raw audio (CAPT-09)
     this.win.webContents.send('transcript-segment', {
