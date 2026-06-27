@@ -4,6 +4,7 @@
 **Core Value:** A user walks out of any meeting with an accurate, trustworthy record and a ready-to-act set of artifacts — minutes, decisions, action items, dates — without having taken a single note.
 
 **PRD source documents:**
+
 - Feature scope: `.planning/phases/05-prd-finalization/05-FEATURE-SPEC.md` (D-01–D-10)
 - Module interfaces: `.planning/phases/05-prd-finalization/05-ARCHITECTURE.md`
 - Build order: `.planning/phases/05-prd-finalization/05-BUILD-ORDER.md`
@@ -54,8 +55,8 @@
 ### Overlay UI + Live Summary Board
 
 - [ ] **UI-01**: Full session flow renders in the overlay: consent gate → capturing state → on-break state → processing → artifact review
-- [ ] **UI-02**: `SummaryCardTimer` fires every 5 minutes during capture and triggers a summary card generation cycle
-- [ ] **UI-03**: `LiveSummaryBoard` renders the stack of generated summary cards in the overlay, newest at top
+- [x] **UI-02**: `SummaryCardTimer` fires every 5 minutes during capture and triggers a summary card generation cycle
+- [x] **UI-03**: `LiveSummaryBoard` renders the stack of generated summary cards in the overlay, newest at top
 - [ ] **UI-04**: `ArtifactReview` panel renders all proposed artifacts grouped by type (MOM, key points, action items) after meeting end
 - [ ] **UI-05**: `AudioWorkletHost` component manages mic capture lifecycle from the renderer side; captures and forwards PCM frames via IPC
 - [ ] **UI-06**: All IPC calls from the renderer use the typed contextBridge allowlist; no raw `ipcRenderer` is exposed
@@ -141,8 +142,8 @@
 | ART-10 | Phase 8: ArtifactPipeline | Complete |
 | ART-11 | Phase 8: ArtifactPipeline | Complete |
 | UI-01 | Phase 9: Overlay UI + Live Summary Board | Pending |
-| UI-02 | Phase 9: Overlay UI + Live Summary Board | Pending |
-| UI-03 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| UI-02 | Phase 9: Overlay UI + Live Summary Board | Complete |
+| UI-03 | Phase 9: Overlay UI + Live Summary Board | Complete |
 | UI-04 | Phase 9: Overlay UI + Live Summary Board | Pending |
 | UI-05 | Phase 9: Overlay UI + Live Summary Board | Pending |
 | UI-06 | Phase 9: Overlay UI + Live Summary Board | Pending |
@@ -159,6 +160,7 @@
 | PACK-05 | Phase 11: Packaging + Eval Harness | Pending |
 
 **Coverage:**
+
 - v1 requirements: 46 total
 - Mapped to phases: 46
 - Unmapped: 0
