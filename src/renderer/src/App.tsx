@@ -8,6 +8,8 @@ import { ChannelHealthDot } from './components/ChannelHealthDot'
 import { ArtifactReview } from './components/ArtifactReview'
 import { AudioWorkletHost } from './components/AudioWorkletHost'
 import LiveSummaryBoard from './components/LiveSummaryBoard'
+import { BreakAssistPanel } from './components/BreakAssistPanel'
+import { BreakAssistDigest } from './components/BreakAssistDigest'
 
 function useSessionState(): SessionState {
   const [state, setState] = useState<SessionState>('Idle')
@@ -71,6 +73,25 @@ function useSummaryCards(): StoredSummaryCard[] {
   return cards
 }
 
+interface BreakDigest {
+  cards: StoredSummaryCard[]
+  isEmpty: boolean
+}
+
+function useBreakDigest(): { digest: BreakDigest | null; clearDigest: () => void } {
+  const [digest, setDigest] = useState<BreakDigest | null>(null)
+
+  useEffect(() => {
+    // window.electronAPI.on returns void — no unsubscribe available
+    window.electronAPI.on('break-assist-digest-ready', (payload: unknown) => {
+      const { cardsMissed, isEmpty } = payload as { cardsMissed: StoredSummaryCard[]; isEmpty: boolean }
+      setDigest({ cards: cardsMissed, isEmpty })
+    })
+  }, [])
+
+  return { digest, clearDigest: () => setDigest(null) }
+}
+
 const overlayStyle: React.CSSProperties = {
   width: '380px',
   minHeight: '100vh',
@@ -116,11 +137,30 @@ export default function App(): React.JSX.Element {
   const summaryCards = useSummaryCards()
   const hasSummaryCards = summaryCards.length > 0
   const proposals = useArtifactProposals()
+  const { digest, clearDigest } = useBreakDigest()
+  const [showDigest, setShowDigest] = useState(false)
+
+  // Wire digest arrival to showDigest
+  useEffect(() => {
+    if (digest !== null) {
+      setShowDigest(true)
+    }
+  }, [digest])
 
   // AudioWorkletHost is always mounted (active prop controls mic lifecycle)
   const isCapturing = sessionState === 'Capturing'
 
   function renderContent(): React.JSX.Element {
+    if (sessionState === 'OnBreak') {
+      return (
+        <div id="overlay-root" style={overlayStyle}>
+          <BreakAssistPanel
+            onBack={() => window.electronAPI.invoke('end-break').catch(console.error)}
+          />
+        </div>
+      )
+    }
+
     if (sessionState === 'Capturing') {
       if (!hasSummaryCards) {
         // Pre-board: show existing CapturingScreen unchanged
@@ -128,6 +168,22 @@ export default function App(): React.JSX.Element {
           <div id="overlay-root" style={overlayStyle}>
             <QuitButton />
             <CapturingScreen healthMic={healthMic} healthSystem={healthSystem} />
+          </div>
+        )
+      }
+
+      // Show digest if it just arrived after returning from break
+      if (showDigest && digest) {
+        return (
+          <div id="overlay-root" style={{ ...overlayStyle, display: 'flex', flexDirection: 'column' }}>
+            <BreakAssistDigest
+              cards={digest.cards}
+              isEmpty={digest.isEmpty}
+              onDismiss={() => {
+                setShowDigest(false)
+                clearDigest()
+              }}
+            />
           </div>
         )
       }
