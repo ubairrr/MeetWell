@@ -18,7 +18,7 @@ export class LLMAdapter {
     systemPrompt: string,
     userContent: string
   ): Promise<T> {
-    const completion = await this.client.beta.chat.completions.parse({
+    const completion = await this.client.chat.completions.parse({
       model: 'gemini-2.5-flash',
       messages: [
         { role: 'system', content: systemPrompt },
