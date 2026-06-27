@@ -6,13 +6,13 @@
   "author": "ubairrr",
   "homepage": "https://electron-vite.org",
   "scripts": {
-    "dev": "electron-vite dev",
-    "build": "electron-vite build",
-    "start": "electron-vite preview",
+    "dev": "NODE_OPTIONS=--disable-warning=DEP0040 electron-vite dev",
+    "build": "NODE_OPTIONS=--disable-warning=DEP0040 electron-vite build",
+    "start": "NODE_OPTIONS=--disable-warning=DEP0040 electron-vite preview",
     "postinstall": "electron-rebuild -f -w better-sqlite3-multiple-ciphers",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "build:mac-dir": "electron-vite build && electron-builder --mac --dir"
+    "test": "NODE_OPTIONS=--disable-warning=DEP0040 vitest run",
+    "test:watch": "NODE_OPTIONS=--disable-warning=DEP0040 vitest",
+    "build:mac-dir": "NODE_OPTIONS=--disable-warning=DEP0040 electron-vite build && electron-builder --mac --dir"
   },
   "dependencies": {
     "@deepgram/sdk": "^5.4.0",
