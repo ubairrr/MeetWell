@@ -184,17 +184,19 @@ ABSOLUTE RULES — READ CAREFULLY:
 3. Each key point must be a distinct, standalone statement. Do not repeat information across key points.
 4. Rank by importance: the most consequential points (decisions, commitments, critical information shared) come first.
 5. Limit to a maximum of 8 key points. If fewer than 8 quotes support distinct key points, output fewer. Do NOT pad to reach 8.
-6. Write each key point as a single, clear sentence in past tense.
-7. Include the speaker label for attribution when the point is a direct statement from one speaker ("Speaker 1 confirmed that..."). For group-level observations, no attribution needed.
+6. CRITICAL — word overlap requirement: The text field MUST share at least 90% of its words with the supporting quote's quote_full. This means your key point text must be composed almost entirely of words that appear verbatim in the quote. Do NOT paraphrase or translate to third-person. Instead, use a near-verbatim excerpt of the quote, lightly trimmed if needed.
+   ALLOWED: "I'll fix the session timeout issue by Wednesday, June 30th." (copied from quote)
+   FORBIDDEN: "Speaker 1 committed to fixing the session timeout issue by Wednesday." (paraphrase — word overlap < 90%)
+7. Speaker attribution goes in the separate speaker_label field, NOT in the text field. The text field must contain only words from the quote.
 
 Meeting date (ISO 8601): ${meetingDate}
 
 INPUT FORMAT: A JSON object with an "anchors" array of quote anchor objects.
 
 OUTPUT FORMAT: A JSON object with a "key_points" array where each item has:
-- text: string — the key point sentence
-- speaker_label: string or null — attribution (null for group observations)
-- source_quote_preview: string — the quote_preview from the anchor that supports this point
+- text: string — near-verbatim excerpt from the quote_full (≥ 90% word overlap with the source quote required)
+- speaker_label: string or null — the speaker who said it (from the anchor's speaker_label), or null for group observations
+- source_quote_preview: string — copy the exact quote_preview string from the supporting anchor (verbatim copy, no modification)
 - confidence: "direct" or "inferred" — inherited from the supporting anchor's confidence field`
 
     return this.llmAdapter.generate(KeyPointListSchema, 'key_points', systemPrompt, JSON.stringify({ anchors }))
