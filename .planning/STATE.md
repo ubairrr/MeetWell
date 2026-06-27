@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Build
-current_phase: 8
-current_phase_name: next
+current_phase: 9
+current_phase_name: Overlay UI + Live Summary Board
 status: in_progress
-stopped_at: Phase 8 context gathered
-last_updated: "2026-06-26T23:15:12.300Z"
+stopped_at: Phase 8 complete — T3 verified
+last_updated: "2026-06-27T00:00:00.000Z"
 last_activity: 2026-06-27
-last_activity_desc: "Phase 7 (Capture + TranscriptStore) complete: 7 plans, dual-channel capture verified, CAPT-01–09 all verified"
+last_activity_desc: "Phase 8 (ArtifactPipeline) complete: two-stage extraction, CitationValidator, ArtifactReview UI, .ics export, meeting title — ART-01–11 all verified"
 progress:
   total_phases: 6
   completed_phases: 1
@@ -24,19 +24,19 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** A user walks out of any meeting with an accurate, trustworthy record and a ready-to-act set of artifacts — without having taken a single note.
-**Current focus:** Phase 8 — ArtifactPipeline (next)
+**Current focus:** Phase 9 — Overlay UI + Live Summary Board
 
 > **Milestone framing:** This is the Build milestone — the deliverable is a working, packaged, notarized macOS app. All architectural decisions are locked in the PRD documents. Start with Phase 6 (Foundation & Scaffold).
 
 ## Current Position
 
-Phase: 8 (next)
+Phase: 9 (next)
 Plan: —
-Status: Phase 7 complete; ready to begin Phase 8
-Last activity: 2026-06-27 — Phase 7 (Capture + TranscriptStore) complete: 7 plans, dual-channel capture verified, CAPT-01–09 all verified
+Status: Phase 8 complete; ready to begin Phase 9
+Last activity: 2026-06-27 — Phase 8 (ArtifactPipeline) complete: ART-01–11 all verified via T3 live test
 
 ```
-Progress: [██████████                    ] 33% (2/6 phases)
+Progress: [████████████████              ] 50% (3/6 phases)
 ```
 
 ## Phase Structure
@@ -45,7 +45,7 @@ Progress: [██████████                    ] 33% (2/6 phases)
 |-------|------|--------------|--------|
 | 6 | Foundation & Scaffold | FOUND-01–09 (9 reqs) | Complete (2026-06-26) |
 | 7 | Capture + TranscriptStore | CAPT-01–09 (9 reqs) | Complete (2026-06-27) |
-| 8 | ArtifactPipeline | ART-01–11 (11 reqs) | Not started |
+| 8 | ArtifactPipeline | ART-01–11 (11 reqs) | Complete (2026-06-27) |
 | 9 | Overlay UI + Live Summary Board | UI-01–06 (6 reqs) | Not started |
 | 10 | ContextEngine + Break Assist | CTX-01–06 (6 reqs) | Not started |
 | 11 | Packaging + Eval Harness | PACK-01–05 (5 reqs) | Not started |
@@ -139,9 +139,9 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-26T23:15:12.292Z
-Stopped at: Phase 8 context gathered
+Last session: 2026-06-27
+Stopped at: Phase 8 complete — T3 verified; meeting title feature added
 Resume file: .planning/phases/08-artifactpipeline/08-CONTEXT.md
-Next action: `/gsd-discuss-phase 8` or `/gsd-plan-phase 8` — Phase 8: ArtifactPipeline
+Next action: `/gsd-plan-phase 9` — Phase 9: Overlay UI + Live Summary Board
 
 **Dev run command:** `npm run dev` (launches Electron overlay; no packaging needed until Phase 11)

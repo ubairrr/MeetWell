@@ -39,17 +39,17 @@
 
 ### Artifact Pipeline
 
-- [ ] **ART-01**: At meeting end, Stage 1 extraction produces verbatim quote anchors from the `transcript_segments` table (never from `summary_cards`)
-- [ ] **ART-02**: Stage 2 generation produces structured artifact content constrained to Stage 1 quotes only — never from the raw transcript directly
-- [ ] **ART-03**: MOM (minutes of meeting) document is generated at meeting end and includes agenda items, attendees, and discussion summary backed by verbatim citations
-- [ ] **ART-04**: Key points list is generated at meeting end; each item is traceable to a verbatim quote via CitationValidator (≥ 90% token overlap)
-- [ ] **ART-05**: Meeting summary paragraph is generated at meeting end
-- [ ] **ART-06**: Action items are extracted with owner, due date (where stated), and verbatim quote anchor; each item is created with `status: 'proposed'`
-- [ ] **ART-07**: All artifact items are created with `status: 'proposed'`; no artifact is auto-written to any external system without explicit user confirmation
-- [ ] **ART-08**: ArtifactReview UI shows each proposed item with a "Verify" toggle that reveals the verbatim quote anchor
-- [ ] **ART-09**: User can confirm, edit, or dismiss each proposed artifact item before export
-- [ ] **ART-10**: Confirmed action items are exported as a `.ics` iCalendar file via the `ics` package (zero OAuth required)
-- [ ] **ART-11**: All LLM structured outputs are validated against Zod schemas defined in `src/shared/schemas/index.ts`; invalid responses are retried, not silently accepted
+- [x] **ART-01**: At meeting end, Stage 1 extraction produces verbatim quote anchors from the `transcript_segments` table (never from `summary_cards`)
+- [x] **ART-02**: Stage 2 generation produces structured artifact content constrained to Stage 1 quotes only — never from the raw transcript directly
+- [x] **ART-03**: MOM (minutes of meeting) document is generated at meeting end and includes agenda items, attendees, and discussion summary backed by verbatim citations
+- [x] **ART-04**: Key points list is generated at meeting end; each item is traceable to a verbatim quote via CitationValidator (≥ 90% token overlap)
+- [x] **ART-05**: Meeting summary paragraph is generated at meeting end
+- [x] **ART-06**: Action items are extracted with owner, due date (where stated), and verbatim quote anchor; each item is created with `status: 'proposed'`
+- [x] **ART-07**: All artifact items are created with `status: 'proposed'`; no artifact is auto-written to any external system without explicit user confirmation
+- [x] **ART-08**: ArtifactReview UI shows each proposed item with a "Verify" toggle that reveals the verbatim quote anchor
+- [x] **ART-09**: User can confirm, edit, or dismiss each proposed artifact item before export
+- [x] **ART-10**: Confirmed action items are exported as a `.ics` iCalendar file via the `ics` package (zero OAuth required)
+- [x] **ART-11**: All LLM structured outputs are validated against Zod schemas defined in `src/shared/schemas/index.ts`; invalid responses are retried, not silently accepted
 
 ### Overlay UI + Live Summary Board
 
@@ -129,17 +129,17 @@
 | CAPT-07 | Phase 7: Capture + TranscriptStore | Complete |
 | CAPT-08 | Phase 7: Capture + TranscriptStore | Complete |
 | CAPT-09 | Phase 7: Capture + TranscriptStore | Complete |
-| ART-01 | Phase 8: ArtifactPipeline | Pending |
-| ART-02 | Phase 8: ArtifactPipeline | Pending |
-| ART-03 | Phase 8: ArtifactPipeline | Pending |
-| ART-04 | Phase 8: ArtifactPipeline | Pending |
-| ART-05 | Phase 8: ArtifactPipeline | Pending |
-| ART-06 | Phase 8: ArtifactPipeline | Pending |
-| ART-07 | Phase 8: ArtifactPipeline | Pending |
-| ART-08 | Phase 8: ArtifactPipeline | Pending |
-| ART-09 | Phase 8: ArtifactPipeline | Pending |
-| ART-10 | Phase 8: ArtifactPipeline | Pending |
-| ART-11 | Phase 8: ArtifactPipeline | Pending |
+| ART-01 | Phase 8: ArtifactPipeline | Complete |
+| ART-02 | Phase 8: ArtifactPipeline | Complete |
+| ART-03 | Phase 8: ArtifactPipeline | Complete |
+| ART-04 | Phase 8: ArtifactPipeline | Complete |
+| ART-05 | Phase 8: ArtifactPipeline | Complete |
+| ART-06 | Phase 8: ArtifactPipeline | Complete |
+| ART-07 | Phase 8: ArtifactPipeline | Complete |
+| ART-08 | Phase 8: ArtifactPipeline | Complete |
+| ART-09 | Phase 8: ArtifactPipeline | Complete |
+| ART-10 | Phase 8: ArtifactPipeline | Complete |
+| ART-11 | Phase 8: ArtifactPipeline | Complete |
 | UI-01 | Phase 9: Overlay UI + Live Summary Board | Pending |
 | UI-02 | Phase 9: Overlay UI + Live Summary Board | Pending |
 | UI-03 | Phase 9: Overlay UI + Live Summary Board | Pending |
