@@ -36,7 +36,7 @@ export class SummaryCardTimer {
     private readonly win: BrowserWindow,
     private readonly store: SummaryCardStore,
     private readonly llm: LLMAdapter
-  ) {}
+  ) { }
 
   start(meetingId: string): void {
     this.currentMeetingId = meetingId
