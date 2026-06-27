@@ -210,6 +210,8 @@ export function SettingsPanel({ onClose }: SettingsPanelProps): React.JSX.Elemen
           {deepgramKeyStatus === 'error' && (
             <span style={{ color: '#f87171', fontSize: '12px' }}>Error</span>
           )}
+        </div>
+
       </div>
     </div>
   )
