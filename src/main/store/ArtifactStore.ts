@@ -72,6 +72,14 @@ export class ArtifactStore {
     this.db.prepare(`UPDATE action_items SET ${fields.join(', ')} WHERE id = ?`).run(...values)
   }
 
+  stampIcsExported(ids: string[], exportedAt: number): void {
+    const stmt = this.db.prepare('UPDATE action_items SET ics_exported_at = ? WHERE id = ?')
+    const tx = this.db.transaction(() => {
+      for (const id of ids) stmt.run(exportedAt, id)
+    })
+    tx()
+  }
+
   dismissArtifact(id: string): void {
     this.db.prepare(
       "UPDATE action_items SET status = 'dismissed' WHERE id = ? AND status = 'proposed'"

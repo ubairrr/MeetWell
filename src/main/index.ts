@@ -144,7 +144,11 @@ app.whenReady().then(async () => {
           if (win) {
             win.webContents.send('artifact-proposals-ready', proposals)
           }
-          session.transition('pipeline-complete')
+          try {
+            session.transition('pipeline-complete')
+          } catch (err) {
+            console.error('[MeetingAssist] pipeline-complete transition failed (duplicate?):', err)
+          }
         })
     }
   })

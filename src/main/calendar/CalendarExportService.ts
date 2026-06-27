@@ -44,6 +44,7 @@ export class CalendarExportService {
     }
 
     writeFileSync(saveResult.filePath, icsContent!)
+    this.artifactStore.stampIcsExported(withDueDate.map((i) => i.id), Date.now())
     return { filePath: saveResult.filePath, skippedCount }
   }
 }

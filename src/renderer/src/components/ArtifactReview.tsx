@@ -134,7 +134,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
         {expandedSection === 'actionItems' && (
           <div style={{ padding: '8px 16px' }}>
             {artifacts.actionItems.action_items
-              .filter((item) => !dismissedItems.has(item.id))
+              .filter((item) => !dismissedItems.has(item.id) && !confirmedItems.has(item.id))
               .map((item) => {
                 const subtextParts = [
                   item.assignee_label ? `Owner: ${item.assignee_label}` : null,
