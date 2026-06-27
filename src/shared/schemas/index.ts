@@ -84,3 +84,26 @@ export const MeetingArtifactsSchema = z.object({
   errorMessage: z.string().optional(),
 })
 export type MeetingArtifacts = z.infer<typeof MeetingArtifactsSchema>
+
+export const SummaryCardSchema = z.object({
+  topic_headline: z.string(),
+  key_points: z.array(z.string()).min(1).max(5),
+  speaker_contributions: z.record(z.string(), z.string()),
+})
+export type SummaryCard = z.infer<typeof SummaryCardSchema>
+
+export interface StoredSummaryCard {
+  id: string
+  meeting_id: string
+  card_index: number
+  interval_start_seconds: number
+  interval_end_seconds: number
+  wall_time_label: string
+  topic_headline: string
+  key_points: string[]
+  action_items_mentioned: string[]
+  speaker_contributions: Record<string, string>
+  model_used: string
+  generated_at: string
+  created_at: number
+}
