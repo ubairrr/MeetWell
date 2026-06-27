@@ -58,8 +58,8 @@
 - [x] **UI-02**: `SummaryCardTimer` fires every 5 minutes during capture and triggers a summary card generation cycle
 - [x] **UI-03**: `LiveSummaryBoard` renders the stack of generated summary cards in the overlay, newest at top
 - [ ] **UI-04**: `ArtifactReview` panel renders all proposed artifacts grouped by type (MOM, key points, action items) after meeting end
-- [ ] **UI-05**: `AudioWorkletHost` component manages mic capture lifecycle from the renderer side; captures and forwards PCM frames via IPC
-- [ ] **UI-06**: All IPC calls from the renderer use the typed contextBridge allowlist; no raw `ipcRenderer` is exposed
+- [x] **UI-05**: `AudioWorkletHost` component manages mic capture lifecycle from the renderer side; captures and forwards PCM frames via IPC
+- [x] **UI-06**: All IPC calls from the renderer use the typed contextBridge allowlist; no raw `ipcRenderer` is exposed
 
 ### Context Engine + Break Assist
 
@@ -145,8 +145,8 @@
 | UI-02 | Phase 9: Overlay UI + Live Summary Board | Complete |
 | UI-03 | Phase 9: Overlay UI + Live Summary Board | Complete |
 | UI-04 | Phase 9: Overlay UI + Live Summary Board | Pending |
-| UI-05 | Phase 9: Overlay UI + Live Summary Board | Pending |
-| UI-06 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| UI-05 | Phase 9: Overlay UI + Live Summary Board | Complete |
+| UI-06 | Phase 9: Overlay UI + Live Summary Board | Complete |
 | CTX-01 | Phase 10: ContextEngine + Break Assist | Pending |
 | CTX-02 | Phase 10: ContextEngine + Break Assist | Pending |
 | CTX-03 | Phase 10: ContextEngine + Break Assist | Pending |
