@@ -30,6 +30,13 @@ export class DeepgramClient {
   private normalizer: SpeakerNormalizer
   private meetingId: string = ''
 
+  // Utterance buffer — instance vars so disconnect() can flush before closing
+  private isFinalsBuffer: string[] = []
+  private utteranceStart = 0
+  private utteranceEnd = 0
+  private utteranceConfidence: number | null = null
+  private utteranceSpeakerId: number | undefined
+
   constructor(private readonly options: DeepgramClientOptions) {
     this.normalizer = new SpeakerNormalizer(options.channel)
   }
@@ -52,14 +59,6 @@ export class DeepgramClient {
       reconnectAttempts: 0,
     })
 
-    // Buffer is_final segments — speech_final only contains the last chunk,
-    // not the full sentence. Accumulate all is_final chunks, emit on speech_final.
-    const isFinalsBuffer: string[] = []
-    let utteranceStart = 0
-    let utteranceEnd = 0
-    let utteranceConfidence: number | null = null
-    let utteranceSpeakerId: number | undefined
-
     this.socket.on('open', () => {
       this.retryCount = 0
       this.options.onHealthChange('healthy')
@@ -70,18 +69,7 @@ export class DeepgramClient {
       this.resetSilenceTimer()
 
       if (data.type === 'UtteranceEnd') {
-        const fullText = isFinalsBuffer.join(' ').trim()
-        isFinalsBuffer.length = 0
-        if (!fullText) return
-        const speakerLabel = this.normalizer.normalize(utteranceSpeakerId)
-        this.options.onSegment({
-          transcript: fullText,
-          speakerLabel,
-          channel: this.options.channel,
-          timestampStart: utteranceStart,
-          timestampEnd: utteranceEnd,
-          confidence: utteranceConfidence,
-        })
+        this.flushBuffer()
         return
       }
 
@@ -92,13 +80,13 @@ export class DeepgramClient {
       const transcript = (alt.transcript ?? '').trim()
 
       if (data.is_final && transcript) {
-        if (isFinalsBuffer.length === 0) {
-          utteranceStart = data.start ?? 0
+        if (this.isFinalsBuffer.length === 0) {
+          this.utteranceStart = data.start ?? 0
         }
-        utteranceEnd = (data.start ?? 0) + (data.duration ?? 0)
-        utteranceConfidence = alt.confidence ?? null
-        utteranceSpeakerId = alt.words?.find((w) => w.speaker !== undefined)?.speaker
-        isFinalsBuffer.push(transcript)
+        this.utteranceEnd = (data.start ?? 0) + (data.duration ?? 0)
+        this.utteranceConfidence = alt.confidence ?? null
+        this.utteranceSpeakerId = alt.words?.find((w) => w.speaker !== undefined)?.speaker
+        this.isFinalsBuffer.push(transcript)
       }
     })
 
@@ -126,12 +114,29 @@ export class DeepgramClient {
 
   async disconnect(): Promise<void> {
     this.clearSilenceTimer()
+    // Flush any buffered is_final segments before closing — prevents last utterance loss
+    this.flushBuffer()
     // Prevent handleDisconnect from reconnecting after explicit disconnect
     this.retryCount = this.MAX_RETRIES
     if (this.socket) {
       this.socket.close()
       this.socket = null
     }
+  }
+
+  private flushBuffer(): void {
+    const fullText = this.isFinalsBuffer.join(' ').trim()
+    this.isFinalsBuffer = []
+    if (!fullText) return
+    const speakerLabel = this.normalizer.normalize(this.utteranceSpeakerId)
+    this.options.onSegment({
+      transcript: fullText,
+      speakerLabel,
+      channel: this.options.channel,
+      timestampStart: this.utteranceStart,
+      timestampEnd: this.utteranceEnd,
+      confidence: this.utteranceConfidence,
+    })
   }
 
   private async handleDisconnect(): Promise<void> {
