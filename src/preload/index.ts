@@ -26,6 +26,7 @@ const INVOKE_CHANNELS = [
   'set-meeting-title',
   'set-focusable',
   'quit-app',
+  'resize-window',
 ] as const
 
 type ListenChannel = typeof LISTEN_CHANNELS[number]

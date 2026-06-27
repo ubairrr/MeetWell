@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import type { SessionState } from '../../shared/schemas'
 import type { StoredSummaryCard } from '../../shared/schemas'
 import { ConsentGate } from './components/ConsentGate'
@@ -94,11 +94,51 @@ function useBreakDigest(): { digest: BreakDigest | null; clearDigest: () => void
 }
 
 const overlayStyle: React.CSSProperties = {
-  width: '380px',
+  width: '100%',
   minHeight: '100vh',
   background: 'rgba(0,0,0,0.85)',
   color: '#fff',
   position: 'relative',
+}
+
+function ResizeHandle(): React.JSX.Element {
+  const dragging = useRef(false)
+
+  function onMouseDown(e: React.MouseEvent): void {
+    e.preventDefault()
+    dragging.current = true
+
+    function onMouseMove(me: MouseEvent): void {
+      if (!dragging.current) return
+      const cursorScreenX = window.screenX + me.clientX
+      const newWidth = Math.max(280, Math.min(600, window.screen.availWidth - cursorScreenX))
+      window.electronAPI.invoke('resize-window', { width: Math.round(newWidth) }).catch(console.error)
+    }
+
+    function onMouseUp(): void {
+      dragging.current = false
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseup', onMouseUp)
+    }
+
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+  }
+
+  return (
+    <div
+      onMouseDown={onMouseDown}
+      style={{
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        width: '6px',
+        cursor: 'ew-resize',
+        zIndex: 1000,
+      }}
+    />
+  )
 }
 
 function QuitButton(): React.JSX.Element {
@@ -383,6 +423,7 @@ export default function App(): React.JSX.Element {
   return (
     <>
       <AudioWorkletHost active={isCapturing} />
+      <ResizeHandle />
       {renderContent()}
     </>
   )

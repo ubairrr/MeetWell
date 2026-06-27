@@ -33,6 +33,7 @@ function createOverlayWindow(overlayWidth: number = 380): BrowserWindow {
     hasShadow: false,
     skipTaskbar: true,
     focusable: false,
+    resizable: false,
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
@@ -341,6 +342,15 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('set-focusable', (_event, payload: unknown) => {
     if (win) win.setFocusable(!!payload)
+  })
+
+  ipcMain.handle('resize-window', (_event, payload: unknown) => {
+    const result = z.object({ width: z.number() }).safeParse(payload)
+    if (!result.success || !win) return
+    const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize
+    const newWidth = Math.max(280, Math.min(600, Math.round(result.data.width)))
+    win.setBounds({ x: screenWidth - newWidth, y: 0, width: newWidth, height: screenHeight })
+    electronStore.set('overlay-width', newWidth)
   })
 
   ipcMain.handle('quit-app', () => app.quit())
