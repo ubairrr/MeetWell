@@ -105,7 +105,7 @@ Plans:
   4. Overlay click-through works: clicking the desktop behind the overlay operates normally in passive mode; the overlay becomes interactive when the cursor enters the panel
   5. `setContentProtection(true)` prevents the overlay from appearing in a Zoom screen-share test on macOS 14.2+
 
-**Plans**: 5/7 plans executed
+**Plans**: 6/7 plans executed
 Plans:
 
 - [x] 09-01-PLAN.md — SummaryCardSchema + SummaryCardStore
@@ -113,7 +113,7 @@ Plans:
 - [x] 09-03-PLAN.md — LiveSummaryBoard + SummaryCard Components
 - [x] 09-04-PLAN.md — AudioWorkletHost Extraction + App.tsx Board View Wiring
 - [x] 09-05-PLAN.md — BreakAssistPanel + BreakAssistDigest + App.tsx Break Flow
-- [ ] 09-06-PLAN.md — SettingsPanel + safeStorage + electron-store
+- [x] 09-06-PLAN.md — SettingsPanel + safeStorage + electron-store
 - [ ] 09-07-PLAN.md — Integration Verification + Polish
 
 **UI hint**: yes
@@ -160,6 +160,6 @@ Phases execute in dependency order: 6 → 7 → 8 → 9 → 10 → 11
 | 6. Foundation & Scaffold | 7/7 | Complete | 2026-06-26 |
 | 7. Capture + TranscriptStore | 7/7 | Complete | 2026-06-27 |
 | 8. ArtifactPipeline | 0/TBD | Not started | - |
-| 9. Overlay UI + Live Summary Board | 5/7 | In Progress|  |
+| 9. Overlay UI + Live Summary Board | 6/7 | In Progress|  |
 | 10. ContextEngine + Break Assist | 0/TBD | Not started | - |
 | 11. Packaging + Eval Harness | 0/TBD | Not started | - |
