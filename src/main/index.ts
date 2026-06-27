@@ -1,7 +1,8 @@
-import { app, BrowserWindow, screen, ipcMain } from 'electron'
+import { app, BrowserWindow, screen, ipcMain, safeStorage } from 'electron'
 import { join } from 'path'
 import crypto from 'crypto'
 import { z } from 'zod'
+import Store from 'electron-store'
 import { openDatabase, closeDatabase } from './store/db'
 import { SessionManager } from './session/SessionManager'
 import { CaptureService } from './capture/CaptureService'
@@ -9,20 +10,22 @@ import { ArtifactPipeline } from './pipeline/ArtifactPipeline'
 import { ArtifactStore } from './store/ArtifactStore'
 import { CalendarExportService } from './calendar/CalendarExportService'
 import { MeetingArtifactsSchema } from '../shared/schemas'
+import { LLMAdapter } from './llm/LLMAdapter'
+import { SummaryCardStore } from './store/SummaryCardStore'
+import { SummaryCardTimer } from './context/SummaryCardTimer'
 import type Database from 'better-sqlite3-multiple-ciphers'
-
-const OVERLAY_WIDTH = 380
 
 let win: BrowserWindow | null = null
 let db: Database.Database | null = null
+let breakStartMs = 0
 
-function createOverlayWindow(): BrowserWindow {
+function createOverlayWindow(overlayWidth: number = 380): BrowserWindow {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
 
   const window = new BrowserWindow({
-    width: OVERLAY_WIDTH,
+    width: overlayWidth,
     height,
-    x: width - OVERLAY_WIDTH,
+    x: width - overlayWidth,
     y: 0,
     frame: false,
     transparent: true,
@@ -57,6 +60,31 @@ export function getDb(): Database.Database | null {
 app.whenReady().then(async () => {
   app.dock.hide()
 
+  const electronStore = new Store()
+
+  function loadApiKeys(): void {
+    if (electronStore.has('gemini-api-key-encrypted')) {
+      try {
+        const value = electronStore.get('gemini-api-key-encrypted') as Buffer
+        process.env.GEMINI_API_KEY = safeStorage.decryptString(value)
+      } catch (err) {
+        console.error('[loadApiKeys] failed to decrypt gemini key:', err)
+      }
+    }
+    if (electronStore.has('deepgram-api-key-encrypted')) {
+      try {
+        const value = electronStore.get('deepgram-api-key-encrypted') as Buffer
+        process.env.DEEPGRAM_API_KEY = safeStorage.decryptString(value)
+      } catch (err) {
+        console.error('[loadApiKeys] failed to decrypt deepgram key:', err)
+      }
+    }
+  }
+
+  loadApiKeys()
+
+  const overlayWidth = electronStore.get('overlay-width', 380) as number
+
   try {
     db = openDatabase()
   } catch (err) {
@@ -65,7 +93,7 @@ app.whenReady().then(async () => {
     return
   }
 
-  win = createOverlayWindow()
+  win = createOverlayWindow(overlayWidth)
   win.setIgnoreMouseEvents(false)  // Idle state is interactive on startup
 
   const rendererUrl = process.env['ELECTRON_RENDERER_URL'] || process.env['VITE_DEV_SERVER_URL']
@@ -78,7 +106,7 @@ app.whenReady().then(async () => {
   // IPC handlers — wired in 06-05
   const session = new SessionManager()
 
-  // DEEPGRAM_API_KEY is read from .env at project root via loadEnv in electron.vite.config.ts
+  // API keys already loaded from safeStorage above; warn if still missing
   const apiKey = process.env.DEEPGRAM_API_KEY ?? ''
   if (!apiKey) {
     console.warn('[MeetingAssist] DEEPGRAM_API_KEY not set — capture will fail until key is configured')
@@ -87,9 +115,13 @@ app.whenReady().then(async () => {
   if (!geminiApiKey) {
     console.warn('[MeetingAssist] GEMINI_API_KEY not set — artifact pipeline will fail')
   }
+
   const captureService = new CaptureService(db!, win!, apiKey)
   const artifactStore = new ArtifactStore(db!)
   const calendarExportService = new CalendarExportService(artifactStore)
+  const summaryCardStore = new SummaryCardStore(db!)
+  const llmAdapter = new LLMAdapter(geminiApiKey)
+  const summaryCardTimer = new SummaryCardTimer(db!, win!, summaryCardStore, llmAdapter)
   let lastCompletedMeetingId: string | null = null
 
   let currentMeetingId: string | null = null
@@ -99,9 +131,16 @@ app.whenReady().then(async () => {
       win.webContents.send('session-state-changed', { state, previous })
     }
 
-    // Mouse event control: interactive during Idle, PreCapture, and Capturing
+    // Mouse event control: interactive during Idle, PreCapture, Capturing, OnBreak, and Complete
+    // OnBreak must allow mouse events so the "I'm Back" button is reachable
     if (win) {
-      if (state === 'Idle' || state === 'PreCapture' || state === 'Capturing' || state === 'Complete') {
+      if (
+        state === 'Idle' ||
+        state === 'PreCapture' ||
+        state === 'Capturing' ||
+        state === 'OnBreak' ||
+        state === 'Complete'
+      ) {
         win.setIgnoreMouseEvents(false)
       } else {
         win.setIgnoreMouseEvents(true, { forward: true })
@@ -111,14 +150,17 @@ app.whenReady().then(async () => {
     }
 
     // Capture lifecycle
-    if (state === 'Capturing') {
+    if (state === 'Capturing' && previous !== 'OnBreak') {
+      // Only generate a new meeting ID when entering Capturing from PreCapture (not from OnBreak)
       currentMeetingId = crypto.randomUUID()
       captureService.startCapture(currentMeetingId).catch((err: unknown) => {
         console.error('[MeetingAssist] CaptureService.startCapture failed:', err)
       })
+      summaryCardTimer.start(currentMeetingId)
     }
 
     if (state === 'Processing') {
+      summaryCardTimer.stop()
       const meetingId = currentMeetingId
       currentMeetingId = null
       captureService.stopCapture()
@@ -153,6 +195,10 @@ app.whenReady().then(async () => {
           }
         })
     }
+
+    if (state === 'Idle') {
+      summaryCardTimer.stop()
+    }
   })
 
   // Active handlers
@@ -164,7 +210,6 @@ app.whenReady().then(async () => {
     session.transition('consent-confirmed')
   })
 
-  // Stub handlers — implemented in later phases
   ipcMain.handle('mic-audio-chunk', (_event, buffer: ArrayBuffer) => {
     if (!(buffer instanceof ArrayBuffer) || buffer.byteLength > 1_048_576) return
     captureService.handleMicChunk(buffer)
@@ -183,8 +228,37 @@ app.whenReady().then(async () => {
       console.error('[MeetingAssist] dismiss-session transition failed:', err)
     }
   })
-  ipcMain.handle('start-break', () => undefined)
-  ipcMain.handle('end-break', () => undefined)
+
+  ipcMain.handle('start-break', () => {
+    try {
+      session.transition('start-break')
+      breakStartMs = Date.now()
+    } catch (err) {
+      console.error('[MeetingAssist] start-break transition failed:', err)
+    }
+    return { ok: true }
+  })
+
+  ipcMain.handle('end-break', () => {
+    try {
+      session.transition('end-break')
+    } catch (err) {
+      console.error('[MeetingAssist] end-break transition failed:', err)
+      return { ok: false }
+    }
+    const cards = currentMeetingId
+      ? summaryCardStore.getCardsSince(currentMeetingId, breakStartMs)
+      : []
+    if (win) {
+      win.webContents.send('break-assist-digest-ready', {
+        cardsMissed: cards,
+        isEmpty: cards.length === 0,
+      })
+    }
+    breakStartMs = 0
+    return { ok: true }
+  })
+
   ipcMain.handle('confirm-artifact', (_event, payload: unknown) => {
     const result = z.object({ id: z.string(), type: z.enum(['action_item', 'decision', 'date']) }).safeParse(payload)
     if (!result.success) return
@@ -212,13 +286,63 @@ app.whenReady().then(async () => {
     if (!result.success) return { filePath: null, skippedCount: 0 }
     return calendarExportService.export(result.data.meetingId)
   })
-  ipcMain.handle('get-settings', () => undefined)
-  ipcMain.handle('set-setting', () => undefined)
+
+  ipcMain.handle('get-settings', () => {
+    return {
+      overlayWidth: electronStore.get('overlay-width', 380),
+      overlayOpacity: electronStore.get('overlay-opacity', 0.85),
+      hasGeminiKey: electronStore.has('gemini-api-key-encrypted'),
+      hasDeepgramKey: electronStore.has('deepgram-api-key-encrypted'),
+    }
+  })
+
+  ipcMain.handle('set-setting', (_event, payload: unknown) => {
+    const result = z.object({ key: z.string(), value: z.unknown() }).safeParse(payload)
+    if (!result.success) return { error: 'invalid payload' }
+    const { key, value } = result.data
+
+    switch (key) {
+      case 'gemini-api-key': {
+        if (typeof value !== 'string' || value.length === 0) return { error: 'value must be non-empty string' }
+        const encrypted = safeStorage.encryptString(value)
+        electronStore.set('gemini-api-key-encrypted', encrypted)
+        process.env.GEMINI_API_KEY = value
+        return { ok: true }
+      }
+      case 'deepgram-api-key': {
+        if (typeof value !== 'string' || value.length === 0) return { error: 'value must be non-empty string' }
+        const encrypted = safeStorage.encryptString(value)
+        electronStore.set('deepgram-api-key-encrypted', encrypted)
+        process.env.DEEPGRAM_API_KEY = value
+        return { ok: true }
+      }
+      case 'overlay-width': {
+        if (typeof value !== 'number') return { error: 'value must be number' }
+        const clamped = Math.max(280, Math.min(600, value))
+        electronStore.set('overlay-width', clamped)
+        return { ok: true }
+      }
+      case 'overlay-opacity': {
+        if (typeof value !== 'number') return { error: 'value must be number' }
+        const clamped = Math.max(0.3, Math.min(1.0, value))
+        electronStore.set('overlay-opacity', clamped)
+        return { ok: true }
+      }
+      default:
+        return { error: 'unknown key' }
+    }
+  })
+
   ipcMain.handle('set-meeting-title', (_event, payload: unknown) => {
     const result = z.object({ meetingId: z.string(), title: z.string().min(1).max(200) }).safeParse(payload)
     if (!result.success) return
     db!.prepare('UPDATE meetings SET title = ? WHERE id = ?').run(result.data.title.trim(), result.data.meetingId)
   })
+
+  ipcMain.handle('set-focusable', (_event, payload: unknown) => {
+    if (win) win.setFocusable(!!payload)
+  })
+
   ipcMain.handle('quit-app', () => app.quit())
 })
 
