@@ -55,6 +55,45 @@ function useArtifactProposals() {
   return proposals
 }
 
+const overlayStyle: React.CSSProperties = {
+  width: '380px',
+  minHeight: '100vh',
+  background: 'rgba(0,0,0,0.85)',
+  color: '#fff',
+  position: 'relative',
+}
+
+function QuitButton(): React.JSX.Element {
+  return (
+    <button
+      onClick={() => window.electronAPI.invoke('quit-app').catch(console.error)}
+      title="Quit MeetingAssist"
+      style={{
+        position: 'absolute',
+        top: '8px',
+        right: '8px',
+        width: '22px',
+        height: '22px',
+        background: 'transparent',
+        border: 'none',
+        color: '#4b5563',
+        fontSize: '16px',
+        lineHeight: '22px',
+        cursor: 'pointer',
+        padding: 0,
+        borderRadius: '4px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#ef4444' }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#4b5563' }}
+    >
+      ×
+    </button>
+  )
+}
+
 export default function App(): React.JSX.Element {
   const sessionState = useSessionState()
   const { healthMic, healthSystem } = useCapturingHealth()
@@ -84,7 +123,8 @@ export default function App(): React.JSX.Element {
 
   if (sessionState === 'Capturing') {
     return (
-      <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
+      <div id="overlay-root" style={overlayStyle}>
+        <QuitButton />
         <CapturingScreen healthMic={healthMic} healthSystem={healthSystem} />
       </div>
     )
@@ -92,7 +132,8 @@ export default function App(): React.JSX.Element {
 
   if (sessionState === 'PreCapture') {
     return (
-      <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
+      <div id="overlay-root" style={overlayStyle}>
+        <QuitButton />
         <ConsentGate onConfirmed={() => {}} />
       </div>
     )
@@ -101,7 +142,8 @@ export default function App(): React.JSX.Element {
   if (sessionState === 'Complete') {
     if (!proposals) {
       return (
-        <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
+        <div id="overlay-root" style={overlayStyle}>
+          <QuitButton />
           <div style={{ padding: '16px', fontSize: '13px', color: '#9ca3af' }}>
             Processing artifacts...
           </div>
@@ -109,7 +151,8 @@ export default function App(): React.JSX.Element {
       )
     }
     return (
-      <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff', overflowY: 'auto' }}>
+      <div id="overlay-root" style={{ ...overlayStyle, overflowY: 'auto' }}>
+        <QuitButton />
         <ArtifactReview meetingId={proposals.meetingId} artifacts={proposals} />
       </div>
     )
@@ -117,7 +160,8 @@ export default function App(): React.JSX.Element {
 
   if (sessionState === 'Idle') {
     return (
-      <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
+      <div id="overlay-root" style={overlayStyle}>
+        <QuitButton />
         <div style={{ padding: '16px' }}>
           <button
             onClick={() => window.electronAPI.invoke('start-meeting').catch(console.error)}
@@ -141,7 +185,8 @@ export default function App(): React.JSX.Element {
   }
 
   return (
-    <div id="overlay-root" style={{ width: '380px', minHeight: '100vh', background: 'rgba(0,0,0,0.85)', color: '#fff' }}>
+    <div id="overlay-root" style={overlayStyle}>
+      <QuitButton />
       <div style={{ padding: '16px', fontSize: '13px', color: '#ccc' }}>
         MeetingAssist — {sessionState}
       </div>

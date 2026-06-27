@@ -200,6 +200,7 @@ app.whenReady().then(async () => {
   })
   ipcMain.handle('get-settings', () => undefined)
   ipcMain.handle('set-setting', () => undefined)
+  ipcMain.handle('quit-app', () => app.quit())
 })
 
 app.on('window-all-closed', () => {

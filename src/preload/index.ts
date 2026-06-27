@@ -23,6 +23,7 @@ const INVOKE_CHANNELS = [
   'export-ics',
   'get-settings',
   'set-setting',
+  'quit-app',
 ] as const
 
 type ListenChannel = typeof LISTEN_CHANNELS[number]
