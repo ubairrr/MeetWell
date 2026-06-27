@@ -154,7 +154,6 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
                       text={item.description}
                       subtext={subtextParts.join(' | ') || undefined}
                       citations={item.citations}
-                      artifactType="action_item"
                       onConfirm={confirmedItems.has(item.id) ? () => {} : handleConfirm}
                       onDismiss={confirmedItems.has(item.id) ? () => {} : handleDismiss}
                       onEdit={handleEdit}
@@ -236,7 +235,6 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
                   timestamp_end: null,
                   confidence: kp.confidence,
                 }]}
-                artifactType="key_point"
                 onConfirm={() => {}}
                 onDismiss={() => {}}
                 onEdit={() => {}}

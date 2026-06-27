@@ -1,6 +1,12 @@
 // eval/smoke-test.ts
 // Run with: npx ts-node eval/smoke-test.ts <fixture_path>
 // Example: npx ts-node eval/smoke-test.ts eval/corpus/test_01_standard_sync_01.json
+//
+// Requires GEMINI_API_KEY set in shell environment (not loaded from .env automatically by ts-node):
+//   export GEMINI_API_KEY=<your-paid-plan-key>
+//   npx ts-node eval/smoke-test.ts eval/corpus/test_01_standard_sync_01.json
+//
+// Without the key the pipeline returns the error payload (no crash — exit 0).
 
 import Database from 'better-sqlite3-multiple-ciphers'
 import { ALL_DDLS } from '../src/main/store/db'

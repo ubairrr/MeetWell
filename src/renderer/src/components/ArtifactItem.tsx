@@ -13,7 +13,6 @@ interface ArtifactItemProps {
     timestamp_end: number | null
     confidence: 'direct' | 'inferred'
   }>
-  artifactType: 'action_item' | 'key_point' | 'mom' | 'summary'
   onConfirm: (id: string) => void
   onDismiss: (id: string) => void
   onEdit: (id: string, updates: { description?: string }) => void
