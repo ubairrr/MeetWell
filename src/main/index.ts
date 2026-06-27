@@ -164,6 +164,7 @@ app.whenReady().then(async () => {
 
   // Stub handlers — implemented in later phases
   ipcMain.handle('mic-audio-chunk', (_event, buffer: ArrayBuffer) => {
+    if (!(buffer instanceof ArrayBuffer) || buffer.byteLength > 1_048_576) return
     captureService.handleMicChunk(buffer)
   })
   ipcMain.handle('end-meeting', () => {
@@ -183,20 +184,31 @@ app.whenReady().then(async () => {
   ipcMain.handle('start-break', () => undefined)
   ipcMain.handle('end-break', () => undefined)
   ipcMain.handle('confirm-artifact', (_event, payload: unknown) => {
-    const { id, type } = payload as { id: string; type: 'action_item' | 'decision' | 'date' }
-    artifactStore.confirmArtifact(id, type)
+    const result = z.object({ id: z.string(), type: z.enum(['action_item', 'decision', 'date']) }).safeParse(payload)
+    if (!result.success) return
+    artifactStore.confirmArtifact(result.data.id, result.data.type)
   })
   ipcMain.handle('edit-artifact', (_event, payload: unknown) => {
-    const { id, updates } = payload as { id: string; type: string; updates: Record<string, unknown> }
-    artifactStore.editArtifact(id, updates as { description?: string; due_date?: string | null; assignee_label?: string | null })
+    const result = z.object({
+      id: z.string(),
+      updates: z.object({
+        description: z.string().optional(),
+        due_date: z.string().nullable().optional(),
+        assignee_label: z.string().nullable().optional(),
+      }),
+    }).safeParse(payload)
+    if (!result.success) return
+    artifactStore.editArtifact(result.data.id, result.data.updates)
   })
   ipcMain.handle('dismiss-artifact', (_event, payload: unknown) => {
-    const { id } = payload as { id: string; type: string }
-    artifactStore.dismissArtifact(id)
+    const result = z.object({ id: z.string() }).safeParse(payload)
+    if (!result.success) return
+    artifactStore.dismissArtifact(result.data.id)
   })
   ipcMain.handle('export-ics', async (_event, payload: unknown) => {
-    const { meetingId } = payload as { meetingId: string }
-    return calendarExportService.export(meetingId)
+    const result = z.object({ meetingId: z.string() }).safeParse(payload)
+    if (!result.success) return { filePath: null, skippedCount: 0 }
+    return calendarExportService.export(result.data.meetingId)
   })
   ipcMain.handle('get-settings', () => undefined)
   ipcMain.handle('set-setting', () => undefined)

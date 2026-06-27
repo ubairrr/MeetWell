@@ -45,6 +45,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
 
   off(channel: string, callback: (...args: unknown[]) => void): void {
-    ipcRenderer.off(channel, callback as any)
+    if (!(LISTEN_CHANNELS as readonly string[]).includes(channel)) {
+      throw new Error(`Blocked: channel "${channel}" not in allowlist`)
+    }
+    ipcRenderer.off(channel as ListenChannel, callback as any)
   },
 })
