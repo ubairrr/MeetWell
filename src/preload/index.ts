@@ -24,6 +24,7 @@ const INVOKE_CHANNELS = [
   'get-settings',
   'set-setting',
   'set-meeting-title',
+  'set-focusable',
   'quit-app',
 ] as const
 
