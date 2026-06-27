@@ -93,7 +93,15 @@ Plans:
   3. `LiveSummaryBoard` stacks all generated cards with the newest at top; all IPC calls from the renderer use the typed contextBridge allowlist with no raw `ipcRenderer` exposed
   4. Overlay click-through works: clicking the desktop behind the overlay operates normally in passive mode; the overlay becomes interactive when the cursor enters the panel
   5. `setContentProtection(true)` prevents the overlay from appearing in a Zoom screen-share test on macOS 14.2+
-**Plans**: TBD
+**Plans**: 7 plans
+Plans:
+- [ ] 09-01-PLAN.md — SummaryCardSchema + SummaryCardStore
+- [ ] 09-02-PLAN.md — SummaryCardTimer + Main Process Wiring + Bug Fixes
+- [ ] 09-03-PLAN.md — LiveSummaryBoard + SummaryCard Components
+- [ ] 09-04-PLAN.md — AudioWorkletHost Extraction + App.tsx Board View Wiring
+- [ ] 09-05-PLAN.md — BreakAssistPanel + BreakAssistDigest + App.tsx Break Flow
+- [ ] 09-06-PLAN.md — SettingsPanel + safeStorage + electron-store
+- [ ] 09-07-PLAN.md — Integration Verification + Polish
 **UI hint**: yes
 
 ### Phase 10: ContextEngine + Break Assist
