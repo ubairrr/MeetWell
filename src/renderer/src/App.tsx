@@ -10,6 +10,7 @@ import { AudioWorkletHost } from './components/AudioWorkletHost'
 import LiveSummaryBoard from './components/LiveSummaryBoard'
 import { BreakAssistPanel } from './components/BreakAssistPanel'
 import { BreakAssistDigest } from './components/BreakAssistDigest'
+import { SettingsPanel } from './components/SettingsPanel'
 
 function useSessionState(): SessionState {
   const [state, setState] = useState<SessionState>('Idle')
@@ -108,7 +109,7 @@ function QuitButton(): React.JSX.Element {
       style={{
         position: 'absolute',
         top: '8px',
-        right: '8px',
+        right: '36px',
         width: '22px',
         height: '22px',
         background: 'transparent',
@@ -131,6 +132,30 @@ function QuitButton(): React.JSX.Element {
   )
 }
 
+function GearButton({ onClick }: { onClick: () => void }): React.JSX.Element {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        position: 'absolute',
+        top: '8px',
+        right: '8px',
+        background: 'transparent',
+        border: 'none',
+        color: 'rgba(255,255,255,0.4)',
+        fontSize: '14px',
+        cursor: 'pointer',
+        lineHeight: 1,
+        padding: '2px 4px',
+        zIndex: 10,
+      }}
+      title="Settings"
+    >
+      ⚙
+    </button>
+  )
+}
+
 export default function App(): React.JSX.Element {
   const sessionState = useSessionState()
   const { healthMic, healthSystem } = useCapturingHealth()
@@ -139,6 +164,7 @@ export default function App(): React.JSX.Element {
   const proposals = useArtifactProposals()
   const { digest, clearDigest } = useBreakDigest()
   const [showDigest, setShowDigest] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
 
   // Wire digest arrival to showDigest
   useEffect(() => {
@@ -150,32 +176,42 @@ export default function App(): React.JSX.Element {
   // AudioWorkletHost is always mounted (active prop controls mic lifecycle)
   const isCapturing = sessionState === 'Capturing'
 
+  // Wraps each session view in the overlay-root container with gear button and settings panel
+  function withChrome(inner: React.JSX.Element): React.JSX.Element {
+    return (
+      <div id="overlay-root" style={{ ...overlayStyle, position: 'relative' }}>
+        <GearButton onClick={() => setShowSettings(true)} />
+        {inner}
+        {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
+      </div>
+    )
+  }
+
   function renderContent(): React.JSX.Element {
     if (sessionState === 'OnBreak') {
-      return (
-        <div id="overlay-root" style={overlayStyle}>
-          <BreakAssistPanel
-            onBack={() => window.electronAPI.invoke('end-break').catch(console.error)}
-          />
-        </div>
+      return withChrome(
+        <BreakAssistPanel
+          onBack={() => window.electronAPI.invoke('end-break').catch(console.error)}
+        />
       )
     }
 
     if (sessionState === 'Capturing') {
       if (!hasSummaryCards) {
         // Pre-board: show existing CapturingScreen unchanged
-        return (
-          <div id="overlay-root" style={overlayStyle}>
+        return withChrome(
+          <>
             <QuitButton />
             <CapturingScreen healthMic={healthMic} healthSystem={healthSystem} />
-          </div>
+          </>
         )
       }
 
       // Show digest if it just arrived after returning from break
       if (showDigest && digest) {
         return (
-          <div id="overlay-root" style={{ ...overlayStyle, display: 'flex', flexDirection: 'column' }}>
+          <div id="overlay-root" style={{ ...overlayStyle, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+            <GearButton onClick={() => setShowSettings(true)} />
             <BreakAssistDigest
               cards={digest.cards}
               isEmpty={digest.isEmpty}
@@ -184,13 +220,16 @@ export default function App(): React.JSX.Element {
                 clearDigest()
               }}
             />
+            {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
           </div>
         )
       }
 
       // Board view: compact header + LiveSummaryBoard + Going on Break
       return (
-        <div id="overlay-root" style={{ ...overlayStyle, display: 'flex', flexDirection: 'column' }}>
+        <div id="overlay-root" style={{ ...overlayStyle, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+          <GearButton onClick={() => setShowSettings(true)} />
+          {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
           {/* Compact top bar */}
           <div style={{
             display: 'flex',
@@ -249,16 +288,17 @@ export default function App(): React.JSX.Element {
     }
 
     if (sessionState === 'PreCapture') {
-      return (
-        <div id="overlay-root" style={overlayStyle}>
+      return withChrome(
+        <>
           <QuitButton />
           <ConsentGate onConfirmed={() => {}} />
-        </div>
+        </>
       )
     }
 
     if (sessionState === 'Complete') {
       if (!proposals) {
+        // Processing state — transient spinner, no gear icon
         return (
           <div id="overlay-root" style={overlayStyle}>
             <QuitButton />
@@ -269,16 +309,18 @@ export default function App(): React.JSX.Element {
         )
       }
       return (
-        <div id="overlay-root" style={{ ...overlayStyle, overflowY: 'auto' }}>
+        <div id="overlay-root" style={{ ...overlayStyle, overflowY: 'auto', position: 'relative' }}>
+          <GearButton onClick={() => setShowSettings(true)} />
           <QuitButton />
           <ArtifactReview meetingId={proposals.meetingId} artifacts={proposals} />
+          {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
         </div>
       )
     }
 
     if (sessionState === 'Idle') {
-      return (
-        <div id="overlay-root" style={overlayStyle}>
+      return withChrome(
+        <>
           <QuitButton />
           <div style={{ padding: '16px' }}>
             <button
@@ -298,17 +340,17 @@ export default function App(): React.JSX.Element {
               Start Meeting
             </button>
           </div>
-        </div>
+        </>
       )
     }
 
-    return (
-      <div id="overlay-root" style={overlayStyle}>
+    return withChrome(
+      <>
         <QuitButton />
         <div style={{ padding: '16px', fontSize: '13px', color: '#ccc' }}>
           MeetingAssist — {sessionState}
         </div>
-      </div>
+      </>
     )
   }
 
