@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import type { SessionState } from '../../shared/schemas'
+import type { StoredSummaryCard } from '../../shared/schemas'
 import { ConsentGate } from './components/ConsentGate'
 import { CapturingScreen } from './components/CapturingScreen'
 import type { HealthStatus } from './components/ChannelHealthDot'
-import { startMicCapture } from './audio/MicCapture'
-import type { MicCaptureHandle } from './audio/MicCapture'
+import { ChannelHealthDot } from './components/ChannelHealthDot'
 import { ArtifactReview } from './components/ArtifactReview'
+import { AudioWorkletHost } from './components/AudioWorkletHost'
+import LiveSummaryBoard from './components/LiveSummaryBoard'
 
 function useSessionState(): SessionState {
   const [state, setState] = useState<SessionState>('Idle')
@@ -55,6 +57,20 @@ function useArtifactProposals() {
   return proposals
 }
 
+function useSummaryCards(): StoredSummaryCard[] {
+  const [cards, setCards] = useState<StoredSummaryCard[]>([])
+
+  useEffect(() => {
+    // window.electronAPI.on returns void — no unsubscribe available
+    window.electronAPI.on('summary-card-ready', (payload: unknown) => {
+      const card = payload as StoredSummaryCard
+      setCards(prev => [card, ...prev]) // newest first
+    })
+  }, [])
+
+  return cards
+}
+
 const overlayStyle: React.CSSProperties = {
   width: '380px',
   minHeight: '100vh',
@@ -97,99 +113,153 @@ function QuitButton(): React.JSX.Element {
 export default function App(): React.JSX.Element {
   const sessionState = useSessionState()
   const { healthMic, healthSystem } = useCapturingHealth()
-  const micHandleRef = useRef<MicCaptureHandle | null>(null)
+  const summaryCards = useSummaryCards()
+  const hasSummaryCards = summaryCards.length > 0
   const proposals = useArtifactProposals()
 
-  useEffect(() => {
-    if (sessionState !== 'Capturing') return
+  // AudioWorkletHost is always mounted (active prop controls mic lifecycle)
+  const isCapturing = sessionState === 'Capturing'
 
-    let cancelled = false
-    startMicCapture().then((handle) => {
-      if (cancelled) {
-        handle.stop()
-      } else {
-        micHandleRef.current = handle
+  function renderContent(): React.JSX.Element {
+    if (sessionState === 'Capturing') {
+      if (!hasSummaryCards) {
+        // Pre-board: show existing CapturingScreen unchanged
+        return (
+          <div id="overlay-root" style={overlayStyle}>
+            <QuitButton />
+            <CapturingScreen healthMic={healthMic} healthSystem={healthSystem} />
+          </div>
+        )
       }
-    }).catch((err: unknown) => {
-      console.error('[App] mic capture failed:', err)
-    })
 
-    return () => {
-      cancelled = true
-      micHandleRef.current?.stop()
-      micHandleRef.current = null
-    }
-  }, [sessionState])
-
-  if (sessionState === 'Capturing') {
-    return (
-      <div id="overlay-root" style={overlayStyle}>
-        <QuitButton />
-        <CapturingScreen healthMic={healthMic} healthSystem={healthSystem} />
-      </div>
-    )
-  }
-
-  if (sessionState === 'PreCapture') {
-    return (
-      <div id="overlay-root" style={overlayStyle}>
-        <QuitButton />
-        <ConsentGate onConfirmed={() => {}} />
-      </div>
-    )
-  }
-
-  if (sessionState === 'Complete') {
-    if (!proposals) {
+      // Board view: compact header + LiveSummaryBoard + Going on Break
       return (
-        <div id="overlay-root" style={overlayStyle}>
-          <QuitButton />
-          <div style={{ padding: '16px', fontSize: '13px', color: '#9ca3af' }}>
-            Processing artifacts...
+        <div id="overlay-root" style={{ ...overlayStyle, display: 'flex', flexDirection: 'column' }}>
+          {/* Compact top bar */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '6px 12px',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
+            flexShrink: 0,
+          }}>
+            <ChannelHealthDot status={healthMic} label="Mic" />
+            <button
+              onClick={() => window.electronAPI.invoke('end-meeting').catch(console.error)}
+              style={{
+                fontSize: '11px',
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: '4px',
+                color: 'rgba(255,255,255,0.7)',
+                padding: '3px 8px',
+                cursor: 'pointer',
+              }}
+            >
+              Stop Meeting
+            </button>
+          </div>
+
+          {/* Card list */}
+          <div style={{ flex: 1, overflow: 'hidden' }}>
+            <LiveSummaryBoard cards={summaryCards} />
+          </div>
+
+          {/* Break button footer */}
+          <div style={{
+            padding: '8px 12px',
+            borderTop: '1px solid rgba(255,255,255,0.08)',
+            flexShrink: 0,
+          }}>
+            <button
+              onClick={() => window.electronAPI.invoke('start-break').catch(console.error)}
+              style={{
+                width: '100%',
+                fontSize: '12px',
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.12)',
+                borderRadius: '6px',
+                color: 'rgba(255,255,255,0.65)',
+                padding: '6px 0',
+                cursor: 'pointer',
+              }}
+            >
+              Going on Break
+            </button>
           </div>
         </div>
       )
     }
-    return (
-      <div id="overlay-root" style={{ ...overlayStyle, overflowY: 'auto' }}>
-        <QuitButton />
-        <ArtifactReview meetingId={proposals.meetingId} artifacts={proposals} />
-      </div>
-    )
-  }
 
-  if (sessionState === 'Idle') {
+    if (sessionState === 'PreCapture') {
+      return (
+        <div id="overlay-root" style={overlayStyle}>
+          <QuitButton />
+          <ConsentGate onConfirmed={() => {}} />
+        </div>
+      )
+    }
+
+    if (sessionState === 'Complete') {
+      if (!proposals) {
+        return (
+          <div id="overlay-root" style={overlayStyle}>
+            <QuitButton />
+            <div style={{ padding: '16px', fontSize: '13px', color: '#9ca3af' }}>
+              Processing artifacts...
+            </div>
+          </div>
+        )
+      }
+      return (
+        <div id="overlay-root" style={{ ...overlayStyle, overflowY: 'auto' }}>
+          <QuitButton />
+          <ArtifactReview meetingId={proposals.meetingId} artifacts={proposals} />
+        </div>
+      )
+    }
+
+    if (sessionState === 'Idle') {
+      return (
+        <div id="overlay-root" style={overlayStyle}>
+          <QuitButton />
+          <div style={{ padding: '16px' }}>
+            <button
+              onClick={() => window.electronAPI.invoke('start-meeting').catch(console.error)}
+              style={{
+                width: '100%',
+                padding: '8px 0',
+                backgroundColor: '#2563eb',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '13px',
+                cursor: 'pointer',
+                fontWeight: 500,
+              }}
+            >
+              Start Meeting
+            </button>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div id="overlay-root" style={overlayStyle}>
         <QuitButton />
-        <div style={{ padding: '16px' }}>
-          <button
-            onClick={() => window.electronAPI.invoke('start-meeting').catch(console.error)}
-            style={{
-              width: '100%',
-              padding: '8px 0',
-              backgroundColor: '#2563eb',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '13px',
-              cursor: 'pointer',
-              fontWeight: 500,
-            }}
-          >
-            Start Meeting
-          </button>
+        <div style={{ padding: '16px', fontSize: '13px', color: '#ccc' }}>
+          MeetingAssist — {sessionState}
         </div>
       </div>
     )
   }
 
   return (
-    <div id="overlay-root" style={overlayStyle}>
-      <QuitButton />
-      <div style={{ padding: '16px', fontSize: '13px', color: '#ccc' }}>
-        MeetingAssist — {sessionState}
-      </div>
-    </div>
+    <>
+      <AudioWorkletHost active={isCapturing} />
+      {renderContent()}
+    </>
   )
 }
