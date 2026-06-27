@@ -227,9 +227,10 @@ OUTPUT FORMAT: A JSON object with an "action_items" array where each object has:
 - id: string (UUID v4)
 - description: string — what must be done, written clearly
 - assignee_label: string or null — exact speaker label, or null if unattributed
-- due_date: string or null — ISO 8601 date string, or null if unresolvable
+- due_date: string or null — ISO 8601 date string (YYYY-MM-DD), or null if unresolvable. MUST include day — partial dates like "2026-06" are invalid.
 - raw_deadline_text: string or null — the raw expression if due_date is null (e.g., "by end of month")
 - status: "proposed" (always this value)
+- is_calendar_event: boolean — set true ONLY if the item is a scheduled event/appointment (e.g., a meeting, call, demo, interview, presentation, standup). Set false for tasks with deadlines (e.g., "fix the bug by Friday", "send the report").
 - citations: array with at least one item, each containing:
     - quote_preview: string (first 8-12 words of the verbatim quote)
     - quote_full: string (exact verbatim quote — copy from the anchor)

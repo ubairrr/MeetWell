@@ -5,6 +5,7 @@ interface ArtifactItemProps {
   id: string
   text: string
   subtext?: string
+  showConfirm?: boolean
   citations: Array<{
     quote_preview: string
     quote_full: string
@@ -22,6 +23,7 @@ export function ArtifactItem({
   id,
   text,
   subtext,
+  showConfirm = true,
   citations,
   onConfirm,
   onDismiss,
@@ -117,20 +119,22 @@ export function ArtifactItem({
           </>
         ) : (
           <>
-            <button
-              onClick={() => onConfirm(id)}
-              style={{
-                background: '#2563eb',
-                border: 'none',
-                color: '#fff',
-                borderRadius: '4px',
-                fontSize: '11px',
-                padding: '2px 8px',
-                cursor: 'pointer',
-              }}
-            >
-              Confirm
-            </button>
+            {showConfirm && (
+              <button
+                onClick={() => onConfirm(id)}
+                style={{
+                  background: '#2563eb',
+                  border: 'none',
+                  color: '#fff',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  padding: '2px 8px',
+                  cursor: 'pointer',
+                }}
+              >
+                Confirm
+              </button>
+            )}
             <button
               onClick={() => onDismiss(id)}
               style={{

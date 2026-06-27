@@ -43,6 +43,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
   const [expandedSection, setExpandedSection] = useState<Section | null>('actionItems')
   const [dismissedItems, setDismissedItems] = useState<Set<string>>(new Set())
   const [confirmedItems, setConfirmedItems] = useState<Set<string>>(new Set())
+  const [dismissedKeyPoints, setDismissedKeyPoints] = useState<Set<number>>(new Set())
   const [exportResult, setExportResult] = useState<{ filePath: string | null; skippedCount: number } | null>(null)
   const [isExporting, setIsExporting] = useState(false)
 
@@ -56,8 +57,12 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
   }
 
   const handleDismiss = (id: string) => {
-    window.electronAPI.invoke('dismiss-artifact', { id, type: 'action_item' }).catch(console.error)
+    window.electronAPI.invoke('dismiss-artifact', { id }).catch(console.error)
     setDismissedItems((prev) => new Set([...prev, id]))
+  }
+
+  const handleDismissKeyPoint = (idx: number) => {
+    setDismissedKeyPoints((prev) => new Set([...prev, idx]))
   }
 
   const handleEdit = (id: string, updates: { description?: string }) => {
@@ -134,8 +139,9 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
         {expandedSection === 'actionItems' && (
           <div style={{ padding: '8px 16px' }}>
             {artifacts.actionItems.action_items
-              .filter((item) => !dismissedItems.has(item.id) && !confirmedItems.has(item.id))
+              .filter((item) => !dismissedItems.has(item.id))
               .map((item) => {
+                const isConfirmed = confirmedItems.has(item.id)
                 const subtextParts = [
                   item.assignee_label ? `Owner: ${item.assignee_label}` : null,
                   item.due_date
@@ -145,8 +151,8 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
                     : null,
                 ].filter(Boolean)
                 return (
-                  <div key={item.id} style={{ opacity: confirmedItems.has(item.id) ? 0.6 : 1 }}>
-                    {confirmedItems.has(item.id) && (
+                  <div key={item.id} style={{ opacity: isConfirmed ? 0.55 : 1 }}>
+                    {isConfirmed && (
                       <div style={{ fontSize: '10px', color: '#34d399', marginTop: '6px', marginBottom: '2px' }}>✓ Confirmed</div>
                     )}
                     <ArtifactItem
@@ -154,9 +160,9 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
                       text={item.description}
                       subtext={subtextParts.join(' | ') || undefined}
                       citations={item.citations}
-                      onConfirm={confirmedItems.has(item.id) ? () => {} : handleConfirm}
-                      onDismiss={confirmedItems.has(item.id) ? () => {} : handleDismiss}
-                      onEdit={handleEdit}
+                      onConfirm={isConfirmed ? () => {} : handleConfirm}
+                      onDismiss={isConfirmed ? () => {} : handleDismiss}
+                      onEdit={isConfirmed ? () => {} : handleEdit}
                     />
                   </div>
                 )
@@ -204,7 +210,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
           <span style={{ color: '#6b7280', fontSize: '11px' }}>{expandedSection === 'summary' ? '▼' : '▶'}</span>
         </div>
         {expandedSection === 'summary' && (
-          <div style={{ padding: '8px 16px' }}>
+          <div style={{ padding: '8px 16px', maxHeight: '30vh', overflowY: 'auto' }}>
             <p style={{ fontSize: '12px', color: '#d1d5db', margin: 0, lineHeight: '1.5' }}>
               {artifacts.summary.summary_text || 'No summary generated.'}
             </p>
@@ -222,25 +228,31 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
         </div>
         {expandedSection === 'keyPoints' && (
           <div style={{ padding: '8px 16px' }}>
-            {artifacts.keyPoints.key_points.map((kp, idx) => (
-              <ArtifactItem
-                key={idx}
-                id={`kp-${idx}`}
-                text={kp.text}
-                citations={[{
-                  quote_preview: kp.source_quote_preview,
-                  quote_full: kp.source_quote_preview,
-                  speaker_label: kp.speaker_label ?? 'Unknown',
-                  timestamp_start: null,
-                  timestamp_end: null,
-                  confidence: kp.confidence,
-                }]}
-                onConfirm={() => {}}
-                onDismiss={() => {}}
-                onEdit={() => {}}
-              />
-            ))}
-            {artifacts.keyPoints.key_points.length === 0 && (
+            {artifacts.keyPoints.key_points
+              .filter((_, idx) => !dismissedKeyPoints.has(idx))
+              .map((kp, _filteredIdx, _arr) => {
+                const originalIdx = artifacts.keyPoints.key_points.indexOf(kp)
+                return (
+                  <ArtifactItem
+                    key={originalIdx}
+                    id={`kp-${originalIdx}`}
+                    text={kp.text}
+                    showConfirm={false}
+                    citations={[{
+                      quote_preview: kp.source_quote_preview,
+                      quote_full: kp.source_quote_preview,
+                      speaker_label: kp.speaker_label ?? 'Unknown',
+                      timestamp_start: null,
+                      timestamp_end: null,
+                      confidence: kp.confidence,
+                    }]}
+                    onConfirm={() => {}}
+                    onDismiss={() => handleDismissKeyPoint(originalIdx)}
+                    onEdit={() => {}}
+                  />
+                )
+              })}
+            {artifacts.keyPoints.key_points.filter((_, idx) => !dismissedKeyPoints.has(idx)).length === 0 && (
               <div style={{ fontSize: '12px', color: '#6b7280', padding: '8px 0' }}>No key points extracted.</div>
             )}
           </div>
@@ -254,7 +266,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
           <span style={{ color: '#6b7280', fontSize: '11px' }}>{expandedSection === 'mom' ? '▼' : '▶'}</span>
         </div>
         {expandedSection === 'mom' && (
-          <div style={{ padding: '8px 16px' }}>
+          <div style={{ padding: '8px 16px', maxHeight: '50vh', overflowY: 'auto' }}>
             <pre style={{ whiteSpace: 'pre-wrap', fontSize: '11px', color: '#d1d5db', margin: 0, lineHeight: '1.5' }}>
               {artifacts.mom.markdown_content || 'No minutes generated.'}
             </pre>

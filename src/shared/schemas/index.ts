@@ -66,6 +66,7 @@ export const ActionItemSchema = z.object({
   due_date: z.string().nullable(),
   raw_deadline_text: z.string().nullable(),
   status: z.literal('proposed'),
+  is_calendar_event: z.boolean().default(false),
   citations: z.array(CitationRefSchema).min(1),
 })
 export type ActionItem = z.infer<typeof ActionItemSchema>

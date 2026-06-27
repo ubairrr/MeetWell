@@ -114,21 +114,23 @@ CREATE TABLE IF NOT EXISTS epoch_summaries (
 // runMigrations — idempotent schema migrations, called after ALL_DDLS
 // ---------------------------------------------------------------------------
 export function runMigrations(db: Database.Database): void {
-  try {
-    const columns = db.pragma('table_info(transcript_segments)') as Array<{ name: string }>
-    const hasConfidence = columns.some((col) => col.name === 'confidence')
-    if (!hasConfidence) {
-      db.exec('ALTER TABLE transcript_segments ADD COLUMN confidence REAL')
+  const runSafe = (sql: string) => {
+    try {
+      db.exec(sql)
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message.toLowerCase().includes('duplicate column name')) return
+      throw err
     }
-  } catch (err: unknown) {
-    // Swallow "duplicate column name" errors — safe re-run guard
-    if (
-      err instanceof Error &&
-      err.message.toLowerCase().includes('duplicate column name')
-    ) {
-      return
-    }
-    throw err
+  }
+
+  const transcriptCols = db.pragma('table_info(transcript_segments)') as Array<{ name: string }>
+  if (!transcriptCols.some((c) => c.name === 'confidence')) {
+    runSafe('ALTER TABLE transcript_segments ADD COLUMN confidence REAL')
+  }
+
+  const actionCols = db.pragma('table_info(action_items)') as Array<{ name: string }>
+  if (!actionCols.some((c) => c.name === 'is_calendar_event')) {
+    runSafe('ALTER TABLE action_items ADD COLUMN is_calendar_event INTEGER NOT NULL DEFAULT 0')
   }
 }
 

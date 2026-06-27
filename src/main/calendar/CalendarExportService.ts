@@ -10,18 +10,27 @@ export class CalendarExportService {
   async export(meetingId: string): Promise<{ filePath: string | null; skippedCount: number }> {
     const confirmed = this.artifactStore.getConfirmedActionItems(meetingId)
 
-    const withDueDate = confirmed.filter((item) => item.due_date !== null)
-    const skippedCount = confirmed.length - withDueDate.length
+    // Only export calendar events (meetings, appointments, calls) — not tasks with deadlines
+    const calendarItems = confirmed.filter((item) => item.is_calendar_event === 1)
+    const nonCalendarCount = confirmed.length - calendarItems.length
 
-    if (withDueDate.length === 0) {
+    // Require a parseable YYYY-MM-DD due_date
+    const validItems = calendarItems.filter((item) => {
+      if (!item.due_date) return false
+      const parts = item.due_date.split('-').map(Number)
+      return parts.length === 3 && parts.every((p) => Number.isFinite(p) && p > 0)
+    })
+    const skippedCount = nonCalendarCount + (calendarItems.length - validItems.length)
+
+    if (validItems.length === 0) {
       return { filePath: null, skippedCount: confirmed.length }
     }
 
-    const events: EventAttributes[] = withDueDate.map((item) => {
+    const events: EventAttributes[] = validItems.map((item) => {
       const [year, month, day] = item.due_date!.split('-').map(Number)
       return {
         title: item.description,
-        description: item.assignee_label ? `Owner: ${item.assignee_label}` : 'No assigned owner',
+        description: item.assignee_label ? `Owner: ${item.assignee_label}` : 'Owner: You',
         start: [year, month, day] as [number, number, number],
         end: [year, month, day] as [number, number, number],
         status: 'CONFIRMED' as const,
@@ -44,7 +53,7 @@ export class CalendarExportService {
     }
 
     writeFileSync(saveResult.filePath, icsContent!)
-    this.artifactStore.stampIcsExported(withDueDate.map((i) => i.id), Date.now())
+    this.artifactStore.stampIcsExported(validItems.map((i) => i.id), Date.now())
     return { filePath: saveResult.filePath, skippedCount }
   }
 }

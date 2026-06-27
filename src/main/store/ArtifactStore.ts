@@ -10,7 +10,7 @@ export class ArtifactStore {
       'INSERT INTO artifacts (id, meeting_id, artifact_type, content_json, model_used) VALUES (?, ?, ?, ?, ?)'
     )
     const insertActionItem = this.db.prepare(
-      'INSERT INTO action_items (id, meeting_id, description, assignee_label, due_date, status, citations_json) VALUES (?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO action_items (id, meeting_id, description, assignee_label, due_date, status, is_calendar_event, citations_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
     )
 
     const tx = this.db.transaction(() => {
@@ -29,6 +29,7 @@ export class ArtifactStore {
           item.assignee_label ?? null,
           item.due_date ?? null,
           'proposed', // hardcoded — never trust LLM status field
+          item.is_calendar_event ? 1 : 0,
           JSON.stringify(item.citations)
         )
       }
@@ -91,15 +92,17 @@ export class ArtifactStore {
     description: string
     assignee_label: string | null
     due_date: string | null
+    is_calendar_event: number
     citations_json: string
   }> {
     return this.db.prepare(
-      "SELECT id, description, assignee_label, due_date, citations_json FROM action_items WHERE meeting_id = ? AND status = 'confirmed'"
+      "SELECT id, description, assignee_label, due_date, is_calendar_event, citations_json FROM action_items WHERE meeting_id = ? AND status = 'confirmed'"
     ).all(meetingId) as Array<{
       id: string
       description: string
       assignee_label: string | null
       due_date: string | null
+      is_calendar_event: number
       citations_json: string
     }>
   }

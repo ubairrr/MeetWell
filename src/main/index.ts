@@ -106,6 +106,8 @@ app.whenReady().then(async () => {
       } else {
         win.setIgnoreMouseEvents(true, { forward: true })
       }
+      // Keyboard focus: allow typing in Complete state (artifact review / edit flow)
+      win.setFocusable(state === 'Complete')
     }
 
     // Capture lifecycle
