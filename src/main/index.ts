@@ -214,6 +214,11 @@ app.whenReady().then(async () => {
   })
   ipcMain.handle('get-settings', () => undefined)
   ipcMain.handle('set-setting', () => undefined)
+  ipcMain.handle('set-meeting-title', (_event, payload: unknown) => {
+    const result = z.object({ meetingId: z.string(), title: z.string().min(1).max(200) }).safeParse(payload)
+    if (!result.success) return
+    db!.prepare('UPDATE meetings SET title = ? WHERE id = ?').run(result.data.title.trim(), result.data.meetingId)
+  })
   ipcMain.handle('quit-app', () => app.quit())
 })
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { ArtifactItem } from './ArtifactItem'
 
 interface ActionItemData {
@@ -46,6 +46,13 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
   const [dismissedKeyPoints, setDismissedKeyPoints] = useState<Set<number>>(new Set())
   const [exportResult, setExportResult] = useState<{ filePath: string | null; skippedCount: number } | null>(null)
   const [isExporting, setIsExporting] = useState(false)
+  const [meetingTitle, setMeetingTitle] = useState('')
+  const [titleSaved, setTitleSaved] = useState(false)
+  const titleInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    titleInputRef.current?.focus()
+  }, [])
 
   const toggleSection = (section: Section) => {
     setExpandedSection((prev) => (prev === section ? null : section))
@@ -67,6 +74,13 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
 
   const handleEdit = (id: string, updates: { description?: string }) => {
     window.electronAPI.invoke('edit-artifact', { id, type: 'action_item', updates }).catch(console.error)
+  }
+
+  const handleSaveTitle = () => {
+    const trimmed = meetingTitle.trim()
+    if (!trimmed) return
+    window.electronAPI.invoke('set-meeting-title', { meetingId, title: trimmed }).catch(console.error)
+    setTitleSaved(true)
   }
 
   const handleExport = async () => {
@@ -125,7 +139,48 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
   return (
     <div style={{ paddingBottom: '16px' }}>
       <div style={{ padding: '12px 16px', borderBottom: '1px solid #1f2937' }}>
-        <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>Meeting Artifacts</div>
+        <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Meeting Artifacts</div>
+        {titleSaved ? (
+          <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>{meetingTitle}</div>
+        ) : (
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <input
+              ref={titleInputRef}
+              type="text"
+              value={meetingTitle}
+              onChange={(e) => setMeetingTitle(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleSaveTitle() }}
+              placeholder="Name this meeting…"
+              maxLength={200}
+              style={{
+                flex: 1,
+                background: 'rgba(255,255,255,0.07)',
+                border: '1px solid #374151',
+                borderRadius: '4px',
+                color: '#f3f4f6',
+                fontSize: '13px',
+                padding: '5px 8px',
+                outline: 'none',
+              }}
+            />
+            <button
+              onClick={handleSaveTitle}
+              disabled={!meetingTitle.trim()}
+              style={{
+                background: meetingTitle.trim() ? '#2563eb' : '#1f2937',
+                border: 'none',
+                borderRadius: '4px',
+                color: meetingTitle.trim() ? '#fff' : '#4b5563',
+                fontSize: '12px',
+                padding: '5px 10px',
+                cursor: meetingTitle.trim() ? 'pointer' : 'default',
+                flexShrink: 0,
+              }}
+            >
+              Save
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Action Items */}

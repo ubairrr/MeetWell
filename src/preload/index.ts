@@ -23,6 +23,7 @@ const INVOKE_CHANNELS = [
   'export-ics',
   'get-settings',
   'set-setting',
+  'set-meeting-title',
   'quit-app',
 ] as const
 
