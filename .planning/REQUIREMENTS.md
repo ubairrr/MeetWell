@@ -54,7 +54,7 @@
 
 ### Overlay UI + Live Summary Board
 
-- [ ] **UI-01**: Full session flow renders in the overlay: consent gate → capturing state → on-break state → processing → artifact review
+- [x] **UI-01**: Full session flow renders in the overlay: consent gate → capturing state → on-break state → processing → artifact review
 - [x] **UI-02**: `SummaryCardTimer` fires every 5 minutes during capture and triggers a summary card generation cycle
 - [x] **UI-03**: `LiveSummaryBoard` renders the stack of generated summary cards in the overlay, newest at top
 - [ ] **UI-04**: `ArtifactReview` panel renders all proposed artifacts grouped by type (MOM, key points, action items) after meeting end
@@ -141,7 +141,7 @@
 | ART-09 | Phase 8: ArtifactPipeline | Complete |
 | ART-10 | Phase 8: ArtifactPipeline | Complete |
 | ART-11 | Phase 8: ArtifactPipeline | Complete |
-| UI-01 | Phase 9: Overlay UI + Live Summary Board | Pending |
+| UI-01 | Phase 9: Overlay UI + Live Summary Board | Complete |
 | UI-02 | Phase 9: Overlay UI + Live Summary Board | Complete |
 | UI-03 | Phase 9: Overlay UI + Live Summary Board | Complete |
 | UI-04 | Phase 9: Overlay UI + Live Summary Board | Pending |
