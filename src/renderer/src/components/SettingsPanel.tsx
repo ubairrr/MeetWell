@@ -9,8 +9,6 @@ export function SettingsPanel({ onClose }: SettingsPanelProps): React.JSX.Elemen
   const [deepgramKeyInput, setDeepgramKeyInput] = useState('')
   const [hasGeminiKey, setHasGeminiKey] = useState(false)
   const [hasDeepgramKey, setHasDeepgramKey] = useState(false)
-  const [overlayWidth, setOverlayWidth] = useState(380)
-  const [overlayOpacity, setOverlayOpacity] = useState(0.85)
   const [geminiKeyStatus, setGeminiKeyStatus] = useState<'idle' | 'saved' | 'error'>('idle')
   const [deepgramKeyStatus, setDeepgramKeyStatus] = useState<'idle' | 'saved' | 'error'>('idle')
 
@@ -18,15 +16,11 @@ export function SettingsPanel({ onClose }: SettingsPanelProps): React.JSX.Elemen
     window.electronAPI.invoke('set-focusable', true).catch(console.error)
     window.electronAPI.invoke('get-settings').then((settings: unknown) => {
       const s = settings as {
-        overlayWidth: number
-        overlayOpacity: number
         hasGeminiKey: boolean
         hasDeepgramKey: boolean
       }
       setHasGeminiKey(s.hasGeminiKey)
       setHasDeepgramKey(s.hasDeepgramKey)
-      setOverlayWidth(s.overlayWidth)
-      setOverlayOpacity(s.overlayOpacity)
     }).catch(console.error)
     return () => {
       window.electronAPI.invoke('set-focusable', false).catch(console.error)
@@ -51,9 +45,6 @@ export function SettingsPanel({ onClose }: SettingsPanelProps): React.JSX.Elemen
       })
   }
 
-  function saveSlider(settingKey: 'overlay-width' | 'overlay-opacity', value: number) {
-    window.electronAPI.invoke('set-setting', { key: settingKey, value }).catch(console.error)
-  }
 
   const sectionLabelStyle: React.CSSProperties = {
     fontSize: '10px',
@@ -219,91 +210,6 @@ export function SettingsPanel({ onClose }: SettingsPanelProps): React.JSX.Elemen
           {deepgramKeyStatus === 'error' && (
             <span style={{ color: '#f87171', fontSize: '12px' }}>Error</span>
           )}
-        </div>
-
-        {/* Section: Overlay Appearance */}
-        <div style={sectionLabelStyle}>Overlay Appearance</div>
-
-        {/* Width slider */}
-        <div style={fieldLabelStyle}>Width</div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            marginBottom: '10px',
-          }}
-        >
-          <input
-            type="range"
-            min={280}
-            max={600}
-            step={10}
-            value={overlayWidth}
-            onChange={(e) => {
-              const v = Number(e.target.value)
-              setOverlayWidth(v)
-              saveSlider('overlay-width', v)
-            }}
-            style={{ flex: 1 }}
-          />
-          <span
-            style={{
-              fontSize: '11px',
-              color: 'rgba(255,255,255,0.5)',
-              minWidth: '40px',
-              textAlign: 'right',
-            }}
-          >
-            {overlayWidth}px
-          </span>
-        </div>
-
-        {/* Opacity slider */}
-        <div style={fieldLabelStyle}>Opacity</div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            marginBottom: '10px',
-          }}
-        >
-          <input
-            type="range"
-            min={30}
-            max={100}
-            step={5}
-            value={Math.round(overlayOpacity * 100)}
-            onChange={(e) => {
-              const v = Number(e.target.value) / 100
-              setOverlayOpacity(v)
-              saveSlider('overlay-opacity', v)
-            }}
-            style={{ flex: 1 }}
-          />
-          <span
-            style={{
-              fontSize: '11px',
-              color: 'rgba(255,255,255,0.5)',
-              minWidth: '40px',
-              textAlign: 'right',
-            }}
-          >
-            {Math.round(overlayOpacity * 100)}%
-          </span>
-        </div>
-
-        {/* Restart note */}
-        <div
-          style={{
-            fontSize: '11px',
-            color: 'rgba(255,255,255,0.35)',
-            marginTop: '6px',
-          }}
-        >
-          Appearance changes take effect on next restart.
-        </div>
       </div>
     </div>
   )

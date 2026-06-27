@@ -198,12 +198,38 @@ export default function App(): React.JSX.Element {
 
     if (sessionState === 'Capturing') {
       if (!hasSummaryCards) {
-        // Pre-board: show existing CapturingScreen unchanged
-        return withChrome(
-          <>
+        // Pre-board: CapturingScreen + break button
+        return (
+          <div id="overlay-root" style={{ ...overlayStyle, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+            <GearButton onClick={() => setShowSettings(true)} />
             <QuitButton />
-            <CapturingScreen healthMic={healthMic} healthSystem={healthSystem} />
-          </>
+            {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
+            <div style={{ flex: 1 }}>
+              <CapturingScreen healthMic={healthMic} healthSystem={healthSystem} />
+            </div>
+            {/* Break button — available from the moment capture starts */}
+            <div style={{
+              padding: '8px 12px',
+              borderTop: '1px solid rgba(255,255,255,0.08)',
+              flexShrink: 0,
+            }}>
+              <button
+                onClick={() => window.electronAPI.invoke('start-break').catch(console.error)}
+                style={{
+                  width: '100%',
+                  fontSize: '12px',
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  borderRadius: '6px',
+                  color: 'rgba(255,255,255,0.65)',
+                  padding: '6px 0',
+                  cursor: 'pointer',
+                }}
+              >
+                Going on Break
+              </button>
+            </div>
+          </div>
         )
       }
 
