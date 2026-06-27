@@ -7,7 +7,7 @@ const env = loadEnv('', process.cwd(), '')
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()],
+    plugins: [externalizeDepsPlugin({ exclude: ['electron-store'] })],
     define: {
       'process.env.DEEPGRAM_API_KEY': JSON.stringify(env.DEEPGRAM_API_KEY ?? ''),
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY ?? ''),
