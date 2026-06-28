@@ -1,20 +1,13 @@
 {
-  "run_at": "2026-06-28T11:06:00.000Z",
-  "cases_run": 30,
-  "note": "30 live cases run against Gemini 2.5 Flash. 23 scored (7 excluded: 2 transient 503 errors + 5 no-items cases). Remaining 30 cases not run to conserve API credits.",
-  "overall_cgfs": 1.0,
-  "overall_ehr": 0.0,
+  "run_at": "2026-06-28T12:29:55.292Z",
+  "cases_run": 3,
+  "overall_cgfs": 1,
+  "overall_ehr": 0,
   "per_category_cgfs": {
-    "standard_sync": 1.0,
-    "fabrication_bait": 1.0,
-    "action_item_dense": 1.0,
-    "date_heavy": 1.0
+    "standard_sync": 1
   },
   "per_category_ehr": {
-    "standard_sync": 0.0,
-    "fabrication_bait": 0.0,
-    "action_item_dense": 0.0,
-    "date_heavy": 0.0
+    "standard_sync": 0
   },
   "passing": true,
   "gates": {
