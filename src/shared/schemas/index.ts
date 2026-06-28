@@ -107,3 +107,34 @@ export interface StoredSummaryCard {
   generated_at: string
   created_at: number
 }
+
+// ---------------------------------------------------------------------------
+// EpochSummarySchema — LLM structured output for epoch compression (Phase 10)
+// ---------------------------------------------------------------------------
+// Note: CONTEXT.md D-03 names the field "speaker_contributions" but the DB
+// DDL column is speaker_attributions_json. We use "speaker_attributions"
+// throughout to match the DB DDL. This is a documented naming correction.
+
+export const EpochSummarySchema = z.object({
+  decisions: z.array(z.string()),
+  action_items: z.array(z.string()),
+  key_points: z.array(z.string()),
+  speaker_attributions: z.record(z.string(), z.string()),
+})
+export type EpochSummaryContent = z.infer<typeof EpochSummarySchema>
+
+// Plain TypeScript interface mirroring epoch_summaries DB columns exactly.
+// Same pattern as StoredSummaryCard above — not a Zod schema.
+export interface StoredEpochSummary {
+  id: string
+  meeting_id: string
+  covered_interval_start: number
+  covered_interval_end: number
+  decisions: string[]
+  action_items: string[]
+  key_points: string[]
+  speaker_attributions: Record<string, string>
+  raw_segment_count: number
+  token_count_compressed: number
+  created_at: string
+}
