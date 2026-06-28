@@ -66,4 +66,34 @@ describe('SessionManager FSM', () => {
     sm.transition('consent-confirmed')     // PreCapture → Capturing
     expect(sm.getState()).toBe('Capturing')
   })
+
+  // ---------------------------------------------------------------------------
+  // CTX-05: OnBreak state transitions (D-09, D-10)
+  // ---------------------------------------------------------------------------
+
+  it('transitions from Capturing to OnBreak on start-break', () => {
+    const sm = new SessionManager()
+    sm.transition('start-meeting')         // Idle → PreCapture
+    sm.transition('consent-confirmed')     // PreCapture → Capturing
+    sm.transition('start-break')           // Capturing → OnBreak
+    expect(sm.getState()).toBe('OnBreak')
+  })
+
+  it('transitions from OnBreak back to Capturing on end-break', () => {
+    const sm = new SessionManager()
+    sm.transition('start-meeting')         // Idle → PreCapture
+    sm.transition('consent-confirmed')     // PreCapture → Capturing
+    sm.transition('start-break')           // Capturing → OnBreak
+    sm.transition('end-break')             // OnBreak → Capturing
+    expect(sm.getState()).toBe('Capturing')
+  })
+
+  it('throws when transitioning from OnBreak with an invalid event', () => {
+    const sm = new SessionManager()
+    sm.transition('start-meeting')         // Idle → PreCapture
+    sm.transition('consent-confirmed')     // PreCapture → Capturing
+    sm.transition('start-break')           // Capturing → OnBreak
+    // end-meeting is not a valid event from OnBreak — must throw
+    expect(() => sm.transition('end-meeting')).toThrow('FSM: invalid transition')
+  })
 })
