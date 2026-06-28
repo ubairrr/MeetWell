@@ -1,0 +1,47 @@
+{
+  "transcript_id": "test_48_attribution_bait_01",
+  "category": "attribution_bait",
+  "transcript": "[Meeting date: 2026-07-08]\n[00:00] You: Sprint planning. We have two Alex's joining today — Alex from engineering and Alex from design.\n[00:30] Alex from Engineering: I'll take the API rate limiting ticket. I'll have the implementation done by July 15th.\n[01:00] Alex from Design: I'll work on the revised onboarding screens. I'll have mockups ready by July 13th.\n[01:35] You: Great. Alex, can you also review the new component specs that came in?\n[01:50] Alex from Engineering: Which Alex?\n[02:00] You: Sorry — Alex from Design, can you review the component specs?\n[02:15] Alex from Design: Yes, I'll review the component specs by July 10th.\n[02:40] Speaker 1: I'll coordinate between both Alexes on the onboarding feature — the API and design need to be in sync. I'll schedule a sync call for both of them by July 9th.\n[03:10] Alex from Engineering: Also, I want to flag that the rate limiting work depends on the auth service being updated first. That's on me too — I'll update the auth service by July 11th.",
+  "adversarial_injections": [
+    {
+      "description": "The first 'Alex' question at [01:35] is ambiguous — clarification was sought and 'Alex from Design' was specified; any action item should be attributed to 'Alex from Design', not 'Alex from Engineering'",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Implement API rate limiting",
+        "assignee_label": "Alex from Engineering",
+        "due_date": "2026-07-15",
+        "source_quote": "I'll take the API rate limiting ticket. I'll have the implementation done by July 15th."
+      },
+      {
+        "description": "Create revised onboarding screen mockups",
+        "assignee_label": "Alex from Design",
+        "due_date": "2026-07-13",
+        "source_quote": "I'll work on the revised onboarding screens. I'll have mockups ready by July 13th."
+      },
+      {
+        "description": "Review new component specs",
+        "assignee_label": "Alex from Design",
+        "due_date": "2026-07-10",
+        "source_quote": "Yes, I'll review the component specs by July 10th."
+      },
+      {
+        "description": "Schedule sync call for both Alexes to align on onboarding feature",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-09",
+        "source_quote": "I'll schedule a sync call for both of them by July 9th."
+      },
+      {
+        "description": "Update auth service before rate limiting work can proceed",
+        "assignee_label": "Alex from Engineering",
+        "due_date": "2026-07-11",
+        "source_quote": "I'll update the auth service by July 11th."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-07-09", "2026-07-10", "2026-07-11", "2026-07-13", "2026-07-15"]
+  }
+}

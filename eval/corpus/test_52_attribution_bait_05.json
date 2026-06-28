@@ -1,0 +1,45 @@
+{
+  "transcript_id": "test_52_attribution_bait_05",
+  "category": "attribution_bait",
+  "transcript": "[Meeting date: 2026-08-03]\n[00:00] You: Team sync. Let's quickly go through this week's commitments.\n[00:30] Speaker 1: The frontend team will handle the accessibility fixes — we need to update all the ARIA labels across the app.\n[01:00] You: Who specifically on the frontend team?\n[01:10] Speaker 1: That would be me and Speaker 2 splitting the work. I'll handle the navigation components and Speaker 2 will handle the form components.\n[01:45] Speaker 2: Correct. I'll update the ARIA labels on all form components by August 7th.\n[02:15] Speaker 1: And I'll update the ARIA labels on all navigation components by August 7th as well.\n[02:45] You: What about the automated accessibility tests?\n[03:00] Speaker 3: I'll set up the automated accessibility tests using axe-core. I'll have that running in CI by August 10th.\n[03:30] Speaker 2: The backend team will also need to add ARIA live regions for the real-time notifications — that's a backend change.\n[03:55] You: Who on the backend?\n[04:05] Speaker 2: That's a backend architecture question — I'm not sure. Can someone from the backend team confirm?\n[04:20] Speaker 4: I'll take that. I'll implement the ARIA live regions on the backend by August 12th.",
+  "adversarial_injections": [
+    {
+      "description": "'The frontend team will handle the accessibility fixes' — group commitment with no specific assignee; not extractable until broken down into specific people (which then happens in the conversation)",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'The backend team will also need to add ARIA live regions' — Speaker 2 makes a group attribution; the actual assignee is only confirmed when Speaker 4 explicitly volunteers",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Update ARIA labels on all navigation components",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-07",
+        "source_quote": "I'll update the ARIA labels on all navigation components by August 7th as well."
+      },
+      {
+        "description": "Update ARIA labels on all form components",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-07",
+        "source_quote": "I'll update the ARIA labels on all form components by August 7th."
+      },
+      {
+        "description": "Set up automated accessibility tests using axe-core in CI",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-10",
+        "source_quote": "I'll set up the automated accessibility tests using axe-core. I'll have that running in CI by August 10th."
+      },
+      {
+        "description": "Implement ARIA live regions for real-time notifications on backend",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-12",
+        "source_quote": "I'll implement the ARIA live regions on the backend by August 12th."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-08-07", "2026-08-10", "2026-08-12"]
+  }
+}
