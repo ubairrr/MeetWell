@@ -1,0 +1,103 @@
+{
+  "transcript_id": "test_35_date_heavy_09",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-07-28]\n[00:00] You: Incident postmortem — the database outage on July 25th. Let's agree on remediation deadlines.\n[00:50] Speaker 1: The root cause was a missing connection pool timeout configuration. I'll deploy the fix to production by July 30th — two days from now.\n[01:25] Speaker 2: The monitoring gap that prevented us from catching this earlier: I'll add the connection pool saturation alert to Datadog by July 31st.\n[02:00] Speaker 3: We should also add a circuit breaker to the API gateway so a database saturation event doesn't take down the entire API. I'll implement that by August 7th.\n[02:45] You: What about the affected customers?\n[03:00] Speaker 1: I sent initial apology emails within 4 hours of the outage. I'll send the full postmortem summary to affected customers by end of next week, August 7th.\n[03:35] Speaker 4: There were 3 enterprise customers who had SLA breaches. I'll reach out to each of them today to acknowledge and offer SLA credits. The SLA credit process takes 2 weeks, so credits will be processed by August 11th.\n[04:15] Speaker 2: We should also review our runbook — it took 23 minutes to identify the root cause during the incident. I'll update the database incident runbook to include the connection pool checks by August 5th.\n[04:50] Speaker 3: And we need a load test that simulates connection pool saturation so we can verify the fix. I'll set up and run that test by August 10th.\n[05:20] Speaker 1: The all-clear to development teams on the root cause and prevention steps — I'll send that internal summary today.\n[05:40] You: Good. Follow-up review in 30 days to verify all remediations are in place — so around August 28th.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Deploy connection pool timeout configuration fix to production",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-30",
+        "source_quote": "I'll deploy the fix to production by July 30th — two days from now."
+      },
+      {
+        "description": "Add connection pool saturation alert to Datadog",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-31",
+        "source_quote": "I'll add the connection pool saturation alert to Datadog by July 31st."
+      },
+      {
+        "description": "Implement circuit breaker on API gateway to prevent database saturation cascade",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-07",
+        "source_quote": "I'll implement that by August 7th."
+      },
+      {
+        "description": "Send full postmortem summary to affected customers",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-07",
+        "source_quote": "I'll send the full postmortem summary to affected customers by end of next week, August 7th."
+      },
+      {
+        "description": "Reach out to 3 enterprise SLA-breach customers and initiate SLA credit process",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-28",
+        "source_quote": "I'll reach out to each of them today to acknowledge and offer SLA credits."
+      },
+      {
+        "description": "Update database incident runbook to include connection pool checks",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-05",
+        "source_quote": "I'll update the database incident runbook to include the connection pool checks by August 5th."
+      },
+      {
+        "description": "Set up and run load test simulating connection pool saturation",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-10",
+        "source_quote": "I'll set up and run that test by August 10th."
+      },
+      {
+        "description": "Send internal summary of root cause and prevention steps to development teams",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-28",
+        "source_quote": "I'll send that internal summary today."
+      }
+    ],
+    "decisions": [
+      "SLA credits will be processed for the 3 enterprise customers with SLA breaches",
+      "30-day follow-up review scheduled for August 28th"
+    ],
+    "dates": [
+      {
+        "description": "Fix deployment to production",
+        "raw_deadline_text": "July 30th",
+        "resolved_date": "2026-07-30"
+      },
+      {
+        "description": "Datadog alert added",
+        "raw_deadline_text": "July 31st",
+        "resolved_date": "2026-07-31"
+      },
+      {
+        "description": "Circuit breaker implementation",
+        "raw_deadline_text": "August 7th",
+        "resolved_date": "2026-08-07"
+      },
+      {
+        "description": "Customer postmortem summary",
+        "raw_deadline_text": "end of next week",
+        "resolved_date": "2026-08-07"
+      },
+      {
+        "description": "SLA credit processing complete",
+        "raw_deadline_text": "2 weeks from today",
+        "resolved_date": "2026-08-11"
+      },
+      {
+        "description": "Runbook update complete",
+        "raw_deadline_text": "August 5th",
+        "resolved_date": "2026-08-05"
+      },
+      {
+        "description": "Load test complete",
+        "raw_deadline_text": "August 10th",
+        "resolved_date": "2026-08-10"
+      },
+      {
+        "description": "30-day follow-up review",
+        "raw_deadline_text": "around August 28th",
+        "resolved_date": "2026-08-28"
+      }
+    ]
+  }
+}

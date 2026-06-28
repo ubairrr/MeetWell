@@ -1,0 +1,76 @@
+{
+  "transcript_id": "test_29_date_heavy_03",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-08-03]\n[00:00] You: Legal compliance deadlines update. We have several statutory deadlines we can't miss.\n[00:45] Speaker 1: The GDPR data mapping submission to our DPO is due August 15th. That's a hard statutory deadline in our jurisdiction.\n[01:20] Speaker 2: The SOC 2 Type II audit window starts September 1st and runs for 6 months, so the audit period ends March 1st, 2027.\n[02:00] Speaker 3: Our business license in Delaware needs to be renewed by September 30th. If we miss that, there are automatic penalties.\n[02:40] You: What about the employment law changes?\n[02:55] Speaker 1: The new overtime exemption rules take effect January 1st, 2027. We need to audit all exempt employee classifications and make changes before then.\n[03:35] Speaker 2: I'll have the HR audit done by November 1st to give us two months to implement any required changes.\n[04:05] Speaker 3: The patent application for our search algorithm is pending. We need to respond to the USPTO office action within 3 months of the August 5th notice — so by November 5th.\n[04:45] You: That's urgent. Speaker 3, can you loop in IP counsel today?\n[04:55] Speaker 3: I'll call our IP attorney today. August 3rd.\n[05:20] Speaker 1: Also, our insurance policy renews on October 15th. We need to submit updated coverage requirements to the broker by September 15th — that's 30 days before renewal.\n[05:55] You: Good catch. And the annual shareholder meeting is set for sometime in Q4 — we haven't pinned the exact date yet.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Have HR audit of exempt employee classifications done ahead of January 2027 overtime rule changes",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-11-01",
+        "source_quote": "I'll have the HR audit done by November 1st to give us two months to implement any required changes."
+      },
+      {
+        "description": "Call IP attorney to respond to USPTO office action",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-03",
+        "source_quote": "I'll call our IP attorney today. August 3rd."
+      }
+    ],
+    "decisions": [
+      "Patent application USPTO response must be submitted by November 5th (3 months from August 5th notice)"
+    ],
+    "dates": [
+      {
+        "description": "GDPR data mapping submission to DPO",
+        "raw_deadline_text": "August 15th",
+        "resolved_date": "2026-08-15"
+      },
+      {
+        "description": "SOC 2 Type II audit window start",
+        "raw_deadline_text": "September 1st",
+        "resolved_date": "2026-09-01"
+      },
+      {
+        "description": "SOC 2 Type II audit window end",
+        "raw_deadline_text": "March 1st, 2027",
+        "resolved_date": "2027-03-01"
+      },
+      {
+        "description": "Delaware business license renewal deadline",
+        "raw_deadline_text": "September 30th",
+        "resolved_date": "2026-09-30"
+      },
+      {
+        "description": "New overtime exemption rules take effect",
+        "raw_deadline_text": "January 1st, 2027",
+        "resolved_date": "2027-01-01"
+      },
+      {
+        "description": "HR audit complete deadline",
+        "raw_deadline_text": "November 1st",
+        "resolved_date": "2026-11-01"
+      },
+      {
+        "description": "USPTO patent office action response deadline",
+        "raw_deadline_text": "within 3 months of August 5th",
+        "resolved_date": "2026-11-05"
+      },
+      {
+        "description": "Insurance coverage requirements to broker",
+        "raw_deadline_text": "September 15th",
+        "resolved_date": "2026-09-15"
+      },
+      {
+        "description": "Insurance policy renewal",
+        "raw_deadline_text": "October 15th",
+        "resolved_date": "2026-10-15"
+      },
+      {
+        "description": "Annual shareholder meeting",
+        "raw_deadline_text": "sometime in Q4",
+        "resolved_date": null
+      }
+    ]
+  }
+}

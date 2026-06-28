@@ -1,0 +1,88 @@
+{
+  "transcript_id": "test_33_date_heavy_07",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-07-20]\n[00:00] You: Conference preparation for DevSummit 2026. Our talk is accepted — let's plan.\n[00:45] Speaker 1: The conference is October 12th through 14th. We need to get there the day before, so travel is October 11th.\n[01:20] Speaker 2: The slide deck submission deadline to the conference organizers is September 28th. That's non-negotiable.\n[01:55] Speaker 3: I'd like to do a dry run two weeks before submission — so around September 14th.\n[02:30] Speaker 1: The abstract is already accepted, but the full talk description needs to be in their system by August 1st.\n[03:00] You: What about demo prep?\n[03:15] Speaker 2: The demo environment needs to be stable before our dry run. Let me aim to have a working demo by September 7th.\n[03:50] Speaker 3: I'll write the talk script by August 22nd so we have time to review and revise before the dry run.\n[04:20] Speaker 1: We also need to submit our A/V requirements to the conference by September 15th — screen aspect ratio, microphone preference, etc.\n[04:55] You: Good. The conference organizers have a speaker dinner on the evening of October 12th. We should all plan to attend.\n[05:20] Speaker 2: I'll book our flights and hotel. Flights to the venue take about 4 hours, so I'll aim to book everything by next Monday — July 27th.\n[05:50] You: And post-conference, I'd like us to write up a summary blog post within a week of returning, so by October 22nd or so.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Submit full talk description to conference system",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-01",
+        "source_quote": "the full talk description needs to be in their system by August 1st."
+      },
+      {
+        "description": "Have working demo environment ready before dry run",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-09-07",
+        "source_quote": "Let me aim to have a working demo by September 7th."
+      },
+      {
+        "description": "Write talk script",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-22",
+        "source_quote": "I'll write the talk script by August 22nd so we have time to review and revise before the dry run."
+      },
+      {
+        "description": "Book flights and hotel for conference",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-27",
+        "source_quote": "I'll book our flights and hotel. Flights to the venue take about 4 hours, so I'll aim to book everything by next Monday — July 27th."
+      }
+    ],
+    "decisions": [
+      "All speakers will attend the conference speaker dinner on October 12th"
+    ],
+    "dates": [
+      {
+        "description": "Conference start",
+        "raw_deadline_text": "October 12th",
+        "resolved_date": "2026-10-12"
+      },
+      {
+        "description": "Conference end",
+        "raw_deadline_text": "October 14th",
+        "resolved_date": "2026-10-14"
+      },
+      {
+        "description": "Travel to conference",
+        "raw_deadline_text": "October 11th",
+        "resolved_date": "2026-10-11"
+      },
+      {
+        "description": "Slide deck submission to organizers",
+        "raw_deadline_text": "September 28th",
+        "resolved_date": "2026-09-28"
+      },
+      {
+        "description": "Talk dry run",
+        "raw_deadline_text": "two weeks before submission",
+        "resolved_date": "2026-09-14"
+      },
+      {
+        "description": "Full talk description submission",
+        "raw_deadline_text": "August 1st",
+        "resolved_date": "2026-08-01"
+      },
+      {
+        "description": "Demo environment ready",
+        "raw_deadline_text": "September 7th",
+        "resolved_date": "2026-09-07"
+      },
+      {
+        "description": "Talk script complete",
+        "raw_deadline_text": "August 22nd",
+        "resolved_date": "2026-08-22"
+      },
+      {
+        "description": "A/V requirements submission",
+        "raw_deadline_text": "September 15th",
+        "resolved_date": "2026-09-15"
+      },
+      {
+        "description": "Flights and hotel booking",
+        "raw_deadline_text": "next Monday",
+        "resolved_date": "2026-07-27"
+      }
+    ]
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "transcript_id": "test_31_date_heavy_05",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-06-29]\n[00:00] You: Hiring planning — we need to finalize our offer timeline for the two finalists.\n[00:40] Speaker 1: I'm recommending we extend offers to both candidates by end of this week — so by July 3rd.\n[01:15] Speaker 2: The background checks take 5 to 7 business days. So if we extend offers July 3rd, checks come back by around July 13th.\n[01:55] Speaker 3: Once background checks clear, they can start. Their requested start dates are August 3rd for Candidate A and August 17th for Candidate B.\n[02:35] You: Good. When does Candidate B's non-compete expire?\n[02:50] Speaker 3: Candidate B's non-compete expires August 1st. Starting August 17th is safe.\n[03:20] Speaker 1: We should send them the onboarding materials a week before start — so by July 27th for Candidate A.\n[03:50] Speaker 2: I'll set up their equipment orders this week. Lead time is usually 10 business days, so ordering by July 3rd means equipment arrives around July 17th.\n[04:25] You: Good planning. The 30-day performance check-ins will be September 3rd and September 17th respectively. I'll put those on my calendar.\n[04:55] Speaker 3: And the 90-day reviews are November 2nd and November 16th. We should schedule those soon.\n[05:20] You: We also need to finalize benefits enrollment before their first day. Open enrollment closes the last day of their first week — I don't have the exact date for Candidate B yet.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Extend job offers to both finalists",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-03",
+        "source_quote": "I'm recommending we extend offers to both candidates by end of this week — so by July 3rd."
+      },
+      {
+        "description": "Order equipment for new hires",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-03",
+        "source_quote": "I'll set up their equipment orders this week."
+      },
+      {
+        "description": "Send onboarding materials to Candidate A one week before start date",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-27",
+        "source_quote": "We should send them the onboarding materials a week before start — so by July 27th for Candidate A."
+      }
+    ],
+    "decisions": [
+      "Candidate A start date: August 3rd",
+      "Candidate B start date: August 17th (non-compete expires August 1st)"
+    ],
+    "dates": [
+      {
+        "description": "Offer extension deadline",
+        "raw_deadline_text": "end of this week",
+        "resolved_date": "2026-07-03"
+      },
+      {
+        "description": "Background check results expected",
+        "raw_deadline_text": "around July 13th",
+        "resolved_date": "2026-07-13"
+      },
+      {
+        "description": "Onboarding materials for Candidate A",
+        "raw_deadline_text": "by July 27th",
+        "resolved_date": "2026-07-27"
+      },
+      {
+        "description": "Equipment arrival expected",
+        "raw_deadline_text": "around July 17th",
+        "resolved_date": "2026-07-17"
+      },
+      {
+        "description": "Candidate A start date",
+        "raw_deadline_text": "August 3rd",
+        "resolved_date": "2026-08-03"
+      },
+      {
+        "description": "Candidate B non-compete expiry",
+        "raw_deadline_text": "August 1st",
+        "resolved_date": "2026-08-01"
+      },
+      {
+        "description": "Candidate B start date",
+        "raw_deadline_text": "August 17th",
+        "resolved_date": "2026-08-17"
+      },
+      {
+        "description": "Candidate A 30-day check-in",
+        "raw_deadline_text": "September 3rd",
+        "resolved_date": "2026-09-03"
+      },
+      {
+        "description": "Candidate B 30-day check-in",
+        "raw_deadline_text": "September 17th",
+        "resolved_date": "2026-09-17"
+      },
+      {
+        "description": "Benefits enrollment deadline for Candidate B",
+        "raw_deadline_text": "last day of their first week",
+        "resolved_date": null
+      }
+    ]
+  }
+}

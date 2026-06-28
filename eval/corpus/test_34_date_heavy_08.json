@@ -1,0 +1,83 @@
+{
+  "transcript_id": "test_34_date_heavy_08",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-08-17]\n[00:00] You: Budget cycle planning. Fiscal year end is December 31st.\n[00:40] Speaker 1: We need to submit department budget requests for next year by October 15th. After that goes to finance review, which takes two weeks, so final approval is around October 29th.\n[01:25] Speaker 2: The Board needs to approve the final annual budget. That board meeting is November 19th.\n[02:00] Speaker 3: The hiring plan needs to be baked into the budget request. I'll have the org chart and headcount plan ready by October 1st.\n[02:40] You: Good. What about capital expenditures?\n[02:55] Speaker 1: CapEx requests go through a separate approval process. I'll submit our hardware and infrastructure CapEx requests by September 30th — that's a firm deadline for CapEx.\n[03:35] Speaker 2: We should also have the Q3 actuals finalized before we start forecasting. Q3 books close on September 30th, but it takes a week for consolidation, so we'll have clean Q3 data by October 7th.\n[04:15] Speaker 3: The annual headcount freeze — where no new hires can be initiated without special approval — starts December 1st as we get into year-end.\n[04:50] You: And we should plan for the mid-year bonus payout. That's typically end of September, but HR hasn't confirmed the exact date yet.\n[05:20] Speaker 1: I'll check with HR and get the bonus payout date confirmed. I'll have an answer by August 19th.\n[05:45] Speaker 2: One more thing — the 2027 planning kickoff meeting should happen in late November, probably around November 15th, but we haven't scheduled it yet.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Prepare org chart and headcount plan for budget request",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-10-01",
+        "source_quote": "I'll have the org chart and headcount plan ready by October 1st."
+      },
+      {
+        "description": "Submit hardware and infrastructure CapEx requests",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-09-30",
+        "source_quote": "I'll submit our hardware and infrastructure CapEx requests by September 30th — that's a firm deadline for CapEx."
+      },
+      {
+        "description": "Confirm mid-year bonus payout date with HR",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-19",
+        "source_quote": "I'll check with HR and get the bonus payout date confirmed. I'll have an answer by August 19th."
+      }
+    ],
+    "decisions": [
+      "Budget requests due October 15th; Board approval November 19th",
+      "Headcount freeze starts December 1st"
+    ],
+    "dates": [
+      {
+        "description": "Department budget request deadline",
+        "raw_deadline_text": "October 15th",
+        "resolved_date": "2026-10-15"
+      },
+      {
+        "description": "Finance review completion / budget approval",
+        "raw_deadline_text": "around October 29th",
+        "resolved_date": "2026-10-29"
+      },
+      {
+        "description": "Board budget approval meeting",
+        "raw_deadline_text": "November 19th",
+        "resolved_date": "2026-11-19"
+      },
+      {
+        "description": "Headcount plan ready",
+        "raw_deadline_text": "October 1st",
+        "resolved_date": "2026-10-01"
+      },
+      {
+        "description": "CapEx requests submission",
+        "raw_deadline_text": "September 30th",
+        "resolved_date": "2026-09-30"
+      },
+      {
+        "description": "Q3 books close",
+        "raw_deadline_text": "September 30th",
+        "resolved_date": "2026-09-30"
+      },
+      {
+        "description": "Clean Q3 data available",
+        "raw_deadline_text": "October 7th",
+        "resolved_date": "2026-10-07"
+      },
+      {
+        "description": "Headcount freeze begins",
+        "raw_deadline_text": "December 1st",
+        "resolved_date": "2026-12-01"
+      },
+      {
+        "description": "Mid-year bonus payout",
+        "raw_deadline_text": "end of September",
+        "resolved_date": null
+      },
+      {
+        "description": "2027 planning kickoff meeting",
+        "raw_deadline_text": "probably around November 15th",
+        "resolved_date": null
+      }
+    ]
+  }
+}
