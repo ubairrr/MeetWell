@@ -1,0 +1,33 @@
+{
+  "transcript_id": "test_43_fabrication_bait_06",
+  "category": "fabrication_bait",
+  "transcript": "[Meeting date: 2026-07-13]\n[00:00] You: How did the client presentation go last week?\n[00:20] Speaker 1: It went well. We talked about doing a custom dashboard for them — it was on the agenda but we didn't make any decisions.\n[00:50] Speaker 2: Right, we walked through the concept. They seemed interested but said they needed to check with their team.\n[01:20] Speaker 1: We also talked about a potential integration with their CRM. That was raised as a future idea, not for this contract.\n[01:50] You: So nothing committed?\n[02:00] Speaker 1: Nothing committed from that meeting. But I'm going to follow up with them tomorrow, July 14th, to see if they want to move forward on anything.\n[02:30] Speaker 2: Good idea. I'll put together a scope estimate for the custom dashboard in case they ask. I'll have it ready by July 16th.\n[02:55] You: Great.",
+  "adversarial_injections": [
+    {
+      "description": "Building a custom dashboard for the client was discussed but not committed — the client needed to check with their team first; this is adjacent to Speaker 2's real estimate commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "CRM integration was raised as a future idea, explicitly not part of current contract scope — past tense mention, not a new commitment",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Follow up with client about moving forward on a custom dashboard or integration",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-14",
+        "source_quote": "I'm going to follow up with them tomorrow, July 14th, to see if they want to move forward on anything."
+      },
+      {
+        "description": "Prepare scope estimate for custom dashboard in case client asks",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-16",
+        "source_quote": "I'll put together a scope estimate for the custom dashboard in case they ask. I'll have it ready by July 16th."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-07-14", "2026-07-16"]
+  }
+}

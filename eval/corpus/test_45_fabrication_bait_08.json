@@ -1,0 +1,39 @@
+{
+  "transcript_id": "test_45_fabrication_bait_08",
+  "category": "fabrication_bait",
+  "transcript": "[Meeting date: 2026-07-27]\n[00:00] You: Partnership strategy discussion. If we were to partner with Zendesk for joint go-to-market, what would that look like?\n[00:35] Speaker 1: Hypothetically, we'd need a co-selling agreement, shared sales training, and joint marketing materials. It would be a 6-month process.\n[01:10] Speaker 2: We'd also need a technical integration — probably 3 months of engineering work.\n[01:45] Speaker 3: If we go that route, someone would need to lead the partnership from our side. That could be a full-time role.\n[02:15] You: This is good to think about. But we're not ready to pursue it yet — maybe in 2027 when we have more resources.\n[02:40] Speaker 1: Agreed. Let's table it.\n[02:55] You: What I do want to commit to is reaching out to Zendesk next quarter just to start a relationship. I'll send an intro email to their VP of Partnerships by September 1st.\n[03:30] Speaker 2: That's a good start. I'll put together a one-page partnership brief we can use in that outreach by August 20th.\n[03:55] You: Perfect. Keep it exploratory for now.",
+  "adversarial_injections": [
+    {
+      "description": "Co-selling agreement, joint marketing materials, shared sales training are hypothetical future partnership components — explicitly not being pursued now; 'we're not ready to pursue it yet' disavows the commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "Technical integration for Zendesk partnership — hypothetical, not a commitment; the meeting concluded with tabling the partnership idea",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "Partnership lead role — hypothetical future staffing need if partnership proceeds, which was explicitly deferred to 2027",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Send intro email to Zendesk VP of Partnerships to begin relationship",
+        "assignee_label": "You",
+        "due_date": "2026-09-01",
+        "source_quote": "I'll send an intro email to their VP of Partnerships by September 1st."
+      },
+      {
+        "description": "Create one-page partnership brief for Zendesk outreach",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-20",
+        "source_quote": "I'll put together a one-page partnership brief we can use in that outreach by August 20th."
+      }
+    ],
+    "decisions": [
+      "Zendesk partnership deferred to 2027 — exploratory outreach only for now"
+    ],
+    "dates": ["2026-08-20", "2026-09-01"]
+  }
+}

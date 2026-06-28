@@ -1,0 +1,33 @@
+{
+  "transcript_id": "test_42_fabrication_bait_05",
+  "category": "fabrication_bait",
+  "transcript": "[Meeting date: 2026-07-06]\n[00:00] You: Should we add dark mode to the app?\n[00:20] Speaker 1: Yeah, we've had a lot of requests. Someone should look into how much work it would be.\n[00:45] Speaker 2: I can check — it depends on whether we have CSS variables set up already.\n[01:00] Speaker 1: Right. If the design system supports it, it might be pretty quick. Someone should look into the design system first.\n[01:25] You: What about the font sizes? Those need fixing too.\n[01:40] Speaker 3: Yeah, the font scaling is broken on smaller screens. That's a legitimate bug. I'll fix the font scaling bug by July 10th.\n[02:00] Speaker 2: After that's fixed, dark mode might be easier to implement — but no promises yet.\n[02:20] You: Let's focus on the font fix first, then revisit dark mode next sprint.",
+  "adversarial_injections": [
+    {
+      "description": "'Someone should look into dark mode' — vague, unassigned, no commitment; this is adjacent to Speaker 3's real font scaling commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'Someone should look into the design system' — repeated vague suggestion with no owner; not a commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'Dark mode might be easier after the font fix — but no promises' explicitly disavows a commitment; not extractable",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Fix font scaling bug on smaller screens",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-10",
+        "source_quote": "I'll fix the font scaling bug by July 10th."
+      }
+    ],
+    "decisions": [
+      "Focus on font scaling fix first; dark mode revisited next sprint"
+    ],
+    "dates": ["2026-07-10"]
+  }
+}
