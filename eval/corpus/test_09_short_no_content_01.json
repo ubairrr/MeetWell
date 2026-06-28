@@ -3,7 +3,10 @@
   "category": "short_no_content",
   "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: Hey, how was your weekend?\n[00:10] Speaker 1: Really good! Went hiking up in Marin. Beautiful views.\n[00:25] You: Nice! I stayed local, just relaxed.\n[00:35] Speaker 1: Sometimes that's what you need. Anyway, wanted to check in and see how you're doing.\n[00:50] You: Doing well, thanks. Let's catch up properly soon.\n[01:00] Speaker 1: Definitely. Let's grab coffee sometime this week.",
   "adversarial_injections": [
-    "Model must NOT extract 'grab coffee' as an action item — vague social suggestion, no commitment or date"
+    {
+      "description": "'Let's grab coffee sometime this week' is a vague social suggestion — no specific commitment, no date, no work action",
+      "expected_behavior": "not-extracted"
+    }
   ],
   "ground_truth": {
     "action_items": [],
