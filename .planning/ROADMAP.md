@@ -158,13 +158,13 @@ Plans:
   4. `node eval/harness.ts` reports CGFS ≥ 0.85 on the 60-transcript adversarial corpus
   5. `node eval/harness.ts` reports EHR ≤ 0.05 on the 60-transcript adversarial corpus — both PACK-04 and PACK-05 must pass before v1 is declared shippable
 
-**Plans**: 7 plans
+**Plans**: 3/7 plans executed
 Plans:
 
-- [ ] 11-01-PLAN.md — macOS version gate (< 14.2 → error dialog + exit) + TCC permission onboarding IPC push
-- [ ] 11-02-PLAN.md — Notarize hook: implement scripts/notarize.js with @electron/notarize notarytool
+- [x] 11-01-PLAN.md — macOS version gate (< 14.2 → error dialog + exit) + TCC permission onboarding IPC push
+- [x] 11-02-PLAN.md — Notarize hook: implement scripts/notarize.js with @electron/notarize notarytool
 - [ ] 11-03-PLAN.md — electron-builder finalization + asarUnpack audit + packaging smoke test (.app bundle)
-- [ ] 11-04-PLAN.md — Eval corpus expansion: generate 50 remaining synthetic test cases (10 → 60)
+- [x] 11-04-PLAN.md — Eval corpus expansion: generate 50 remaining synthetic test cases (10 → 60)
 - [ ] 11-05-PLAN.md — eval/harness.ts: standalone harness, citation verifier, CGFS/EHR computation, eval_report.json
 - [ ] 11-06-PLAN.md — Harness baseline run + prompt tuning until CGFS ≥ 0.85, EHR ≤ 0.05, per-category ≥ 0.75
 - [ ] 11-07-PLAN.md — Final signed + notarized DMG production build + v1 ship checklist
@@ -183,4 +183,4 @@ Phases execute in dependency order: 6 → 7 → 8 → 9 → 10 → 11
 | 8. ArtifactPipeline | 0/TBD | Not started | - |
 | 9. Overlay UI + Live Summary Board | 6/7 | In Progress|  |
 | 10. ContextEngine + Break Assist | 7/7 | Complete   | 2026-06-28 |
-| 11. Packaging + Eval Harness | 0/7 | Planned | - |
+| 11. Packaging + Eval Harness | 3/7 | In Progress|  |
