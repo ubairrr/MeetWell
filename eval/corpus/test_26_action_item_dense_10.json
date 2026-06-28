@@ -1,0 +1,62 @@
+{
+  "transcript_id": "test_26_action_item_dense_10",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-08-10]\n[00:00] You: Hiring pipeline review. We have 5 open roles and need to move faster on all of them.\n[00:45] Speaker 1: Senior backend engineer — we have 3 candidates in final round. I'll complete all three technical interviews by August 14th and have a recommendation by August 17th.\n[01:30] Speaker 2: Product designer — we've had slow candidate flow. I'll update the job description to be more specific about our stack and repost on Dribbble and LinkedIn by August 12th.\n[02:10] Speaker 3: Data engineer — we just got 12 applications. I'll review all 12 applications and move qualified candidates to phone screens by August 13th.\n[02:50] Speaker 4: For the head of marketing role, we're using an executive recruiter. I'll follow up with them and get a status update by August 11th.\n[03:20] You: What about the junior frontend engineer role?\n[03:35] Speaker 1: That's been open 6 weeks. The issue is we're seeing a lot of candidates who don't know TypeScript. I'll add a TypeScript screening question to the application form by August 11th.\n[04:10] Speaker 2: I'll also set up a referral campaign internally — I'll email all staff asking for referrals with a $1,500 bounty for a successful hire. I'll send that email by August 12th.\n[04:45] Speaker 3: We should also review our offer acceptance rate — we've lost 3 candidates to competing offers recently. I'll put together a compensation benchmarking report using Levels.fyi data by August 18th.\n[05:20] Speaker 4: I'll update all job postings to highlight our remote-first culture and equity package — candidates have been asking about both. I'll have all 5 updated by August 13th.\n[05:50] You: Great. Hiring target: all 5 roles filled by October 1st. Let's check in on this in two weeks.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Complete all three final-round technical interviews for senior backend engineer",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-14",
+        "source_quote": "I'll complete all three technical interviews by August 14th and have a recommendation by August 17th."
+      },
+      {
+        "description": "Update product designer job description and repost on Dribbble and LinkedIn",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-12",
+        "source_quote": "I'll update the job description to be more specific about our stack and repost on Dribbble and LinkedIn by August 12th."
+      },
+      {
+        "description": "Review 12 data engineer applications and advance qualified candidates to phone screens",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-13",
+        "source_quote": "I'll review all 12 applications and move qualified candidates to phone screens by August 13th."
+      },
+      {
+        "description": "Follow up with executive recruiter for head of marketing status update",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-11",
+        "source_quote": "I'll follow up with them and get a status update by August 11th."
+      },
+      {
+        "description": "Add TypeScript screening question to junior frontend engineer application form",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-11",
+        "source_quote": "I'll add a TypeScript screening question to the application form by August 11th."
+      },
+      {
+        "description": "Email all staff for referrals with $1,500 bounty offer for successful hire",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-12",
+        "source_quote": "I'll email all staff asking for referrals with a $1,500 bounty for a successful hire. I'll send that email by August 12th."
+      },
+      {
+        "description": "Prepare compensation benchmarking report using Levels.fyi data",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-18",
+        "source_quote": "I'll put together a compensation benchmarking report using Levels.fyi data by August 18th."
+      },
+      {
+        "description": "Update all 5 job postings to highlight remote-first culture and equity package",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-13",
+        "source_quote": "I'll have all 5 updated by August 13th."
+      }
+    ],
+    "decisions": [
+      "Hiring target: all 5 open roles filled by October 1st",
+      "Employee referral bounty set at $1,500 for successful hire"
+    ],
+    "dates": ["2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-17", "2026-08-18", "2026-10-01"]
+  }
+}

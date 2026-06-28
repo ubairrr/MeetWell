@@ -1,0 +1,68 @@
+{
+  "transcript_id": "test_23_action_item_dense_07",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-07-27]\n[00:00] You: Customer success sync. Let's go through our top accounts and their health scores.\n[00:40] Speaker 1: Pinnacle Retail went from green to yellow last week. Usage dropped 35%. I'll reach out to their primary contact today to understand what changed.\n[01:20] Speaker 2: I reviewed their usage data — they stopped using the bulk export feature after the July 14th update. I'll check if there was a breaking change. I'll have an answer by July 28th.\n[02:00] Speaker 3: For Meridian Health, they've been asking for a dedicated onboarding session for their new team members. I'll schedule a 2-hour onboarding workshop for the week of August 3rd.\n[02:45] You: Good. What about the NPS survey results?\n[03:00] Speaker 4: NPS came back at 42. Three detractors gave specific feedback about slow load times. I'll compile those comments and share with the product team by July 29th.\n[03:35] Speaker 1: I'll also set up individual check-in calls with all three detractors. I'll have those scheduled by July 30th.\n[04:00] Speaker 2: We should also review our onboarding email sequence — the open rates have dropped. I'll audit the email sequence performance and propose changes by August 4th.\n[04:35] You: Good idea. Speaker 3, can you update our health score model to include feature adoption?\n[04:50] Speaker 3: I'll update the health score model to weight feature adoption more heavily. I'll have the updated model in our CRM by August 6th.\n[05:20] Speaker 4: We're also missing QBR presentations for 4 enterprise accounts. I'll create QBR templates and schedule those calls by August 11th.\n[05:50] You: The quarterly CS report goes to leadership on August 15th. Speaker 1, can you own that?\n[06:05] Speaker 1: I'll compile the quarterly customer success report by August 13th and share it with leadership by August 15th.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Reach out to Pinnacle Retail primary contact to understand usage drop",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-27",
+        "source_quote": "I'll reach out to their primary contact today to understand what changed."
+      },
+      {
+        "description": "Investigate whether July 14th update introduced a breaking change in bulk export feature",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-28",
+        "source_quote": "I'll check if there was a breaking change. I'll have an answer by July 28th."
+      },
+      {
+        "description": "Schedule 2-hour onboarding workshop for Meridian Health new team members",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-03",
+        "source_quote": "I'll schedule a 2-hour onboarding workshop for the week of August 3rd."
+      },
+      {
+        "description": "Compile NPS detractor comments and share with product team",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-29",
+        "source_quote": "I'll compile those comments and share with the product team by July 29th."
+      },
+      {
+        "description": "Schedule check-in calls with all three NPS detractors",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-30",
+        "source_quote": "I'll also set up individual check-in calls with all three detractors. I'll have those scheduled by July 30th."
+      },
+      {
+        "description": "Audit onboarding email sequence performance and propose improvements",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-04",
+        "source_quote": "I'll audit the email sequence performance and propose changes by August 4th."
+      },
+      {
+        "description": "Update health score model to weight feature adoption more heavily in CRM",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-06",
+        "source_quote": "I'll update the health score model to weight feature adoption more heavily. I'll have the updated model in our CRM by August 6th."
+      },
+      {
+        "description": "Create QBR templates and schedule QBR calls for 4 enterprise accounts",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-11",
+        "source_quote": "I'll create QBR templates and schedule those calls by August 11th."
+      },
+      {
+        "description": "Compile and share quarterly customer success report with leadership",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-15",
+        "source_quote": "I'll compile the quarterly customer success report by August 13th and share it with leadership by August 15th."
+      }
+    ],
+    "decisions": [
+      "Quarterly CS report goes to leadership on August 15th",
+      "Health score model to be updated to include feature adoption weighting"
+    ],
+    "dates": ["2026-07-27", "2026-07-28", "2026-07-29", "2026-07-30", "2026-08-03", "2026-08-04", "2026-08-06", "2026-08-11", "2026-08-13", "2026-08-15"]
+  }
+}

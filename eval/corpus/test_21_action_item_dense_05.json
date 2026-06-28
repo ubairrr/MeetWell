@@ -1,0 +1,63 @@
+{
+  "transcript_id": "test_21_action_item_dense_05",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-07-20]\n[00:00] You: Infrastructure migration planning. We're moving from AWS us-east-1 to multi-region by September 30th.\n[00:50] Speaker 1: First step is the CDN migration. I'll complete the CloudFront to Cloudflare migration for static assets by August 8th.\n[01:30] Speaker 2: Database replication needs to be set up before we can go multi-region. I'll configure Postgres read replicas in us-west-2 by August 15th.\n[02:10] Speaker 3: Load balancing config needs updating too. I'll update the ALB routing rules to support the new regional endpoints by August 12th.\n[02:50] You: What about the disaster recovery runbook?\n[03:05] Speaker 4: I'll write the updated DR runbook for the multi-region setup. I'll have a draft by August 20th. I'll need input from Speaker 2 on the RTO/RPO targets first.\n[03:40] Speaker 2: I'll send Speaker 4 the RTO/RPO requirements by July 24th.\n[04:05] Speaker 1: I should also mention — if we get sign-off from security on the Cloudflare WAF rules, I'll migrate those too. That's contingent on security review.\n[04:40] You: Understood — flag that as conditional. Speaker 3, can you do a capacity planning review for the new regions?\n[04:55] Speaker 3: I'll do a capacity planning analysis and size the new instances by July 28th.\n[05:20] Speaker 4: We also need to update the monitoring dashboards to show per-region metrics. I'll update Datadog dashboards by August 18th.\n[05:50] Speaker 1: And I'll update the deployment pipeline to support blue-green deploys across regions. I'll have that done by August 22nd.\n[06:15] You: Good. Cutover to multi-region production is September 30th. Let's schedule a dry-run for September 20th.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Complete CDN migration from CloudFront to Cloudflare for static assets",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-08",
+        "source_quote": "I'll complete the CloudFront to Cloudflare migration for static assets by August 8th."
+      },
+      {
+        "description": "Configure Postgres read replicas in us-west-2",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-15",
+        "source_quote": "I'll configure Postgres read replicas in us-west-2 by August 15th."
+      },
+      {
+        "description": "Update ALB routing rules to support new regional endpoints",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-12",
+        "source_quote": "I'll update the ALB routing rules to support the new regional endpoints by August 12th."
+      },
+      {
+        "description": "Send RTO/RPO requirements to Speaker 4",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-24",
+        "source_quote": "I'll send Speaker 4 the RTO/RPO requirements by July 24th."
+      },
+      {
+        "description": "Write updated DR runbook for multi-region setup (contingent on receiving RTO/RPO from Speaker 2)",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-20",
+        "source_quote": "I'll write the updated DR runbook for the multi-region setup. I'll have a draft by August 20th."
+      },
+      {
+        "description": "Perform capacity planning analysis and size new regional instances",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-28",
+        "source_quote": "I'll do a capacity planning analysis and size the new instances by July 28th."
+      },
+      {
+        "description": "Update Datadog dashboards to show per-region metrics",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-18",
+        "source_quote": "I'll update Datadog dashboards by August 18th."
+      },
+      {
+        "description": "Update deployment pipeline to support blue-green deploys across regions",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-22",
+        "source_quote": "I'll update the deployment pipeline to support blue-green deploys across regions. I'll have that done by August 22nd."
+      }
+    ],
+    "decisions": [
+      "Multi-region production cutover target: September 30th",
+      "Dry-run scheduled for September 20th",
+      "Cloudflare WAF migration is conditional on security sign-off"
+    ],
+    "dates": ["2026-07-24", "2026-07-28", "2026-08-08", "2026-08-12", "2026-08-15", "2026-08-18", "2026-08-20", "2026-08-22", "2026-09-20", "2026-09-30"]
+  }
+}

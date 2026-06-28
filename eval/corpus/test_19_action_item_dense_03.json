@@ -1,0 +1,75 @@
+{
+  "transcript_id": "test_19_action_item_dense_03",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-07-13]\n[00:00] You: Marketing campaign planning for the Q3 product launch. Launch is August 18th.\n[00:40] Speaker 1: I'll have the launch blog post first draft ready by July 25th. I'll need SEO review from Speaker 2 before we finalize.\n[01:20] Speaker 2: I'll do the SEO review and keyword optimization on the blog post by July 28th. I'll also update the website landing page copy — I can have the first draft by July 20th.\n[02:00] Speaker 3: Social media plan: I'll put together a 30-day content calendar for LinkedIn and Twitter by July 18th. I'll need the key messaging doc from Speaker 1 first.\n[02:40] Speaker 1: I'll send Speaker 3 the key messaging document by July 15th.\n[03:00] You: What about email campaign?\n[03:15] Speaker 4: I'll build the email sequence in HubSpot — 5 emails over 3 weeks. First email goes out the day of launch, August 18th. I'll have all five emails drafted by August 8th.\n[03:55] Speaker 2: We should also do a press release. I'll coordinate with the PR agency and have the embargo version ready by August 10th.\n[04:30] You: Good. Paid ads — Speaker 3?\n[04:45] Speaker 3: I'll set up the Google and LinkedIn ad campaigns by August 11th. Budget is $15k for the first month.\n[05:10] Speaker 1: I also need to get customer testimonials for the launch materials. I'll reach out to our three reference customers by July 16th to ask for quotes.\n[05:45] You: Great. Speaker 4, can you also set up UTM tracking for all the launch links?\n[06:00] Speaker 4: I'll set up UTM tracking and document all campaign links in the launch tracker by August 14th.\n[06:20] You: The go/no-go call is August 15th. Everything should be ready by then.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Write first draft of launch blog post",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-25",
+        "source_quote": "I'll have the launch blog post first draft ready by July 25th."
+      },
+      {
+        "description": "Do SEO review and keyword optimization on launch blog post",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-28",
+        "source_quote": "I'll do the SEO review and keyword optimization on the blog post by July 28th."
+      },
+      {
+        "description": "Write first draft of website landing page copy",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-20",
+        "source_quote": "I'll also update the website landing page copy — I can have the first draft by July 20th."
+      },
+      {
+        "description": "Create 30-day content calendar for LinkedIn and Twitter",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-18",
+        "source_quote": "I'll put together a 30-day content calendar for LinkedIn and Twitter by July 18th."
+      },
+      {
+        "description": "Send key messaging document to Speaker 3",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-15",
+        "source_quote": "I'll send Speaker 3 the key messaging document by July 15th."
+      },
+      {
+        "description": "Draft all 5 launch email sequence emails in HubSpot",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-08",
+        "source_quote": "I'll have all five emails drafted by August 8th."
+      },
+      {
+        "description": "Coordinate with PR agency and prepare embargoed press release",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-10",
+        "source_quote": "I'll coordinate with the PR agency and have the embargo version ready by August 10th."
+      },
+      {
+        "description": "Set up Google and LinkedIn ad campaigns",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-11",
+        "source_quote": "I'll set up the Google and LinkedIn ad campaigns by August 11th."
+      },
+      {
+        "description": "Reach out to three reference customers for testimonial quotes",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-16",
+        "source_quote": "I'll reach out to our three reference customers by July 16th to ask for quotes."
+      },
+      {
+        "description": "Set up UTM tracking and document all campaign links in launch tracker",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-14",
+        "source_quote": "I'll set up UTM tracking and document all campaign links in the launch tracker by August 14th."
+      }
+    ],
+    "decisions": [
+      "Product launch date is August 18th",
+      "Paid ads budget is $15k for the first month",
+      "Go/no-go call is August 15th — all launch materials must be ready by then"
+    ],
+    "dates": ["2026-07-15", "2026-07-16", "2026-07-18", "2026-07-20", "2026-07-25", "2026-07-28", "2026-08-08", "2026-08-10", "2026-08-11", "2026-08-14", "2026-08-15", "2026-08-18"]
+  }
+}
