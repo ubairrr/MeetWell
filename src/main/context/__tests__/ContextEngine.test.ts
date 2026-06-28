@@ -79,7 +79,7 @@ vi.mock('../../llm/EmbeddingAdapter', () => ({
 // Import ContextEngine after mocks are in place
 // ---------------------------------------------------------------------------
 
-import { ContextEngine, ContextEnginePort } from '../ContextEngine'
+import { ContextEngine } from '../ContextEngine'
 
 // ---------------------------------------------------------------------------
 // Helper — create a ContextEngine with stub DB and dependencies
