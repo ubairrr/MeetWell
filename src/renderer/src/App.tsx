@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import type { SessionState } from '../../shared/schemas'
 import type { StoredSummaryCard } from '../../shared/schemas'
 import { ConsentGate } from './components/ConsentGate'
+import type { PermissionStatus } from './components/ConsentGate'
 import { CapturingScreen } from './components/CapturingScreen'
 import type { HealthStatus } from './components/ChannelHealthDot'
 import { ChannelHealthDot } from './components/ChannelHealthDot'
@@ -77,6 +78,27 @@ function useSummaryCards(): StoredSummaryCard[] {
 interface BreakDigest {
   cards: StoredSummaryCard[]
   isEmpty: boolean
+}
+
+function usePermissionStatus(): PermissionStatus {
+  const [status, setStatus] = useState<PermissionStatus>({ microphone: 'granted', screen: 'granted' })
+
+  useEffect(() => {
+    // Pull: get current status immediately on mount — deterministic, avoids did-finish-load race
+    window.electronAPI
+      .invoke('get-permission-status')
+      .then((payload) => {
+        setStatus(payload as PermissionStatus)
+      })
+      .catch(console.error)
+
+    // Push: also listen for future status changes pushed by main process
+    window.electronAPI.on('permission-status', (payload: unknown) => {
+      setStatus(payload as PermissionStatus)
+    })
+  }, [])
+
+  return status
 }
 
 function useBreakDigest(): { digest: BreakDigest | null; clearDigest: () => void } {
@@ -203,6 +225,7 @@ export default function App(): React.JSX.Element {
   const hasSummaryCards = summaryCards.length > 0
   const proposals = useArtifactProposals()
   const { digest, clearDigest } = useBreakDigest()
+  const permissionStatus = usePermissionStatus()
   const [showDigest, setShowDigest] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
 
@@ -357,7 +380,7 @@ export default function App(): React.JSX.Element {
       return withChrome(
         <>
           <QuitButton />
-          <ConsentGate onConfirmed={() => {}} />
+          <ConsentGate onConfirmed={() => {}} permissionStatus={permissionStatus} />
         </>
       )
     }

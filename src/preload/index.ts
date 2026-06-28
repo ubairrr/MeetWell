@@ -7,6 +7,7 @@ const LISTEN_CHANNELS = [
   'break-assist-digest-ready',
   'artifact-proposals-ready',
   'capture-health-update',
+  'permission-status',
 ] as const
 
 const INVOKE_CHANNELS = [
@@ -27,6 +28,8 @@ const INVOKE_CHANNELS = [
   'set-focusable',
   'quit-app',
   'resize-window',
+  'open-permission-settings',
+  'get-permission-status',
 ] as const
 
 type ListenChannel = typeof LISTEN_CHANNELS[number]

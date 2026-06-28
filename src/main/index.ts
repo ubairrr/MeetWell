@@ -137,6 +137,15 @@ app.whenReady().then(async () => {
     win.loadFile(join(__dirname, '../renderer/index.html'))
   }
 
+  // Push TCC permission status to renderer so ConsentGate can show onboarding if needed.
+  // Send after 'did-finish-load' to ensure renderer is ready. Renderer can also pull via
+  // 'get-permission-status' invoke to guarantee delivery regardless of event timing.
+  win.webContents.once('did-finish-load', () => {
+    const micStatus = systemPreferences.getMediaAccessStatus('microphone')
+    const screenStatus = systemPreferences.getMediaAccessStatus('screen')
+    win!.webContents.send('permission-status', { microphone: micStatus, screen: screenStatus })
+  })
+
   // IPC handlers — wired in 06-05
   const session = new SessionManager()
 
@@ -389,6 +398,29 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.handle('quit-app', () => app.quit())
+
+  // TCC permission status pull — renderer invokes this to get current status without
+  // depending on event-timing of the did-finish-load push.
+  ipcMain.handle('get-permission-status', () => {
+    return {
+      microphone: systemPreferences.getMediaAccessStatus('microphone'),
+      screen: systemPreferences.getMediaAccessStatus('screen'),
+    }
+  })
+
+  // Deep-link to macOS System Preferences for a given permission type.
+  // Enum guard: only 'microphone' and 'screen' are accepted — renderer cannot inject arbitrary URLs.
+  ipcMain.handle('open-permission-settings', (_event, type: unknown) => {
+    const PERMISSION_URLS: Record<string, string> = {
+      microphone: 'x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone',
+      screen: 'x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture',
+    }
+    if (typeof type !== 'string' || !(type in PERMISSION_URLS)) {
+      console.warn('[MeetingAssist] open-permission-settings: unknown type', type)
+      return
+    }
+    shell.openExternal(PERMISSION_URLS[type])
+  })
 })
 
 app.on('window-all-closed', () => {
