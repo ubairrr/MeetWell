@@ -131,7 +131,16 @@ Plans:
   4. `ContextComposer.getContext()` returns a valid `ContextWindow` (rolling segments + epoch summaries) for a post-break LLM test call; at least one epoch embedding is stored in `vec_chunks`
   5. SessionManager FSM transitions correctly through the `Capturing → OnBreak → Capturing` cycle; summary cards continue to be generated from `transcript_segments` context during the break window
 
-**Plans**: TBD
+**Plans**: 7 plans
+
+Plans:
+- [ ] 10-01-PLAN.md — EpochSummarySchema + RollingWindow + TokenMonitor (schema, watermark, tiktoken polling)
+- [ ] 10-02-PLAN.md — EmbeddingAdapter with Gemini dimension probe checkpoint
+- [ ] 10-03-PLAN.md — EpochCompressor (LLM compression, epoch_summaries write, vec_chunks embed)
+- [ ] 10-04-PLAN.md — ContextComposer + ContextEngine (orchestrator wrapping SummaryCardTimer)
+- [ ] 10-05-PLAN.md — Main process wiring (ContextEngine replaces SummaryCardTimer in index.ts)
+- [ ] 10-06-PLAN.md — 60-minute Vitest test (CTX-06 compression pipeline assertions)
+- [ ] 10-07-PLAN.md — CTX-04/CTX-05 verification tests (OnBreak FSM + break digest filter)
 
 ### Phase 11: Packaging + Eval Harness
 
