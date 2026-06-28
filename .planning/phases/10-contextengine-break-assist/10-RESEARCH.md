@@ -564,23 +564,26 @@ function seedSegments(db: Database.Database, meetingId: string, count: number): 
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Gemini `dimensions` parameter via OpenAI compat adapter (BLOCKING for EmbeddingAdapter)**
    - What we know: `gemini-embedding-001` supports 1536 dims. Native Gemini API uses `output_dimensionality`. OpenAI-compat adapter may or may not forward `dimensions` correctly.
    - What's unclear: Whether `client.embeddings.create({ dimensions: 1536 })` returns a 1536-dim vector when hitting the Gemini baseURL, or whether `extra_body: { output_dimensionality: 1536 }` is needed.
    - Evidence of risk: GitHub vercel/ai#8033 ("outputDimensionality not working"), Discourse Meta thread (parameter silently ignored in one system's implementation).
    - Recommendation: **Planner must add `checkpoint:human-verify` before EmbeddingAdapter is built.** Probe task: send one embedding request with `dimensions: 1536`, check `response.data[0].embedding.length`. If not 1536, switch to `extra_body: { output_dimensionality: 1536 }`. Whichever returns 1536 is the correct form. The EmbeddingAdapter's `embed()` method MUST assert `embedding.length === 1536` as a safety net in either case.
+   - **RESOLVED:** Plan 10-02 gates EmbeddingAdapter on a `checkpoint:human-verify` probe task. The probe determines the correct parameter form (`dimensions` vs `extra_body.output_dimensionality`) before the adapter is finalized. The adapter asserts `embedding.length === 1536` before every vec_chunks INSERT as a safety net.
 
 2. **TokenMonitor polling interval**
    - What we know: EpochCompressor fires at 560K tokens, which happens only in 40h+ meetings (AI-SPEC §2.4 table). A 60-min meeting generates ~30-50K tokens.
    - What's unclear: Optimal polling interval for TokenMonitor. Too frequent wastes CPU; too infrequent means the window could overshoot 800K before compression fires.
    - Recommendation: 30-second interval is conservative and has negligible CPU cost (simple DB COUNT query). At 130 WPM × 2 speakers, ~260 words/min ≈ ~350 tokens/min. To go from 560K to 800K needs ~686 more minutes at max rate — polling every 30s is more than adequate.
+   - **RESOLVED:** Plan 10-01 adopts `CHECK_INTERVAL_MS = 30_000` as an exported module constant. Rationale above confirms 30s is adequate with negligible CPU impact.
 
 3. **EpochCompressor model choice**
    - What we know: AI-SPEC §2.10 OQ-3 recommends Gemini 2.5 Flash Lite for epoch compression (internal, cost-optimized).
    - What's unclear: Whether Gemini 2.5 Flash Lite is available via the openai SDK baseURL adapter.
    - Recommendation: Default to `gemini-2.5-flash` (same model as LLMAdapter) for simplicity. Change to Flash Lite if a cheaper model is confirmed available. Since epoch compression is a rare-path event (40h+ meetings only), cost difference is negligible.
+   - **RESOLVED:** Plan 10-03 defaults to `gemini-2.5-flash` (same model as LLMAdapter). Epoch compression is rare-path only (40h+ meetings); cost optimization to Flash Lite is deferred to v2 if needed.
 
 ---
 
