@@ -12,7 +12,8 @@ import { CalendarExportService } from './calendar/CalendarExportService'
 import { MeetingArtifactsSchema } from '../shared/schemas'
 import { LLMAdapter } from './llm/LLMAdapter'
 import { SummaryCardStore } from './store/SummaryCardStore'
-import { SummaryCardTimer } from './context/SummaryCardTimer'
+import { ContextEngine } from './context/ContextEngine'
+import { EmbeddingAdapter } from './llm/EmbeddingAdapter'
 import type Database from 'better-sqlite3-multiple-ciphers'
 
 let win: BrowserWindow | null = null
@@ -122,7 +123,8 @@ app.whenReady().then(async () => {
   const calendarExportService = new CalendarExportService(artifactStore)
   const summaryCardStore = new SummaryCardStore(db!)
   const llmAdapter = new LLMAdapter(geminiApiKey)
-  const summaryCardTimer = new SummaryCardTimer(db!, win!, summaryCardStore, llmAdapter)
+  const embeddingAdapter = new EmbeddingAdapter(geminiApiKey)
+  const contextEngine = new ContextEngine(db!, win!, summaryCardStore, llmAdapter, embeddingAdapter)
   let lastCompletedMeetingId: string | null = null
 
   let currentMeetingId: string | null = null
@@ -157,11 +159,11 @@ app.whenReady().then(async () => {
       captureService.startCapture(currentMeetingId).catch((err: unknown) => {
         console.error('[MeetingAssist] CaptureService.startCapture failed:', err)
       })
-      summaryCardTimer.start(currentMeetingId)
+      contextEngine.start(currentMeetingId)
     }
 
     if (state === 'Processing') {
-      summaryCardTimer.stop()
+      contextEngine.stop()
       const meetingId = currentMeetingId
       currentMeetingId = null
       captureService.stopCapture()
@@ -198,7 +200,7 @@ app.whenReady().then(async () => {
     }
 
     if (state === 'Idle') {
-      summaryCardTimer.stop()
+      contextEngine.stop()
     }
   })
 
