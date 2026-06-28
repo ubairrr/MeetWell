@@ -20,6 +20,24 @@ let win: BrowserWindow | null = null
 let db: Database.Database | null = null
 let breakStartMs = 0
 
+const tokenAccumulator = new Map<string, { input: number; output: number }>()
+
+function accumulateUsage(model: string, input: number, output: number): void {
+  const existing = tokenAccumulator.get(model) ?? { input: 0, output: 0 }
+  tokenAccumulator.set(model, { input: existing.input + input, output: existing.output + output })
+}
+
+function printTokenSummary(): void {
+  if (tokenAccumulator.size === 0) return
+  console.log('\n[MeetingAssist] Session token usage:')
+  console.log('  Model'.padEnd(40) + 'Input Tokens'.padEnd(16) + 'Output Tokens')
+  console.log('  ' + '-'.repeat(66))
+  for (const [model, usage] of tokenAccumulator) {
+    console.log('  ' + model.padEnd(38) + String(usage.input).padEnd(16) + String(usage.output))
+  }
+  tokenAccumulator.clear()
+}
+
 function createOverlayWindow(overlayWidth: number = 380): BrowserWindow {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
 
@@ -122,8 +140,8 @@ app.whenReady().then(async () => {
   const artifactStore = new ArtifactStore(db!)
   const calendarExportService = new CalendarExportService(artifactStore)
   const summaryCardStore = new SummaryCardStore(db!)
-  const llmAdapter = new LLMAdapter(geminiApiKey)
-  const embeddingAdapter = new EmbeddingAdapter(geminiApiKey)
+  const llmAdapter = new LLMAdapter(geminiApiKey, undefined, accumulateUsage)
+  const embeddingAdapter = new EmbeddingAdapter(geminiApiKey, undefined, accumulateUsage)
   const contextEngine = new ContextEngine(db!, win!, summaryCardStore, llmAdapter, embeddingAdapter)
   let lastCompletedMeetingId: string | null = null
 
@@ -200,6 +218,7 @@ app.whenReady().then(async () => {
     }
 
     if (state === 'Idle') {
+      printTokenSummary()
       contextEngine.stop()
     }
   })
