@@ -27,9 +27,10 @@ export class ArtifactPipeline {
   constructor(
     private db: Database.Database,
     private win: BrowserWindow,
-    private meetingId: string
+    private meetingId: string,
+    onUsage?: (model: string, inputTokens: number, outputTokens: number) => void
   ) {
-    this.llmAdapter = new LLMAdapter(process.env.GEMINI_API_KEY ?? '')
+    this.llmAdapter = new LLMAdapter(process.env.GEMINI_API_KEY ?? '', undefined, onUsage)
     this.citationValidator = new CitationValidator()
     this.artifactStore = new ArtifactStore(db)
   }

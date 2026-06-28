@@ -96,6 +96,7 @@ const idFilter: string | null = args.includes('--id')
   ? args[args.indexOf('--id') + 1] ?? null
   : null
 const MOCK_MODE = args.includes('--mock')
+const limitArg = args.includes('--limit') ? parseInt(args[args.indexOf('--limit') + 1] ?? '0', 10) : 0
 
 // ---------------------------------------------------------------------------
 // Corpus loader
@@ -110,6 +111,7 @@ const cases: AdversarialTestCase[] = allCorpusFiles
   .map((f) => JSON.parse(fs.readFileSync(path.join(corpusDir, f), 'utf8')) as AdversarialTestCase)
   .filter((c) => !categoryFilter || c.category === categoryFilter)
   .filter((c) => !idFilter || c.transcript_id === idFilter)
+  .slice(0, limitArg > 0 ? limitArg : undefined)
 
 // ---------------------------------------------------------------------------
 // DB seeder — mirrors smoke-test.ts pattern exactly
@@ -168,10 +170,20 @@ function seedDatabase(transcript: string): { db: Database.Database; meetingId: s
 
 const mockWin = { webContents: { send: () => {} } } as any
 
-async function runCase(testCase: AdversarialTestCase): Promise<CaseResult> {
+interface TokenUsage {
+  inputTokens: number
+  outputTokens: number
+  calls: number
+}
+
+async function runCase(testCase: AdversarialTestCase, usage: TokenUsage): Promise<CaseResult> {
   const { db, meetingId } = seedDatabase(testCase.transcript)
   try {
-    const pipeline = new ArtifactPipeline(db, mockWin, meetingId)
+    const pipeline = new ArtifactPipeline(db, mockWin, meetingId, (_, inp, out) => {
+      usage.inputTokens += inp
+      usage.outputTokens += out
+      usage.calls++
+    })
     const artifacts = await pipeline.run()
     return { testCase, artifacts, error: null }
   } catch (err) {
@@ -404,6 +416,7 @@ async function main(): Promise<void> {
   console.log(`[harness] Running ${cases.length} test case(s)...`)
   if (categoryFilter) console.log(`[harness] Filter: --category ${categoryFilter}`)
   if (idFilter) console.log(`[harness] Filter: --id ${idFilter}`)
+  if (limitArg > 0) console.log(`[harness] Limit: ${limitArg} cases`)
   console.log()
 
   const caseEvals: Array<{
@@ -413,18 +426,26 @@ async function main(): Promise<void> {
     itemEvals: ItemEval[]
   }> = []
   const failedCases: FailedCase[] = []
+  const totalUsage: TokenUsage = { inputTokens: 0, outputTokens: 0, calls: 0 }
 
   for (let i = 0; i < cases.length; i++) {
     const testCase = cases[i]
     process.stdout.write(`[${i + 1}/${cases.length}] ${testCase.transcript_id} — running...`)
 
-    const caseResult = MOCK_MODE ? mockRunCase(testCase) : await runCase(testCase)
+    const caseUsage: TokenUsage = { inputTokens: 0, outputTokens: 0, calls: 0 }
+    const caseResult = MOCK_MODE ? mockRunCase(testCase) : await runCase(testCase, caseUsage)
+    totalUsage.inputTokens += caseUsage.inputTokens
+    totalUsage.outputTokens += caseUsage.outputTokens
+    totalUsage.calls += caseUsage.calls
     const { itemEvals, cgfs, ehr } = evaluateCase(caseResult)
 
     const cgfsDisplay = cgfs === -1 ? 'N/A (no items)' : cgfs.toFixed(3)
     const ehrDisplay = ehr === -1 ? 'N/A' : ehr.toFixed(3)
     const errorTag = caseResult.error ? ` [ERROR: ${caseResult.error.slice(0, 60)}]` : ''
-    console.log(` CGFS=${cgfsDisplay} EHR=${ehrDisplay}${errorTag}`)
+    const tokenTag = caseUsage.calls > 0
+      ? ` [${caseUsage.calls} calls | in=${caseUsage.inputTokens.toLocaleString()} out=${caseUsage.outputTokens.toLocaleString()}]`
+      : ''
+    console.log(` CGFS=${cgfsDisplay} EHR=${ehrDisplay}${tokenTag}${errorTag}`)
 
     caseEvals.push({ testCase, cgfs, ehr, itemEvals })
 
@@ -463,6 +484,19 @@ async function main(): Promise<void> {
   // Summary table
   // ---------------------------------------------------------------------------
   const SEP = '='.repeat(62)
+  console.log()
+  console.log(SEP)
+  console.log('TOKEN USAGE')
+  console.log(SEP)
+  if (totalUsage.calls > 0) {
+    console.log(`Total LLM calls : ${totalUsage.calls}`)
+    console.log(`Total input     : ${totalUsage.inputTokens.toLocaleString()} tokens`)
+    console.log(`Total output    : ${totalUsage.outputTokens.toLocaleString()} tokens`)
+    console.log(`Total combined  : ${(totalUsage.inputTokens + totalUsage.outputTokens).toLocaleString()} tokens`)
+    console.log(`Avg per case    : in=${Math.round(totalUsage.inputTokens / cases.length).toLocaleString()} out=${Math.round(totalUsage.outputTokens / cases.length).toLocaleString()}`)
+  } else {
+    console.log('(mock mode — no API calls)')
+  }
   console.log()
   console.log(SEP)
   console.log('EVAL HARNESS RESULTS')

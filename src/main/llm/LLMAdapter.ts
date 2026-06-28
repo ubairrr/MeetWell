@@ -21,6 +21,10 @@ export class LLMAdapter {
     systemPrompt: string,
     userContent: string
   ): Promise<z.output<T>> {
+    // gemini-2.5-flash is the only model available on this OpenAI-compat endpoint.
+    // Thinking cannot be disabled — all thinking_config/thinking params return 400.
+    // Usage tracking uses total_tokens - prompt_tokens to capture thinking tokens
+    // (which Google bills as output but are not in completion_tokens).
     const model = 'gemini-2.5-flash'
     const completion = await this.client.chat.completions.parse({
       model,
@@ -29,14 +33,13 @@ export class LLMAdapter {
         { role: 'user', content: userContent },
       ],
       response_format: zodResponseFormat(schema, schemaName),
-      // Disable Gemini 2.5 Flash built-in thinking — it runs by default and
-      // inflates output tokens ~14× without meaningfully improving extraction quality.
-      // @ts-expect-error — Gemini-specific extension not in OpenAI SDK types
-      thinking_config: { thinking_budget: 0 },
     })
 
     if (completion.usage) {
-      this.onUsage?.(model, completion.usage.prompt_tokens, completion.usage.completion_tokens)
+      // total_tokens includes thinking tokens (billed by Google but not in completion_tokens).
+      // Use total_tokens - prompt_tokens as the true output cost.
+      const trueOutput = (completion.usage.total_tokens ?? 0) - completion.usage.prompt_tokens
+      this.onUsage?.(model, completion.usage.prompt_tokens, Math.max(trueOutput, completion.usage.completion_tokens))
     }
 
     const parsed = completion.choices[0].message.parsed
