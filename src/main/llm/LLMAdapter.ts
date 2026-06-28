@@ -29,6 +29,10 @@ export class LLMAdapter {
         { role: 'user', content: userContent },
       ],
       response_format: zodResponseFormat(schema, schemaName),
+      // Disable Gemini 2.5 Flash built-in thinking — it runs by default and
+      // inflates output tokens ~14× without meaningfully improving extraction quality.
+      // @ts-expect-error — Gemini-specific extension not in OpenAI SDK types
+      thinking_config: { thinking_budget: 0 },
     })
 
     if (completion.usage) {

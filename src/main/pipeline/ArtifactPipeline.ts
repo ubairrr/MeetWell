@@ -107,10 +107,6 @@ If no extractable quotes exist in the transcript, output {"anchors": []}.`
     return result.anchors
   }
 
-  private retryPromptPrefix(): string {
-    return 'IMPORTANT: Your previous response contained an item that could not be verified against the source quotes. On this retry, be MORE conservative — if you are uncertain whether a claim is fully supported by the provided quotes, omit the item rather than include it.\n\n'
-  }
-
   private async runStage2Mom(anchors: QuoteAnchor[], meetingDate: string): Promise<MoM> {
     const systemPrompt = `You are a meeting minutes writer. You will receive a JSON array of verbatim quote anchors extracted from a meeting transcript. Your task is to produce formal Minutes of Meeting (MOM) in markdown format.
 
@@ -202,8 +198,8 @@ OUTPUT FORMAT: A JSON object with a "key_points" array where each item has:
     return this.llmAdapter.generate(KeyPointListSchema, 'key_points', systemPrompt, JSON.stringify({ anchors }))
   }
 
-  private async runStage2ActionItems(anchors: QuoteAnchor[], meetingDate: string, retryPrefix = ''): Promise<ActionItemList> {
-    const systemPrompt = `${retryPrefix}You are a meeting action item extractor. This is the most trust-critical extraction task. You will receive a JSON object with verbatim quote anchors from a meeting transcript. Your task is to extract concrete, committable action items — and ONLY those.
+  private async runStage2ActionItems(anchors: QuoteAnchor[], meetingDate: string): Promise<ActionItemList> {
+    const systemPrompt = `You are a meeting action item extractor. This is the most trust-critical extraction task. You will receive a JSON object with verbatim quote anchors from a meeting transcript. Your task is to extract concrete, committable action items — and ONLY those.
 
 ABSOLUTE RULES — READ CAREFULLY:
 1. You MUST ground every action item in at least one provided quote anchor. An action item with no supporting quote MUST NOT appear in your output. This is non-negotiable.
@@ -244,36 +240,18 @@ OUTPUT FORMAT: A JSON object with an "action_items" array where each object has:
 
   private async validateAndRetryActionItems(
     initialResult: ActionItemList,
-    anchors: QuoteAnchor[],
-    meetingDate: string
+    _anchors: QuoteAnchor[],
+    _meetingDate: string
   ): Promise<ActionItemList> {
-    let currentItems = initialResult.action_items
-    let attempts = 1
-
-    const allPass = (items: typeof currentItems) =>
-      items.every((item) => this.citationValidator.validate(item.description, item.citations))
-
-    if (allPass(currentItems)) {
-      return { action_items: currentItems }
-    }
-
-    while (attempts < 3) {
-      attempts++
-      const retried = await this.runStage2ActionItems(anchors, meetingDate, this.retryPromptPrefix())
-      currentItems = retried.action_items
-      if (allPass(currentItems)) {
-        return { action_items: currentItems }
-      }
-    }
-
-    // After 2 retries, keep only passing items and log dropped ones
-    const passing = currentItems.filter((item) => {
+    // Drop items that fail citation validation immediately — no LLM retries.
+    // Retrying re-runs a full LLM call (up to 2×) but items that fail on the
+    // first pass almost always fail again, burning tokens with no quality gain.
+    const passing = initialResult.action_items.filter((item) => {
       const passes = this.citationValidator.validate(item.description, item.citations)
       if (!passes) {
         console.warn('[CitationValidator] dropped item', {
           item_id: item.id,
           artifact_type: 'action_item',
-          attempts: 3,
         })
       }
       return passes
