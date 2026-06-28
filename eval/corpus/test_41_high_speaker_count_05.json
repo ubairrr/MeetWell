@@ -1,0 +1,57 @@
+{
+  "transcript_id": "test_41_high_speaker_count_05",
+  "category": "high_speaker_count",
+  "transcript": "[Meeting date: 2026-08-10]\n[00:00] You: Company OKR planning session for Q4. We have all department heads here. Let's set our objectives and key results.\n[00:55] Speaker 1: Sales OKR proposal: Objective — reach $1.5M in new ARR. Key Results: close 5 enterprise deals, grow mid-market pipeline by 30%, hit 110% of quota. I'll finalize the sales OKR doc by August 14th.\n[01:50] Speaker 2: Engineering OKR: Objective — ship 3 major features with 99.9% uptime. Key Results: zero P0 incidents, 95% test coverage, reduce deploy time to under 10 minutes. I'll put together the engineering OKR with milestones by August 14th.\n[02:40] Speaker 3: Design OKR: Objective — achieve design system 100% adoption across products. Key Results: migrate 3 legacy products, increase design-dev handoff satisfaction score to 4.5/5. I'll have the design OKR documented by August 13th.\n[03:25] Speaker 4: Data OKR: Objective — deliver real-time analytics to all enterprise customers. Key Results: < 5 second data freshness, 99% pipeline reliability. I'll write up the data OKR with technical milestones by August 15th.\n[04:10] Speaker 5: Marketing OKR: Objective — 2x qualified pipeline generation. Key Results: 500 MQLs, 30% MQL-to-SQL conversion, launch 3 new campaigns. I'll have marketing OKR finalized by August 14th.\n[04:55] Speaker 6: Customer Success OKR: Objective — achieve 95% gross retention. Key Results: NPS above 50, reduce churn to < 2%, onboard 20 enterprise accounts to new tier. I'll document the CS OKR by August 15th.\n[05:40] You: Good. I'll compile all OKRs into the company OKR doc by August 17th and share with the board before the August 20th board meeting.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Finalize and document sales OKR with milestones",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-14",
+        "source_quote": "I'll finalize the sales OKR doc by August 14th."
+      },
+      {
+        "description": "Document engineering OKR with milestones",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-14",
+        "source_quote": "I'll put together the engineering OKR with milestones by August 14th."
+      },
+      {
+        "description": "Document design OKR",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-13",
+        "source_quote": "I'll have the design OKR documented by August 13th."
+      },
+      {
+        "description": "Write data OKR with technical milestones",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-15",
+        "source_quote": "I'll write up the data OKR with technical milestones by August 15th."
+      },
+      {
+        "description": "Finalize marketing OKR",
+        "assignee_label": "Speaker 5",
+        "due_date": "2026-08-14",
+        "source_quote": "I'll have marketing OKR finalized by August 14th."
+      },
+      {
+        "description": "Document customer success OKR",
+        "assignee_label": "Speaker 6",
+        "due_date": "2026-08-15",
+        "source_quote": "I'll document the CS OKR by August 15th."
+      },
+      {
+        "description": "Compile all department OKRs into company OKR document and share with board",
+        "assignee_label": "You",
+        "due_date": "2026-08-17",
+        "source_quote": "I'll compile all OKRs into the company OKR doc by August 17th and share with the board before the August 20th board meeting."
+      }
+    ],
+    "decisions": [
+      "Q4 Sales OKR: reach $1.5M new ARR",
+      "Q4 Engineering OKR: ship 3 major features with 99.9% uptime",
+      "Q4 Customer Success OKR: 95% gross retention with NPS above 50"
+    ],
+    "dates": ["2026-08-13", "2026-08-14", "2026-08-15", "2026-08-17", "2026-08-20"]
+  }
+}

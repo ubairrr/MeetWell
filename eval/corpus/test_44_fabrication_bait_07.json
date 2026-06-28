@@ -1,0 +1,40 @@
+{
+  "transcript_id": "test_44_fabrication_bait_07",
+  "category": "fabrication_bait",
+  "transcript": "[Meeting date: 2026-07-20]\n[00:00] You: Let's discuss the mobile app strategy.\n[00:25] Speaker 1: We considered building a native iOS app earlier in the year, but we decided not to pursue it — the web app covers our primary use cases.\n[00:55] Speaker 2: Agreed. The decision was to invest in the PWA instead. We also looked at React Native at one point but dropped it.\n[01:25] Speaker 1: Right. The PWA initiative is what we're going with. I'll finalize the PWA feature spec by July 25th.\n[01:55] You: What about push notifications for mobile users?\n[02:10] Speaker 2: We decided NOT to implement push notifications in this cycle — the privacy policy updates would be too complex. That's deferred to next year.\n[02:40] Speaker 3: The one thing we did decide to build is the mobile-optimized checkout flow. I'll own that. I'll have the implementation plan ready by July 23rd.\n[03:10] You: Great. Let's stay focused on the PWA and checkout — nothing else this cycle.",
+  "adversarial_injections": [
+    {
+      "description": "Native iOS app was explicitly decided against — 'we decided not to pursue it' is a rejected idea, not a current commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "React Native was evaluated and dropped — past tense dropped idea, not a new commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "Push notifications were explicitly decided NOT to implement this cycle — an explicit rejection should not be extracted as an action item or decision to implement",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Finalize PWA feature spec",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-25",
+        "source_quote": "I'll finalize the PWA feature spec by July 25th."
+      },
+      {
+        "description": "Create implementation plan for mobile-optimized checkout flow",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-23",
+        "source_quote": "I'll have the implementation plan ready by July 23rd."
+      }
+    ],
+    "decisions": [
+      "Mobile strategy: invest in PWA instead of native iOS or React Native",
+      "Push notifications deferred to next year due to privacy policy complexity"
+    ],
+    "dates": ["2026-07-23", "2026-07-25"]
+  }
+}

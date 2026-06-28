@@ -1,0 +1,56 @@
+{
+  "transcript_id": "test_39_high_speaker_count_03",
+  "category": "high_speaker_count",
+  "transcript": "[Meeting date: 2026-07-21]\n[00:00] You: Executive strategy session. Q3 halfway point. Let's make sure we're on track for the year.\n[00:50] Speaker 1: Revenue is tracking to plan. My concern is churn — Q2 churn rate was 3.2%, up from 2.8% in Q1. I'll present a churn analysis to the board by August 5th.\n[01:35] Speaker 2: On the product side, we've shipped 8 of 12 planned features. The 4 remaining are lower priority. I'll reprioritize Q3 features and share the revised plan by July 24th.\n[02:20] Speaker 3: Engineering team is at 92% capacity. We're stretched. If we want to add any unplanned work this quarter, we'd need to drop something. I'll prepare a capacity model by July 25th.\n[03:00] Speaker 4: Marketing pipeline looks strong. Our content strategy is working — organic traffic up 40% YoY. I'll share the detailed attribution report in next week's staff meeting.\n[03:45] Speaker 5: Customer success — NPS is 48, up from 44 last quarter. But our enterprise tier onboarding time is too long — 45 days average vs. 30-day target. I'll create a 90-day onboarding improvement plan by August 1st.\n[04:30] Speaker 6: Finance — we're 4% under plan on OpEx. The underspend is in headcount. I'll update the annual forecast to reflect the current hiring pace by July 28th.\n[05:10] You: One initiative I want to add: a customer advisory board. Speaker 1, can you identify 5 customers and get commitments from them?\n[05:30] Speaker 1: I'll identify and reach out to 5 customers for the advisory board by August 3rd.\n[06:00] Speaker 2: We also need to revisit our pricing strategy before Q4. I'll start a pricing analysis by August 10th.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Prepare and present churn analysis to the board",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-05",
+        "source_quote": "I'll present a churn analysis to the board by August 5th."
+      },
+      {
+        "description": "Reprioritize Q3 features and share revised product plan",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-24",
+        "source_quote": "I'll reprioritize Q3 features and share the revised plan by July 24th."
+      },
+      {
+        "description": "Prepare engineering capacity model for Q3",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-25",
+        "source_quote": "I'll prepare a capacity model by July 25th."
+      },
+      {
+        "description": "Create 90-day enterprise onboarding improvement plan",
+        "assignee_label": "Speaker 5",
+        "due_date": "2026-08-01",
+        "source_quote": "I'll create a 90-day onboarding improvement plan by August 1st."
+      },
+      {
+        "description": "Update annual financial forecast to reflect current hiring pace",
+        "assignee_label": "Speaker 6",
+        "due_date": "2026-07-28",
+        "source_quote": "I'll update the annual forecast to reflect the current hiring pace by July 28th."
+      },
+      {
+        "description": "Identify and reach out to 5 customers for customer advisory board",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-03",
+        "source_quote": "I'll identify and reach out to 5 customers for the advisory board by August 3rd."
+      },
+      {
+        "description": "Start pricing strategy analysis for Q4",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-10",
+        "source_quote": "I'll start a pricing analysis by August 10th."
+      }
+    ],
+    "decisions": [
+      "Customer advisory board initiative approved — 5 customers to be identified",
+      "Enterprise onboarding target is 30 days (current average is 45)"
+    ],
+    "dates": ["2026-07-24", "2026-07-25", "2026-07-28", "2026-08-01", "2026-08-03", "2026-08-05", "2026-08-10"]
+  }
+}

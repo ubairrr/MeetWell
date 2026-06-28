@@ -1,0 +1,53 @@
+{
+  "transcript_id": "test_49_attribution_bait_02",
+  "category": "attribution_bait",
+  "transcript": "[Meeting date: 2026-07-14]\n[00:00] You: Management sync. Both managers are here today.\n[00:30] Speaker 1: As the engineering manager, I'll handle the performance reviews for my team. I'll complete all reviews by July 28th.\n[01:00] Speaker 2: As the product manager, I need to coordinate the Q3 roadmap presentation. I'll own that and have it ready by July 21st.\n[01:40] You: Speaker 2, can you also make sure the engineering team gets the updated requirements doc?\n[01:55] Speaker 2: That's actually more of an engineering concern. Speaker 1, can you distribute it?\n[02:10] Speaker 1: Sure, I'll send the updated requirements doc to my engineering team by end of day today.\n[02:40] You: Good. Also, the budget request for next quarter — who owns that?\n[02:55] Speaker 1: Engineering budget is mine. I'll submit the engineering budget request by July 18th.\n[03:20] Speaker 2: Product budget is mine. I'll submit the product team budget request by July 18th as well.\n[03:45] Speaker 1: I'll also schedule the team's technical roadmap review with the leadership team for July 25th.",
+  "adversarial_injections": [
+    {
+      "description": "You asked 'Speaker 2' to distribute the requirements doc, but Speaker 2 redirected to Speaker 1 who explicitly accepted — attribution bait: an item asked of Speaker 2 but accepted by Speaker 1",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Complete Q3 performance reviews for engineering team",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-28",
+        "source_quote": "I'll complete all reviews by July 28th."
+      },
+      {
+        "description": "Prepare Q3 roadmap presentation",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-21",
+        "source_quote": "I'll own that and have it ready by July 21st."
+      },
+      {
+        "description": "Send updated requirements document to engineering team",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-14",
+        "source_quote": "I'll send the updated requirements doc to my engineering team by end of day today."
+      },
+      {
+        "description": "Submit engineering budget request for next quarter",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-18",
+        "source_quote": "I'll submit the engineering budget request by July 18th."
+      },
+      {
+        "description": "Submit product team budget request for next quarter",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-18",
+        "source_quote": "I'll submit the product team budget request by July 18th as well."
+      },
+      {
+        "description": "Schedule technical roadmap review with leadership team",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-25",
+        "source_quote": "I'll also schedule the team's technical roadmap review with the leadership team for July 25th."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-07-14", "2026-07-18", "2026-07-21", "2026-07-25", "2026-07-28"]
+  }
+}

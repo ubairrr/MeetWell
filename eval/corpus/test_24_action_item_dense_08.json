@@ -1,0 +1,50 @@
+{
+  "transcript_id": "test_24_action_item_dense_08",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-08-03]\n[00:00] You: Finance quarterly review — Q2 actuals vs. plan.\n[00:40] Speaker 1: Q2 revenue came in at $4.2M vs. $4.0M plan — 5% above. Gross margin was 68%, slightly below the 70% target. The shortfall is from higher cloud infrastructure costs.\n[01:30] Speaker 2: On the cost side, we overspent on software licenses by $45k. I'll review all SaaS contracts and identify redundant tools by August 10th.\n[02:10] Speaker 3: I'll also audit our cloud spend — we've been overprovisioning in several regions. I'll prepare a rightsizing report by August 12th.\n[02:50] You: Good. What about the Q3 forecast?\n[03:05] Speaker 1: Q3 forecast looks strong — $4.8M. But we need to confirm the enterprise pipeline. Speaker 4, where are we on Pegasus Corp?\n[03:30] Speaker 4: Pegasus is at contract stage. If we close by August 15th, it adds $200k to Q3. I'll push for signature this week.\n[04:00] Speaker 2: We should also look at our collections process. Three accounts are 60+ days overdue. I'll reach out to each account by August 5th.\n[04:35] Speaker 3: I'll update the monthly P&L model to reflect the new cloud cost baseline. I'll have an updated version for the board by August 17th.\n[05:00] You: We also need to prepare for the board meeting. Speaker 1, can you own the board package?\n[05:15] Speaker 1: I'll prepare the board financial package — Q2 summary, Q3 forecast, updated annual guidance — by August 20th.\n[05:45] Speaker 4: I should flag: if we close Pegasus before August 15th, I'll update the Q3 forecast in the board package with the revised number.\n[06:05] You: Good. Annual audit prep starts September 1st — let's make sure all Q2 financials are reconciled before then.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Review all SaaS contracts and identify redundant tools to reduce overspend",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-10",
+        "source_quote": "I'll review all SaaS contracts and identify redundant tools by August 10th."
+      },
+      {
+        "description": "Prepare cloud infrastructure rightsizing report",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-12",
+        "source_quote": "I'll prepare a rightsizing report by August 12th."
+      },
+      {
+        "description": "Push for Pegasus Corp contract signature this week",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-07",
+        "source_quote": "I'll push for signature this week."
+      },
+      {
+        "description": "Reach out to three 60+ day overdue accounts to address collections",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-05",
+        "source_quote": "I'll reach out to each account by August 5th."
+      },
+      {
+        "description": "Update monthly P&L model with new cloud cost baseline for board",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-17",
+        "source_quote": "I'll update the monthly P&L model to reflect the new cloud cost baseline. I'll have an updated version for the board by August 17th."
+      },
+      {
+        "description": "Prepare board financial package: Q2 summary, Q3 forecast, updated annual guidance",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-20",
+        "source_quote": "I'll prepare the board financial package — Q2 summary, Q3 forecast, updated annual guidance — by August 20th."
+      }
+    ],
+    "decisions": [
+      "Annual audit prep starts September 1st — Q2 financials must be reconciled before then",
+      "Q2 revenue ended at $4.2M (5% above plan); gross margin was 68% vs 70% target"
+    ],
+    "dates": ["2026-08-05", "2026-08-07", "2026-08-10", "2026-08-12", "2026-08-15", "2026-08-17", "2026-08-20", "2026-09-01"]
+  }
+}

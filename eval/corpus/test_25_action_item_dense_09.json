@@ -1,0 +1,62 @@
+{
+  "transcript_id": "test_25_action_item_dense_09",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-08-05]\n[00:00] You: Security audit planning meeting. We have a third-party pen test scheduled for September 15th.\n[00:50] Speaker 1: Before the pen test, I need to do a full inventory of our attack surface. I'll complete the asset inventory by August 18th.\n[01:25] Speaker 2: I'll run an internal vulnerability scan using Nessus and address any critical findings by August 22nd.\n[02:00] Speaker 3: The pen test scope needs to be agreed with the vendor. I'll finalize the scope of work document and send it to them by August 10th.\n[02:35] Speaker 4: We should also make sure our incident response runbook is updated. I'll review and update the IR runbook by August 15th.\n[03:10] You: Good. What about dependency vulnerabilities?\n[03:25] Speaker 1: I'll audit our npm and pip dependencies for known CVEs and upgrade anything with a high or critical severity. I'll have that done by August 20th.\n[04:00] Speaker 2: I should also check our secret management — we've had a few cases where API keys ended up in logs. I'll audit the logging config and ensure no secrets are ever written to logs. I'll fix any issues by August 19th.\n[04:40] Speaker 3: For the pen test prep, I'll set up a dedicated test environment that mirrors production. I'll have it ready by September 8th.\n[05:10] Speaker 4: I'll also coordinate with the pen testing vendor to confirm logistics — start time, access credentials, emergency contacts. I'll confirm all of that by September 10th.\n[05:45] You: Great. Post-pen-test debrief will be September 30th. We'll review findings and prioritize remediations.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Complete full attack surface asset inventory",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-18",
+        "source_quote": "I'll complete the asset inventory by August 18th."
+      },
+      {
+        "description": "Run internal Nessus vulnerability scan and address critical findings",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-22",
+        "source_quote": "I'll run an internal vulnerability scan using Nessus and address any critical findings by August 22nd."
+      },
+      {
+        "description": "Finalize pen test scope of work document and send to vendor",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-10",
+        "source_quote": "I'll finalize the scope of work document and send it to them by August 10th."
+      },
+      {
+        "description": "Review and update incident response runbook",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-15",
+        "source_quote": "I'll review and update the IR runbook by August 15th."
+      },
+      {
+        "description": "Audit npm and pip dependencies for high/critical CVEs and upgrade affected packages",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-20",
+        "source_quote": "I'll audit our npm and pip dependencies for known CVEs and upgrade anything with a high or critical severity. I'll have that done by August 20th."
+      },
+      {
+        "description": "Audit logging configuration and fix any instances of secrets being written to logs",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-19",
+        "source_quote": "I'll audit the logging config and ensure no secrets are ever written to logs. I'll fix any issues by August 19th."
+      },
+      {
+        "description": "Set up dedicated pen test environment mirroring production",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-09-08",
+        "source_quote": "I'll set up a dedicated test environment that mirrors production. I'll have it ready by September 8th."
+      },
+      {
+        "description": "Confirm pen test logistics with vendor: start time, access credentials, emergency contacts",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-09-10",
+        "source_quote": "I'll coordinate with the pen testing vendor to confirm logistics — start time, access credentials, emergency contacts. I'll confirm all of that by September 10th."
+      }
+    ],
+    "decisions": [
+      "Third-party pen test scheduled for September 15th",
+      "Post-pen-test debrief scheduled for September 30th"
+    ],
+    "dates": ["2026-08-10", "2026-08-15", "2026-08-18", "2026-08-19", "2026-08-20", "2026-08-22", "2026-09-08", "2026-09-10", "2026-09-15", "2026-09-30"]
+  }
+}

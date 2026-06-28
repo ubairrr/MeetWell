@@ -1,0 +1,83 @@
+{
+  "transcript_id": "test_36_date_heavy_10",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-08-24]\n[00:00] You: 90-day onboarding plan checkpoints review for our new VP of Engineering.\n[00:45] Speaker 1: The first 30-day checkpoint is September 23rd. By that point, the VP should have met all direct reports, completed the technical onboarding, and reviewed the current architecture.\n[01:30] Speaker 2: At the 60-day mark — October 23rd — we expect an initial organizational assessment and a draft roadmap for the next quarter.\n[02:10] Speaker 3: The 90-day review is November 22nd. That's when we'll evaluate fit and have the VP present a full 6-month engineering strategy.\n[02:50] You: Good. There are some near-term milestones too. The VP's first all-hands presentation is next Friday, August 28th.\n[03:20] Speaker 1: And the Q4 engineering planning cycle starts October 1st. The VP needs to lead that process, so the onboarding 60-day checkpoint on October 23rd is actually after planning kicks off — we might want to accelerate some technical onboarding.\n[04:00] Speaker 2: Good point. I'll set up an accelerated architecture walkthrough for the VP in the first two weeks — let's say by September 7th.\n[04:35] Speaker 3: We should also introduce the VP to key customers. I'll set up customer calls for the week of September 14th.\n[05:00] You: And the board introduction — the next board meeting is October 8th. The VP should present briefly to the board then.\n[05:30] Speaker 1: I'll prep the VP for the board presentation. I'll have briefing materials ready by October 1st.\n[05:55] You: Perfect. The 6-month comprehensive review is February 22nd, 2027.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Set up accelerated architecture walkthrough for new VP",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-09-07",
+        "source_quote": "I'll set up an accelerated architecture walkthrough for the VP in the first two weeks — let's say by September 7th."
+      },
+      {
+        "description": "Set up customer introduction calls for new VP",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-09-14",
+        "source_quote": "I'll set up customer calls for the week of September 14th."
+      },
+      {
+        "description": "Prepare board presentation briefing materials for VP",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-10-01",
+        "source_quote": "I'll prep the VP for the board presentation. I'll have briefing materials ready by October 1st."
+      }
+    ],
+    "decisions": [
+      "Q4 engineering planning starts October 1st — VP leads the process",
+      "6-month comprehensive review scheduled for February 22nd, 2027"
+    ],
+    "dates": [
+      {
+        "description": "30-day checkpoint",
+        "raw_deadline_text": "September 23rd",
+        "resolved_date": "2026-09-23"
+      },
+      {
+        "description": "60-day checkpoint",
+        "raw_deadline_text": "October 23rd",
+        "resolved_date": "2026-10-23"
+      },
+      {
+        "description": "90-day review",
+        "raw_deadline_text": "November 22nd",
+        "resolved_date": "2026-11-22"
+      },
+      {
+        "description": "VP first all-hands presentation",
+        "raw_deadline_text": "next Friday",
+        "resolved_date": "2026-08-28"
+      },
+      {
+        "description": "Q4 engineering planning kickoff",
+        "raw_deadline_text": "October 1st",
+        "resolved_date": "2026-10-01"
+      },
+      {
+        "description": "Accelerated architecture walkthrough",
+        "raw_deadline_text": "first two weeks",
+        "resolved_date": "2026-09-07"
+      },
+      {
+        "description": "Customer introduction calls for VP",
+        "raw_deadline_text": "week of September 14th",
+        "resolved_date": "2026-09-14"
+      },
+      {
+        "description": "Board introduction meeting",
+        "raw_deadline_text": "October 8th",
+        "resolved_date": "2026-10-08"
+      },
+      {
+        "description": "Board presentation briefing materials",
+        "raw_deadline_text": "October 1st",
+        "resolved_date": "2026-10-01"
+      },
+      {
+        "description": "6-month comprehensive review",
+        "raw_deadline_text": "February 22nd, 2027",
+        "resolved_date": "2027-02-22"
+      }
+    ]
+  }
+}

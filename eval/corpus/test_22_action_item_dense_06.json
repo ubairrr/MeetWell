@@ -1,0 +1,62 @@
+{
+  "transcript_id": "test_22_action_item_dense_06",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-07-22]\n[00:00] You: Design system review. We've been inconsistent across products and it's slowing teams down.\n[00:45] Speaker 1: The token audit is done. We have 340 color tokens, many duplicates. I'll consolidate to a canonical set of 80 tokens and publish the updated token spec by July 31st.\n[01:30] Speaker 2: The component library has 47 components but only 30 are documented. I'll write documentation for the remaining 17 components by August 7th.\n[02:15] Speaker 3: We also need a migration guide for teams currently using the old components. I'll write the migration guide by August 10th.\n[02:50] You: What about the icon set?\n[03:05] Speaker 1: The icon set is inconsistent — some are 20px, some 24px. I'll standardize all icons to 24px and rebuild the icon library by August 3rd.\n[03:35] Speaker 4: Storybook needs to be updated too. I'll add interactive examples for all 47 components. I'll have the first 25 done by August 5th and all 47 by August 14th.\n[04:10] Speaker 2: We should also run an audit of which components are actually being used across products. I'll run the usage analysis script and share the report by July 25th.\n[04:45] You: Good idea. Speaker 3, can you set up the design system Slack channel and communication plan?\n[05:00] Speaker 3: I'll create the design-system Slack channel and post the adoption roadmap by July 24th.\n[05:30] Speaker 4: I'll also set up automated visual regression testing for the component library. I'll have that running in CI by August 12th.\n[06:00] You: The design system should be production-ready for all teams by September 1st.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Consolidate color tokens to canonical set of 80 and publish updated token spec",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-31",
+        "source_quote": "I'll consolidate to a canonical set of 80 tokens and publish the updated token spec by July 31st."
+      },
+      {
+        "description": "Write documentation for 17 undocumented components in component library",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-07",
+        "source_quote": "I'll write documentation for the remaining 17 components by August 7th."
+      },
+      {
+        "description": "Write migration guide for teams transitioning from old components",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-10",
+        "source_quote": "I'll write the migration guide by August 10th."
+      },
+      {
+        "description": "Standardize all icons to 24px and rebuild icon library",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-03",
+        "source_quote": "I'll standardize all icons to 24px and rebuild the icon library by August 3rd."
+      },
+      {
+        "description": "Add interactive Storybook examples for all 47 components (first 25 by Aug 5, all 47 by Aug 14)",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-14",
+        "source_quote": "I'll add interactive examples for all 47 components. I'll have the first 25 done by August 5th and all 47 by August 14th."
+      },
+      {
+        "description": "Run component usage analysis script and share report",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-25",
+        "source_quote": "I'll run the usage analysis script and share the report by July 25th."
+      },
+      {
+        "description": "Create design-system Slack channel and post adoption roadmap",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-24",
+        "source_quote": "I'll create the design-system Slack channel and post the adoption roadmap by July 24th."
+      },
+      {
+        "description": "Set up automated visual regression testing for component library in CI",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-12",
+        "source_quote": "I'll set up automated visual regression testing for the component library. I'll have that running in CI by August 12th."
+      }
+    ],
+    "decisions": [
+      "Design system should be production-ready for all teams by September 1st",
+      "Icon standard: 24px across all icons"
+    ],
+    "dates": ["2026-07-24", "2026-07-25", "2026-07-31", "2026-08-03", "2026-08-05", "2026-08-07", "2026-08-10", "2026-08-12", "2026-08-14", "2026-09-01"]
+  }
+}

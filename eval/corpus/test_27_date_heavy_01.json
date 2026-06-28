@@ -1,0 +1,71 @@
+{
+  "transcript_id": "test_27_date_heavy_01",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-06-20]\n[00:00] You: Release planning for v3.0. Let's nail down all the milestone dates.\n[00:40] Speaker 1: Feature freeze is June 30th. After that, no new features — only bug fixes.\n[01:15] Speaker 2: The beta build goes to internal testers on July 7th. We need at least 2 weeks of internal testing before external beta.\n[01:55] You: So external beta starts July 21st?\n[02:05] Speaker 2: Correct. External beta runs for three weeks, ending August 11th.\n[02:35] Speaker 1: The production release is August 18th. We'll need the release notes done a week before launch, so by August 11th.\n[03:10] Speaker 3: App Store review typically takes 5 to 7 business days. So we need to submit by August 11th to be safe for August 18th.\n[03:50] You: What about localization?\n[04:05] Speaker 3: Localization strings freeze on July 15th. Translators need 3 weeks, so translated strings come back by August 5th.\n[04:40] Speaker 1: The marketing site update needs to go live on the same day as the app release, August 18th. Speaker 2 needs the content by next Friday, June 27th.\n[05:15] Speaker 2: Got it. I'll have the website content ready by June 27th.\n[05:35] You: And post-launch we'll do a retrospective. Let's schedule that for sometime in September — not a firm date yet, just soon after launch.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Have website content ready for marketing site update",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-06-27",
+        "source_quote": "I'll have the website content ready by June 27th."
+      }
+    ],
+    "decisions": [
+      "Feature freeze is June 30th — only bug fixes after that",
+      "Production release date is August 18th"
+    ],
+    "dates": [
+      {
+        "description": "Feature freeze",
+        "raw_deadline_text": "June 30th",
+        "resolved_date": "2026-06-30"
+      },
+      {
+        "description": "Internal beta build to testers",
+        "raw_deadline_text": "July 7th",
+        "resolved_date": "2026-07-07"
+      },
+      {
+        "description": "External beta start",
+        "raw_deadline_text": "July 21st",
+        "resolved_date": "2026-07-21"
+      },
+      {
+        "description": "External beta end / release notes due",
+        "raw_deadline_text": "August 11th",
+        "resolved_date": "2026-08-11"
+      },
+      {
+        "description": "App Store submission deadline",
+        "raw_deadline_text": "August 11th",
+        "resolved_date": "2026-08-11"
+      },
+      {
+        "description": "Localization strings freeze",
+        "raw_deadline_text": "July 15th",
+        "resolved_date": "2026-07-15"
+      },
+      {
+        "description": "Translated strings return",
+        "raw_deadline_text": "August 5th",
+        "resolved_date": "2026-08-05"
+      },
+      {
+        "description": "Production release / website goes live",
+        "raw_deadline_text": "August 18th",
+        "resolved_date": "2026-08-18"
+      },
+      {
+        "description": "Website content ready",
+        "raw_deadline_text": "next Friday",
+        "resolved_date": "2026-06-27"
+      },
+      {
+        "description": "Post-launch retrospective",
+        "raw_deadline_text": "sometime in September",
+        "resolved_date": null
+      }
+    ]
+  }
+}

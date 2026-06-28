@@ -1,0 +1,73 @@
+{
+  "transcript_id": "test_18_action_item_dense_02",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-07-09]\n[00:00] You: Sales pipeline review. Let's work through the top 10 opportunities.\n[00:35] Speaker 1: Acme Corp is at proposal stage. I'll send them the revised pricing deck by July 11th. They've asked about an enterprise pilot — I'll also put together a pilot scope document by July 14th.\n[01:30] Speaker 2: Globex is at contract review. Their legal team wants redlines back by July 12th. I'll handle those today.\n[02:00] You: Good. Initech — where are we?\n[02:15] Speaker 3: Initech stalled after the demo. I'll set up a follow-up call with their CTO for next week. I'll send the calendar invite today.\n[02:50] Speaker 1: I should also loop in our solutions engineer for the Initech follow-up. Speaker 4, can you join that call?\n[03:05] Speaker 4: Yes. I'll also prepare a custom technical deep-dive deck for Initech by July 14th.\n[03:35] You: What about Vandelay Industries?\n[03:50] Speaker 2: Vandelay is a new inbound from last week. I'll qualify them with a discovery call this week — I'll book it today.\n[04:20] Speaker 3: There's also a renewal coming up — Umbrella Corp's contract expires July 31st. I'll reach out to their account manager by July 12th to start renewal discussions.\n[04:55] You: Good. Speaker 1, can you update the CRM with all these opportunity stages?\n[05:10] Speaker 1: I'll update all opportunity stages in Salesforce by end of day today.\n[05:35] You: And let's make sure our Q3 forecast is updated. Speaker 2, can you own that?\n[05:50] Speaker 2: I'll update the Q3 sales forecast in the board deck by July 16th.\n[06:10] Speaker 4: I should also note that we need product feedback on the demo environment — some flows are broken. I'll file a bug report with the product team today.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Send Acme Corp revised pricing deck",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-11",
+        "source_quote": "I'll send them the revised pricing deck by July 11th."
+      },
+      {
+        "description": "Prepare enterprise pilot scope document for Acme Corp",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-14",
+        "source_quote": "I'll also put together a pilot scope document by July 14th."
+      },
+      {
+        "description": "Handle Globex contract redlines and return to legal team",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-09",
+        "source_quote": "Their legal team wants redlines back by July 12th. I'll handle those today."
+      },
+      {
+        "description": "Set up follow-up call with Initech CTO and send calendar invite",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-09",
+        "source_quote": "I'll set up a follow-up call with their CTO for next week. I'll send the calendar invite today."
+      },
+      {
+        "description": "Prepare custom technical deep-dive deck for Initech",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-14",
+        "source_quote": "I'll also prepare a custom technical deep-dive deck for Initech by July 14th."
+      },
+      {
+        "description": "Book discovery call with Vandelay Industries",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-09",
+        "source_quote": "I'll qualify them with a discovery call this week — I'll book it today."
+      },
+      {
+        "description": "Reach out to Umbrella Corp account manager to start renewal discussions",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-12",
+        "source_quote": "I'll reach out to their account manager by July 12th to start renewal discussions."
+      },
+      {
+        "description": "Update all opportunity stages in Salesforce CRM",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-09",
+        "source_quote": "I'll update all opportunity stages in Salesforce by end of day today."
+      },
+      {
+        "description": "Update Q3 sales forecast in board deck",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-16",
+        "source_quote": "I'll update the Q3 sales forecast in the board deck by July 16th."
+      },
+      {
+        "description": "File bug report with product team about broken demo environment flows",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-09",
+        "source_quote": "I'll file a bug report with the product team today."
+      }
+    ],
+    "decisions": [
+      "Umbrella Corp renewal discussions should begin before contract expiry on July 31st"
+    ],
+    "dates": ["2026-07-09", "2026-07-11", "2026-07-12", "2026-07-14", "2026-07-16", "2026-07-31"]
+  }
+}

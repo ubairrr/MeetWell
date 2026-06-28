@@ -1,0 +1,89 @@
+{
+  "transcript_id": "test_32_date_heavy_06",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-08-10]\n[00:00] You: Vendor contract renewal planning. We have several coming up.\n[00:40] Speaker 1: Our AWS contract renews November 1st. We need to submit the usage forecast to our account manager 45 days in advance — so by September 17th.\n[01:20] Speaker 2: The Datadog contract renews October 15th. I'll send them the renewal request by September 15th.\n[01:55] Speaker 3: Zendesk is up for renewal on December 1st. We're 30 days past the cancellation notice window, so we're locked in for another year regardless.\n[02:35] Speaker 1: Stripe's contract doesn't expire — it's month-to-month. But we should renegotiate the processing rate since our volume grew. I'd like to get that negotiation done before end of quarter, so by September 30th.\n[03:15] You: What about GitHub Enterprise?\n[03:30] Speaker 2: GitHub Enterprise renews January 15th, 2027. We need to submit a seat count update by December 1st.\n[04:05] Speaker 3: The biggest one is Salesforce — it comes up for renewal on October 31st. We've been in contract negotiations for a month. I'll get the final terms from their AE by August 21st.\n[04:45] Speaker 1: We also have a new vendor evaluation in progress — we're looking at replacing Intercom. The vendor evaluation should be done as soon as possible, but realistically we have until end of year before we need to make a decision.\n[05:20] You: Good. I'll also need budget approvals for all renewals over $50k. That approval cycle takes about 3 weeks, so I'll need proposals from each of you well in advance.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Submit AWS usage forecast to account manager",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-09-17",
+        "source_quote": "We need to submit the usage forecast to our account manager 45 days in advance — so by September 17th."
+      },
+      {
+        "description": "Send Datadog renewal request",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-09-15",
+        "source_quote": "I'll send them the renewal request by September 15th."
+      },
+      {
+        "description": "Complete Stripe processing rate renegotiation",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-09-30",
+        "source_quote": "I'd like to get that negotiation done before end of quarter, so by September 30th."
+      },
+      {
+        "description": "Get final Salesforce contract terms from their AE",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-21",
+        "source_quote": "I'll get the final terms from their AE by August 21st."
+      }
+    ],
+    "decisions": [
+      "Zendesk is auto-renewed for another year — cancellation window already passed",
+      "Vendor evaluation for Intercom replacement needed before end of year"
+    ],
+    "dates": [
+      {
+        "description": "AWS usage forecast due to account manager",
+        "raw_deadline_text": "45 days before November 1st renewal",
+        "resolved_date": "2026-09-17"
+      },
+      {
+        "description": "AWS contract renewal",
+        "raw_deadline_text": "November 1st",
+        "resolved_date": "2026-11-01"
+      },
+      {
+        "description": "Datadog renewal request",
+        "raw_deadline_text": "September 15th",
+        "resolved_date": "2026-09-15"
+      },
+      {
+        "description": "Datadog contract renewal",
+        "raw_deadline_text": "October 15th",
+        "resolved_date": "2026-10-15"
+      },
+      {
+        "description": "Zendesk contract renewal",
+        "raw_deadline_text": "December 1st",
+        "resolved_date": "2026-12-01"
+      },
+      {
+        "description": "Stripe rate renegotiation target",
+        "raw_deadline_text": "end of quarter",
+        "resolved_date": "2026-09-30"
+      },
+      {
+        "description": "GitHub Enterprise seat count update",
+        "raw_deadline_text": "December 1st",
+        "resolved_date": "2026-12-01"
+      },
+      {
+        "description": "GitHub Enterprise renewal",
+        "raw_deadline_text": "January 15th, 2027",
+        "resolved_date": "2027-01-15"
+      },
+      {
+        "description": "Salesforce final contract terms",
+        "raw_deadline_text": "August 21st",
+        "resolved_date": "2026-08-21"
+      },
+      {
+        "description": "Intercom replacement decision deadline",
+        "raw_deadline_text": "as soon as possible",
+        "resolved_date": null
+      }
+    ]
+  }
+}

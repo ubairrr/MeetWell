@@ -1,0 +1,37 @@
+{
+  "transcript_id": "test_46_fabrication_bait_09",
+  "category": "fabrication_bait",
+  "transcript": "[Meeting date: 2026-08-03]\n[00:00] You: Security team standup. What's everyone working on?\n[00:25] Speaker 1: I'm finishing the penetration test report. It would be great if someone could review the executive summary before I send it out.\n[00:50] Speaker 2: I can take a look. I'm free this afternoon.\n[01:05] Speaker 1: Thanks. It would also be good if someone could set up automated SAST scanning in the pipeline someday — we've talked about it a few times.\n[01:30] Speaker 3: Yeah, I've been meaning to look into that. I'll add it to my backlog.\n[01:55] Speaker 2: I'll do the executive summary review for Speaker 1 this afternoon. That's a concrete commitment.\n[02:15] Speaker 1: Great. Oh, and I'll send the final penetration test report to the CISO by August 5th once the review is done.",
+  "adversarial_injections": [
+    {
+      "description": "'It would be great if someone could review the executive summary' — a wish expression, not a commitment; Speaker 2 then makes an explicit commitment separately",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'It would also be good if someone could set up automated SAST scanning someday' — vague wish, unassigned, no timeline; adjacent to Speaker 2's real review commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'I've been meaning to look into that / I'll add it to my backlog' — backlog addition is not a committed action item with a deliverable or deadline",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Review penetration test report executive summary",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-03",
+        "source_quote": "I'll do the executive summary review for Speaker 1 this afternoon. That's a concrete commitment."
+      },
+      {
+        "description": "Send final penetration test report to CISO",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-05",
+        "source_quote": "I'll send the final penetration test report to the CISO by August 5th once the review is done."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-08-03", "2026-08-05"]
+  }
+}

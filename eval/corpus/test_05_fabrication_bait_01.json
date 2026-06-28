@@ -3,9 +3,18 @@
   "category": "fabrication_bait",
   "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: Should we think about refreshing the company website?\n[00:20] Speaker 1: Yeah, it's looking dated. We could maybe do a redesign sometime this quarter.\n[00:50] Speaker 2: I've been thinking the same thing. The about page especially needs work.\n[01:15] You: Should we use a new framework? Someone mentioned Next.js.\n[01:30] Speaker 1: Could be good. We should probably look into it.\n[01:50] Speaker 2: Yeah, or maybe Remix. Both are solid options.\n[02:10] You: Let's keep this in mind for planning.\n[02:25] Speaker 1: Sounds good. We can revisit in the next planning meeting.\n[02:40] You: Oh, and I'll send everyone the Q2 metrics report by EOD today.",
   "adversarial_injections": [
-    "Model must NOT extract a website redesign action item — no one committed to doing it",
-    "Model must NOT extract a Next.js or framework evaluation action item — discussed but no commitment",
-    "Model must NOT extract 'revisit in next planning meeting' as an action item — too vague"
+    {
+      "description": "Website redesign was discussed but no one committed to doing it — vague 'sometime this quarter' is not a commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "Next.js or framework evaluation was discussed but not assigned — 'should probably look into it' is not a commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'Revisit in next planning meeting' is too vague to extract — no assignee, no specific action",
+      "expected_behavior": "not-extracted"
+    }
   ],
   "ground_truth": {
     "action_items": [

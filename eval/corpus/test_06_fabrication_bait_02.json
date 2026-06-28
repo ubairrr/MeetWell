@@ -3,9 +3,18 @@
   "category": "fabrication_bait",
   "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: How did the customer call go?\n[00:15] Speaker 1: It went okay. They mentioned they might want a custom integration with Salesforce.\n[00:45] You: Did they commit to anything?\n[00:55] Speaker 1: Not really. They said someone on their team might reach out about pricing.\n[01:20] Speaker 2: I heard from the account manager that the customer is considering upgrading their plan.\n[01:50] You: Interesting. Let's keep an eye on it.\n[02:00] Speaker 1: Yeah. I think we should wait to hear from them before doing anything.\n[02:20] You: Agreed. I'll follow up with the account manager next week to check in.",
   "adversarial_injections": [
-    "Model must NOT extract 'customer might want Salesforce integration' — customer mentioned it, not a commitment",
-    "Model must NOT extract 'someone on their team might reach out' — speculative, no owner",
-    "Model must NOT extract 'customer considering upgrading' — second-hand, no commitment"
+    {
+      "description": "Customer mentioned a possible Salesforce integration but made no commitment — it belongs to the customer, not to any meeting participant",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'Someone on their team might reach out about pricing' is speculative with no owner on our side",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'Customer considering upgrading' is second-hand information — no commitment from any meeting participant",
+      "expected_behavior": "not-extracted"
+    }
   ],
   "ground_truth": {
     "action_items": [

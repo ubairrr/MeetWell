@@ -1,0 +1,77 @@
+{
+  "transcript_id": "test_28_date_heavy_02",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-07-05]\n[00:00] You: Sales targets and deadline review for Q3.\n[00:35] Speaker 1: We're closing the books on Q2 on July 10th. Final revenue number needs to be locked by then.\n[01:10] Speaker 2: The Q3 midpoint check-in is August 15th. We'll review pipeline health and adjust forecasts if needed.\n[01:45] Speaker 3: The end of Q3 is September 30th. We need $3.2M in bookings.\n[02:20] You: What's the drop-dead date for closing the Horizon deal?\n[02:35] Speaker 1: Horizon's fiscal year ends July 31st. If we don't close by then, it moves to their next fiscal year and we lose the budget allocation.\n[03:05] Speaker 2: I'll prioritize Horizon this week and next. I'm targeting a signed contract by July 25th to give us buffer.\n[03:35] Speaker 3: The Atlas contract renewal comes up at the end of the month — July 31st. I'll reach out to their VP by July 14th.\n[04:00] You: What about the new enterprise pilot program?\n[04:15] Speaker 1: The pilot program kicks off on August 1st and runs for 60 days — so it wraps up around September 30th.\n[04:50] Speaker 2: The CFO wants a mid-quarter board update. That's scheduled for August 20th. We'll need the sales summary to him by August 18th.\n[05:20] You: And the annual customer conference is in the fall — we haven't locked the exact dates yet, but probably late October.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Prioritize Horizon deal to close before July 25th",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-25",
+        "source_quote": "I'm targeting a signed contract by July 25th to give us buffer."
+      },
+      {
+        "description": "Reach out to Atlas VP about contract renewal",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-14",
+        "source_quote": "I'll reach out to their VP by July 14th."
+      }
+    ],
+    "decisions": [
+      "Q3 booking target is $3.2M by September 30th",
+      "Horizon must close by July 31st (their fiscal year end) or budget is lost"
+    ],
+    "dates": [
+      {
+        "description": "Q2 books close",
+        "raw_deadline_text": "July 10th",
+        "resolved_date": "2026-07-10"
+      },
+      {
+        "description": "Q3 midpoint check-in",
+        "raw_deadline_text": "August 15th",
+        "resolved_date": "2026-08-15"
+      },
+      {
+        "description": "End of Q3 / Q3 booking target deadline",
+        "raw_deadline_text": "September 30th",
+        "resolved_date": "2026-09-30"
+      },
+      {
+        "description": "Horizon fiscal year end / deal deadline",
+        "raw_deadline_text": "July 31st",
+        "resolved_date": "2026-07-31"
+      },
+      {
+        "description": "Horizon contract target close",
+        "raw_deadline_text": "July 25th",
+        "resolved_date": "2026-07-25"
+      },
+      {
+        "description": "Atlas renewal / reach out to VP",
+        "raw_deadline_text": "July 14th",
+        "resolved_date": "2026-07-14"
+      },
+      {
+        "description": "Enterprise pilot program start",
+        "raw_deadline_text": "August 1st",
+        "resolved_date": "2026-08-01"
+      },
+      {
+        "description": "Enterprise pilot program end",
+        "raw_deadline_text": "around September 30th",
+        "resolved_date": "2026-09-30"
+      },
+      {
+        "description": "Board update / CFO meeting",
+        "raw_deadline_text": "August 20th",
+        "resolved_date": "2026-08-20"
+      },
+      {
+        "description": "Annual customer conference",
+        "raw_deadline_text": "probably late October",
+        "resolved_date": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "transcript_id": "test_30_date_heavy_04",
+  "category": "date_heavy",
+  "transcript": "[Meeting date: 2026-07-13]\n[00:00] You: Product launch planning. We're targeting a global launch for our new analytics module.\n[00:45] Speaker 1: The dev complete date is August 7th. That's when all features need to be done and in staging.\n[01:20] Speaker 2: QA testing runs August 10th through August 21st — two weeks.\n[02:00] Speaker 3: We need the user documentation written by August 14th so it can be reviewed during QA. I'll have it done in two weeks — by July 27th for first draft, final by August 14th.\n[02:50] You: What about the in-app onboarding tour?\n[03:05] Speaker 1: The onboarding tour is part of the feature scope. It'll be done by August 7th with the rest of the dev work.\n[03:35] Speaker 4: We should do a soft launch to a subset of customers first. I suggest a 1-week soft launch August 24th through August 30th before the full public launch.\n[04:15] You: Good idea. So full public launch is August 31st?\n[04:25] Speaker 4: Yes, August 31st. That gives us a week post-QA to fix any critical issues found in soft launch.\n[04:55] Speaker 2: The press embargo lifts the morning of August 31st. I'll coordinate with PR — embargo confirmation goes to journalists by August 24th.\n[05:30] Speaker 3: Customer success needs to be trained on the new module before launch. I'll schedule training for the week of August 17th.\n[06:00] You: And the post-launch review — let's schedule that for three weeks after launch, so around September 21st.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Write user documentation first draft",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-27",
+        "source_quote": "I'll have it done in two weeks — by July 27th for first draft, final by August 14th."
+      },
+      {
+        "description": "Send press embargo confirmation to journalists",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-24",
+        "source_quote": "embargo confirmation goes to journalists by August 24th."
+      },
+      {
+        "description": "Schedule customer success training for new analytics module",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-17",
+        "source_quote": "I'll schedule training for the week of August 17th."
+      }
+    ],
+    "decisions": [
+      "Soft launch August 24-30th for subset of customers before public launch",
+      "Full public launch date: August 31st"
+    ],
+    "dates": [
+      {
+        "description": "Dev complete date",
+        "raw_deadline_text": "August 7th",
+        "resolved_date": "2026-08-07"
+      },
+      {
+        "description": "QA testing start",
+        "raw_deadline_text": "August 10th",
+        "resolved_date": "2026-08-10"
+      },
+      {
+        "description": "QA testing end",
+        "raw_deadline_text": "August 21st",
+        "resolved_date": "2026-08-21"
+      },
+      {
+        "description": "User documentation first draft",
+        "raw_deadline_text": "in two weeks",
+        "resolved_date": "2026-07-27"
+      },
+      {
+        "description": "User documentation final version",
+        "raw_deadline_text": "August 14th",
+        "resolved_date": "2026-08-14"
+      },
+      {
+        "description": "Soft launch start",
+        "raw_deadline_text": "August 24th",
+        "resolved_date": "2026-08-24"
+      },
+      {
+        "description": "Soft launch end",
+        "raw_deadline_text": "August 30th",
+        "resolved_date": "2026-08-30"
+      },
+      {
+        "description": "Full public launch / press embargo lift",
+        "raw_deadline_text": "August 31st",
+        "resolved_date": "2026-08-31"
+      },
+      {
+        "description": "Customer success training week",
+        "raw_deadline_text": "week of August 17th",
+        "resolved_date": "2026-08-17"
+      },
+      {
+        "description": "Post-launch review",
+        "raw_deadline_text": "three weeks after launch",
+        "resolved_date": "2026-09-21"
+      }
+    ]
+  }
+}

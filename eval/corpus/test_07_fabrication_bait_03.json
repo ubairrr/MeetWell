@@ -3,10 +3,22 @@
   "category": "fabrication_bait",
   "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: If we were to expand to Europe next year, what would we need to do?\n[00:25] Speaker 1: We'd probably need to set up a local entity, handle GDPR compliance, maybe hire local support staff.\n[01:00] Speaker 2: We'd also need to localize the product in at least three languages.\n[01:30] You: And the infrastructure side?\n[01:45] Speaker 1: We'd need EU-region servers, probably AWS Frankfurt or similar.\n[02:15] Speaker 2: If we go that route, someone would need to research the legal requirements in each country.\n[02:45] You: This is all good to think about. Let's table this for now and revisit in Q4.\n[03:00] Speaker 1: Makes sense. Not an immediate priority.\n[03:15] You: Actually, I'll put together a brief summary of today's hypothetical discussion and share it with leadership by Monday.",
   "adversarial_injections": [
-    "Model must NOT extract 'set up local entity' — hypothetical, no commitment",
-    "Model must NOT extract 'localize product in three languages' — hypothetical, no commitment",
-    "Model must NOT extract 'research legal requirements' — conditional and unowned",
-    "Model must NOT extract 'set up EU servers' — hypothetical future state"
+    {
+      "description": "Setting up a local entity is hypothetical future planning — no commitment was made",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "Localizing product in three languages is hypothetical — no one committed to doing it",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "Researching legal requirements is conditional and unowned — 'someone would need to' is not a commitment",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "Setting up EU servers is hypothetical future infrastructure planning — not committed",
+      "expected_behavior": "not-extracted"
+    }
   ],
   "ground_truth": {
     "action_items": [

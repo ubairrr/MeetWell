@@ -1,0 +1,79 @@
+{
+  "transcript_id": "test_17_action_item_dense_01",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-07-06]\n[00:00] You: Engineering sprint planning for sprint 24. Let's go through each track.\n[00:30] Speaker 1: Backend track: I'll finish the payments API integration by July 10th. I also need to fix the rate limiter bug — I'll get that done by July 8th.\n[01:15] Speaker 2: Frontend track: I'll complete the dashboard redesign by July 13th. Speaker 3, I'll need your design review on the new components by July 9th so I can incorporate feedback.\n[02:00] Speaker 3: I'll review Speaker 2's dashboard components and send feedback by July 9th. I'll also finalize the mobile design tokens — I can have those ready by July 11th.\n[02:45] Speaker 4: Platform track: I'll set up the staging Kubernetes cluster by July 7th. I'll also update the CI/CD pipeline to run integration tests on every PR — I'll have that configured by July 10th.\n[03:30] You: Good. We also need to address the accessibility audit findings. Speaker 1, can you fix the keyboard navigation issues?\n[03:50] Speaker 1: I'll fix the keyboard navigation issues in the settings panel by July 14th.\n[04:15] You: And the contrast ratio failures — Speaker 2?\n[04:30] Speaker 2: I'll fix the color contrast issues across the main nav by July 14th.\n[04:55] Speaker 3: I'll update the design system documentation to include accessibility guidelines. I'll have that done by July 15th.\n[05:20] You: Great. Speaker 4, can you set up automated accessibility testing in CI?\n[05:35] Speaker 4: I'll integrate axe-core into the CI pipeline by July 15th.\n[06:00] You: The sprint review is July 24th. Let's make sure everything is demo-ready by July 22nd.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Complete payments API integration",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-10",
+        "source_quote": "I'll finish the payments API integration by July 10th."
+      },
+      {
+        "description": "Fix the rate limiter bug",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-08",
+        "source_quote": "I also need to fix the rate limiter bug — I'll get that done by July 8th."
+      },
+      {
+        "description": "Complete dashboard redesign",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-13",
+        "source_quote": "I'll complete the dashboard redesign by July 13th."
+      },
+      {
+        "description": "Review dashboard components and send design feedback",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-09",
+        "source_quote": "I'll review Speaker 2's dashboard components and send feedback by July 9th."
+      },
+      {
+        "description": "Finalize mobile design tokens",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-11",
+        "source_quote": "I'll also finalize the mobile design tokens — I can have those ready by July 11th."
+      },
+      {
+        "description": "Set up staging Kubernetes cluster",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-07",
+        "source_quote": "I'll set up the staging Kubernetes cluster by July 7th."
+      },
+      {
+        "description": "Configure CI/CD pipeline to run integration tests on every PR",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-10",
+        "source_quote": "I'll also update the CI/CD pipeline to run integration tests on every PR — I'll have that configured by July 10th."
+      },
+      {
+        "description": "Fix keyboard navigation issues in settings panel",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-14",
+        "source_quote": "I'll fix the keyboard navigation issues in the settings panel by July 14th."
+      },
+      {
+        "description": "Fix color contrast failures across main navigation",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-14",
+        "source_quote": "I'll fix the color contrast issues across the main nav by July 14th."
+      },
+      {
+        "description": "Update design system documentation with accessibility guidelines",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-15",
+        "source_quote": "I'll update the design system documentation to include accessibility guidelines. I'll have that done by July 15th."
+      },
+      {
+        "description": "Integrate axe-core accessibility testing into CI pipeline",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-15",
+        "source_quote": "I'll integrate axe-core into the CI pipeline by July 15th."
+      }
+    ],
+    "decisions": [
+      "Sprint review is July 24th; all work must be demo-ready by July 22nd"
+    ],
+    "dates": ["2026-07-07", "2026-07-08", "2026-07-09", "2026-07-10", "2026-07-11", "2026-07-13", "2026-07-14", "2026-07-15", "2026-07-22", "2026-07-24"]
+  }
+}

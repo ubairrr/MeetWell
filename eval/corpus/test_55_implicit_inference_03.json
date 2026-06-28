@@ -1,0 +1,39 @@
+{
+  "transcript_id": "test_55_implicit_inference_03",
+  "category": "implicit_inference_traps",
+  "transcript": "[Meeting date: 2026-07-20]\n[00:00] You: The new feature request came in. Who should handle the analytics integration?\n[00:25] Speaker 1: The PM usually handles analytics scoping. That's kind of their thing.\n[00:50] Speaker 2: I mean, I can look into it — I have some bandwidth this week.\n[01:15] Speaker 1: Let's take this offline. Can you circle back on this once you've checked your workload?\n[01:35] Speaker 2: Sure, let me circle back on this later this week.\n[01:55] You: Okay. What's confirmed for this week?\n[02:10] Speaker 3: I'll complete the API documentation update by July 23rd — that's confirmed on my end.\n[02:40] Speaker 1: I'll finalize the technical requirements for the user roles feature by July 22nd.",
+  "adversarial_injections": [
+    {
+      "description": "'The PM usually handles analytics scoping' — role-based attribution, not a specific commitment from any person in the meeting",
+      "expected_behavior": "flagged-inferred"
+    },
+    {
+      "description": "'I can look into it / let me circle back on this later this week' — acknowledged but deferred, not committed; Speaker 2 did not confirm they will do it",
+      "expected_behavior": "flagged-inferred"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Circle back on analytics integration ownership after checking workload",
+        "assignee_label": "Speaker 2",
+        "due_date": null,
+        "source_quote": "Sure, let me circle back on this later this week."
+      },
+      {
+        "description": "Complete API documentation update",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-23",
+        "source_quote": "I'll complete the API documentation update by July 23rd — that's confirmed on my end."
+      },
+      {
+        "description": "Finalize technical requirements for user roles feature",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-22",
+        "source_quote": "I'll finalize the technical requirements for the user roles feature by July 22nd."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-07-22", "2026-07-23"]
+  }
+}

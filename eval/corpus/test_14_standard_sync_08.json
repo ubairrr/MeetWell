@@ -1,0 +1,44 @@
+{
+  "transcript_id": "test_14_standard_sync_08",
+  "category": "standard_sync",
+  "transcript": "[Meeting date: 2026-07-14]\n[00:00] You: Welcome, everyone. This is the onboarding kickoff for our two new engineers. Speaker 1 and Speaker 2 are joining us from different teams. Let's make sure they're set up for success.\n[00:50] Speaker 3: Great to have you both. I'll be the onboarding buddy for Speaker 1. I'll schedule our first 1:1 for tomorrow, July 15th.\n[01:25] Speaker 4: And I'll be the buddy for Speaker 2. Same thing — let's connect tomorrow to go over the first week.\n[01:55] You: Perfect. Speaker 1, Speaker 2, your first task is to complete the dev environment setup. There's a setup guide in the wiki. Reach out if anything's broken.\n[02:30] Speaker 1: Got it. Is there a deadline for the setup?\n[02:40] You: I'd like you both set up by end of day Friday, July 18th. After that you should be ready to pick up your first tickets.\n[03:10] Speaker 3: I'll also make sure Speaker 1 gets access to all the right Slack channels and systems. I'll take care of that today.\n[03:40] Speaker 4: I'll do the same for Speaker 2 — access provisioning by end of day today.\n[04:00] You: Good. Let's also plan a team lunch to welcome them properly. Speaker 3, can you organize that?\n[04:20] Speaker 3: I'll organize a team lunch for next Wednesday, July 22nd. I'll send a calendar invite today.\n[04:50] You: Excellent. The 30-day check-in will be August 13th. I'll put that on both of their calendars.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Schedule first 1:1 with Speaker 1 for onboarding",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-15",
+        "source_quote": "I'll schedule our first 1:1 for tomorrow, July 15th."
+      },
+      {
+        "description": "Schedule first 1:1 with Speaker 2 for onboarding",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-15",
+        "source_quote": "And I'll be the buddy for Speaker 2. Same thing — let's connect tomorrow to go over the first week."
+      },
+      {
+        "description": "Provision Slack channels and system access for Speaker 1",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-14",
+        "source_quote": "I'll also make sure Speaker 1 gets access to all the right Slack channels and systems. I'll take care of that today."
+      },
+      {
+        "description": "Provision system access for Speaker 2",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-14",
+        "source_quote": "I'll do the same for Speaker 2 — access provisioning by end of day today."
+      },
+      {
+        "description": "Organize team welcome lunch for new engineers",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-22",
+        "source_quote": "I'll organize a team lunch for next Wednesday, July 22nd. I'll send a calendar invite today."
+      }
+    ],
+    "decisions": [
+      "New engineers must complete dev environment setup by July 18th before picking up tickets",
+      "30-day check-in scheduled for August 13th"
+    ],
+    "dates": ["2026-07-15", "2026-07-18", "2026-07-22", "2026-08-13"]
+  }
+}

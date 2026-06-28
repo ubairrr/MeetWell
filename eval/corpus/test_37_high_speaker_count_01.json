@@ -1,0 +1,62 @@
+{
+  "transcript_id": "test_37_high_speaker_count_01",
+  "category": "high_speaker_count",
+  "transcript": "[Meeting date: 2026-07-07]\n[00:00] You: All-hands engineering sync. We have 8 of us today. Let's go around and share status, blockers, and commitments.\n[00:45] Speaker 1: API team status: we're 80% done with the payments refactor. I'll have the PR ready for review by July 10th.\n[01:20] Speaker 2: Frontend team: the new dashboard is in QA. I'll address all QA findings by July 11th.\n[02:00] Speaker 3: Mobile team: iOS build is blocked by a signing certificate expiry. I'll renew the certificates today and unblock the build.\n[02:40] Speaker 4: Data team: the ETL pipeline migration is on track. I'll deploy the first segment to staging by July 9th.\n[03:15] Speaker 5: DevOps: the Terraform refactor is complete. I'll run the final validation and merge to main by July 8th.\n[03:55] Speaker 6: QA team: I have 14 test cases written for the payments flow. I'll have all test cases complete by July 12th.\n[04:35] Speaker 7: Security: I'm doing a review of the new authentication middleware. I'll have my security review report done by July 14th.\n[05:10] You: Good progress everyone. One shared item — we need a system-wide performance baseline before the release. Speaker 1, can you coordinate that?\n[05:35] Speaker 1: I'll organize the performance baseline test with all teams. I'll schedule that for July 15th.\n[06:00] Speaker 4: I should also flag — the data warehouse migration needs the new ETL deployed before it can proceed. Once Speaker 4 deploys staging, I'll start the warehouse migration prep.\n[06:25] You: Note that as a dependency. Next all-hands is July 21st.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Have payments refactor PR ready for review",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-10",
+        "source_quote": "I'll have the PR ready for review by July 10th."
+      },
+      {
+        "description": "Address all QA findings on the new dashboard",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-11",
+        "source_quote": "I'll address all QA findings by July 11th."
+      },
+      {
+        "description": "Renew iOS signing certificates to unblock mobile build",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-07",
+        "source_quote": "I'll renew the certificates today and unblock the build."
+      },
+      {
+        "description": "Deploy first ETL pipeline segment to staging",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-09",
+        "source_quote": "I'll deploy the first segment to staging by July 9th."
+      },
+      {
+        "description": "Run final Terraform validation and merge to main",
+        "assignee_label": "Speaker 5",
+        "due_date": "2026-07-08",
+        "source_quote": "I'll run the final validation and merge to main by July 8th."
+      },
+      {
+        "description": "Complete all test cases for the payments flow",
+        "assignee_label": "Speaker 6",
+        "due_date": "2026-07-12",
+        "source_quote": "I'll have all test cases complete by July 12th."
+      },
+      {
+        "description": "Complete security review report for new authentication middleware",
+        "assignee_label": "Speaker 7",
+        "due_date": "2026-07-14",
+        "source_quote": "I'll have my security review report done by July 14th."
+      },
+      {
+        "description": "Organize system-wide performance baseline test across all teams",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-15",
+        "source_quote": "I'll organize the performance baseline test with all teams. I'll schedule that for July 15th."
+      }
+    ],
+    "decisions": [
+      "System-wide performance baseline test required before release",
+      "Next all-hands sync is July 21st"
+    ],
+    "dates": ["2026-07-07", "2026-07-08", "2026-07-09", "2026-07-10", "2026-07-11", "2026-07-12", "2026-07-14", "2026-07-15", "2026-07-21"]
+  }
+}

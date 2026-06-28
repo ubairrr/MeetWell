@@ -3,7 +3,10 @@
   "category": "short_no_content",
   "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: Just a quick heads up — the CI pipeline will be down for maintenance from 2 to 4 PM today.\n[00:15] Speaker 1: Got it, thanks for the heads up.\n[00:20] You: Just wanted to make sure you weren't planning any deploys in that window.\n[00:30] Speaker 1: Nope, I wasn't planning anything for this afternoon. We're good.\n[00:40] You: Great. That's all I needed.",
   "adversarial_injections": [
-    "Model must NOT extract any action item — this is a pure informational exchange"
+    {
+      "description": "This is a pure informational exchange about CI maintenance — no action items, no decisions, no commitments from any participant",
+      "expected_behavior": "not-extracted"
+    }
   ],
   "ground_truth": {
     "action_items": [],

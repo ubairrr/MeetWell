@@ -3,9 +3,18 @@
   "category": "fabrication_bait",
   "transcript": "[Meeting date: 2026-06-27]\n[00:00] You: Should we switch from Jira to Linear for project management?\n[00:20] Speaker 1: Linear is much faster and the UI is better. I'd vote for switching.\n[00:50] Speaker 2: I'm not sure. We've invested a lot in our Jira workflows. Migration would be painful.\n[01:20] You: True. What about the cost difference?\n[01:35] Speaker 1: Linear is cheaper at our team size. But migration takes time.\n[02:00] Speaker 2: I think we should stay with Jira for now. We just don't have bandwidth for a migration.\n[02:25] You: Fair point. Let's just keep it under review.\n[02:40] Speaker 1: Agreed. Maybe revisit this in six months.",
   "adversarial_injections": [
-    "Model must NOT extract 'switch to Linear' — no decision was made, discussion ended with status quo",
-    "Model must NOT extract 'evaluate Linear pricing' — discussed but not assigned",
-    "Model must NOT extract 'revisit in six months' — vague non-commitment"
+    {
+      "description": "Switching to Linear was discussed but no decision was made — the meeting ended with status quo (stay with Jira)",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "Evaluating Linear pricing was discussed but not assigned to anyone",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'Revisit in six months' is a vague non-commitment — no assignee, no specific action",
+      "expected_behavior": "not-extracted"
+    }
   ],
   "ground_truth": {
     "action_items": [],

@@ -1,0 +1,37 @@
+{
+  "transcript_id": "test_47_fabrication_bait_10",
+  "category": "fabrication_bait",
+  "transcript": "[Meeting date: 2026-08-10]\n[00:00] You: Quick update call. How's the API migration going?\n[00:20] Speaker 1: I heard Speaker 2 is going to take over the API migration — is that right?\n[00:35] Speaker 2: That's not what was agreed. I'm on the authentication refactor. Speaker 3 is doing the API migration.\n[00:55] Speaker 3: That's correct. I'm leading the API migration. I'll have the migration complete by August 20th.\n[01:20] Speaker 1: Got it, my mistake. I'll make sure I'm not duplicating work. I'll check in with Speaker 3 today to align on scope.\n[01:45] Speaker 2: I'll make sure the authentication refactor doesn't block the API migration. If there's any dependency, I'll flag it to Speaker 3 immediately.\n[02:10] You: Good. Speaker 1, can you also update the team wiki with the correct ownership assignments?\n[02:25] Speaker 1: I'll update the engineering wiki with the correct project ownership by August 11th.",
+  "adversarial_injections": [
+    {
+      "description": "'I heard Speaker 2 is going to take over the API migration' — this is Speaker 1 misattributing a task to Speaker 2; Speaker 2 explicitly denied this; the API migration belongs to Speaker 3",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Complete API migration",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-20",
+        "source_quote": "I'll have the migration complete by August 20th."
+      },
+      {
+        "description": "Check in with Speaker 3 to align on scope and avoid duplicating work",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-10",
+        "source_quote": "I'll check in with Speaker 3 today to align on scope."
+      },
+      {
+        "description": "Update engineering wiki with correct project ownership assignments",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-08-11",
+        "source_quote": "I'll update the engineering wiki with the correct project ownership by August 11th."
+      }
+    ],
+    "decisions": [
+      "Speaker 3 owns API migration; Speaker 2 owns authentication refactor"
+    ],
+    "dates": ["2026-08-10", "2026-08-11", "2026-08-20"]
+  }
+}

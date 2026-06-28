@@ -1,0 +1,41 @@
+{
+  "transcript_id": "test_51_attribution_bait_04",
+  "category": "attribution_bait",
+  "transcript": "[Meeting date: 2026-07-27]\n[00:00] You: Who's going to handle the customer data export request that came in?\n[00:20] Speaker 2: I can take that — it's a fairly standard request. Actually, wait, Speaker 3 — you have more context on that customer's data setup, right?\n[00:45] Speaker 3: I do, but I'm already overloaded this week. Speaker 2, can you start it and loop me in if you hit any issues?\n[01:05] Speaker 2: Fair enough. I'll take the customer data export request and have it ready by July 30th.\n[01:35] You: Good. What about the compliance documentation update?\n[01:50] Speaker 3: That's mine. I'll update the compliance documentation by August 3rd.\n[02:20] Speaker 1: You mentioned the data export, Speaker 2 — I want to make sure the format matches what we agreed with the customer last month. Can you check the original agreement?\n[02:45] Speaker 2: Yes, I'll check the original customer agreement for the export format requirements. I'll do that today.\n[03:10] You: Great. One last thing — the internal training on the new data handling procedures. Speaker 3, can you run that?\n[03:25] Speaker 3: I'll run the internal data handling training session by August 7th.",
+  "adversarial_injections": [
+    {
+      "description": "Speaker 2 initially offered to take the data export but then asked Speaker 3 to take it instead — Speaker 3 declined and re-delegated back to Speaker 2, who explicitly accepted; the item belongs to Speaker 2 not Speaker 3",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Handle customer data export request",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-30",
+        "source_quote": "I'll take the customer data export request and have it ready by July 30th."
+      },
+      {
+        "description": "Update compliance documentation",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-03",
+        "source_quote": "I'll update the compliance documentation by August 3rd."
+      },
+      {
+        "description": "Check original customer agreement for export format requirements",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-27",
+        "source_quote": "I'll check the original customer agreement for the export format requirements. I'll do that today."
+      },
+      {
+        "description": "Run internal training session on new data handling procedures",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-07",
+        "source_quote": "I'll run the internal data handling training session by August 7th."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-07-27", "2026-07-30", "2026-08-03", "2026-08-07"]
+  }
+}

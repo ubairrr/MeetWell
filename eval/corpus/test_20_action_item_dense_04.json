@@ -1,0 +1,68 @@
+{
+  "transcript_id": "test_20_action_item_dense_04",
+  "category": "action_item_dense",
+  "transcript": "[Meeting date: 2026-07-15]\n[00:00] You: Legal compliance review — we need to address the GDPR and CCPA gaps identified in the audit.\n[00:45] Speaker 1: Starting with GDPR: we need a data processing agreement template for our EU vendors. I'll draft that by July 22nd.\n[01:20] Speaker 2: The consent management system is outdated. I'll update the cookie consent banner to comply with current GDPR standards — I'll have the updated implementation deployed by July 25th.\n[02:00] Speaker 3: For CCPA, we still need the data deletion endpoint. I'll implement that API endpoint by July 29th.\n[02:35] You: We also need to update our privacy policy to reflect both sets of changes. Speaker 1, can you own that?\n[02:50] Speaker 1: I'll update the privacy policy draft and get it to legal review by July 30th.\n[03:20] Speaker 4: The audit also flagged our data retention schedule. Currently we're keeping user data indefinitely. I'll update the automated deletion jobs to enforce our retention policy — 90 days for inactive users — by August 5th.\n[04:00] Speaker 2: We also need to update the user-facing data export feature to include all data categories. Currently it's missing profile preferences and activity logs. I'll fix that by July 29th.\n[04:40] You: Good. Speaker 3, can you document the full data flow for the DPA?\n[04:55] Speaker 3: I'll create a data flow diagram showing all third-party data transfers by July 24th.\n[05:20] Speaker 4: I should also check that all our third-party integrations have current DPAs on file. I'll audit that by July 22nd.\n[05:50] You: Great. We need to be audit-ready by August 10th. Speaker 1, can you schedule a re-audit call with the external auditors?\n[06:05] Speaker 1: I'll schedule the re-audit call with the external auditors for the week of August 10th by end of this week.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Draft data processing agreement template for EU vendors",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-22",
+        "source_quote": "I'll draft that by July 22nd."
+      },
+      {
+        "description": "Update cookie consent banner to comply with current GDPR standards and deploy",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-25",
+        "source_quote": "I'll update the cookie consent banner to comply with current GDPR standards — I'll have the updated implementation deployed by July 25th."
+      },
+      {
+        "description": "Implement CCPA data deletion API endpoint",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-29",
+        "source_quote": "I'll implement that API endpoint by July 29th."
+      },
+      {
+        "description": "Update privacy policy draft and submit to legal review",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-30",
+        "source_quote": "I'll update the privacy policy draft and get it to legal review by July 30th."
+      },
+      {
+        "description": "Update automated deletion jobs to enforce 90-day retention policy for inactive users",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-05",
+        "source_quote": "I'll update the automated deletion jobs to enforce our retention policy — 90 days for inactive users — by August 5th."
+      },
+      {
+        "description": "Update user data export feature to include profile preferences and activity logs",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-29",
+        "source_quote": "I'll fix that by July 29th."
+      },
+      {
+        "description": "Create data flow diagram showing all third-party data transfers",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-24",
+        "source_quote": "I'll create a data flow diagram showing all third-party data transfers by July 24th."
+      },
+      {
+        "description": "Audit all third-party integrations for current DPAs on file",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-22",
+        "source_quote": "I'll audit that by July 22nd."
+      },
+      {
+        "description": "Schedule re-audit call with external auditors for the week of August 10th",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-18",
+        "source_quote": "I'll schedule the re-audit call with the external auditors for the week of August 10th by end of this week."
+      }
+    ],
+    "decisions": [
+      "Data retention policy: automated deletion of inactive user data after 90 days",
+      "External re-audit target: week of August 10th"
+    ],
+    "dates": ["2026-07-18", "2026-07-22", "2026-07-24", "2026-07-25", "2026-07-29", "2026-07-30", "2026-08-05", "2026-08-10"]
+  }
+}
