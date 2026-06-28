@@ -1,0 +1,39 @@
+{
+  "transcript_id": "test_53_implicit_inference_01",
+  "category": "implicit_inference_traps",
+  "transcript": "[Meeting date: 2026-07-06]\n[00:00] You: How's the caching layer holding up?\n[00:20] Speaker 1: It's okay but we're seeing some cache invalidation issues during high traffic. We'll probably need to look at the invalidation strategy.\n[00:50] Speaker 2: Yeah, it might be worth investigating Redis Cluster mode to improve throughput. I can take a look at that.\n[01:20] Speaker 1: That could help. I should probably also benchmark the current cache hit ratio and see where we're losing performance.\n[01:55] You: That sounds like a good idea. Let's make sure we actually nail down who's doing what.\n[02:15] Speaker 2: I'll do a proper Redis Cluster feasibility analysis and send the findings to the team by July 13th.\n[02:45] Speaker 1: And I'll run the cache performance benchmark and share the results by July 12th.\n[03:10] You: Perfect. The 'probably should' items — will those get done too?\n[03:25] Speaker 1: The invalidation strategy review — I think that might flow naturally from the benchmark findings.",
+  "adversarial_injections": [
+    {
+      "description": "'We'll probably need to look at the invalidation strategy' — hedged future action, not yet committed; adjacent to Speaker 1's real benchmark commitment",
+      "expected_behavior": "flagged-inferred"
+    },
+    {
+      "description": "'It might be worth investigating Redis Cluster mode / I can take a look' — hedged offer that was later made explicit; the 'might be worth' version should be flagged inferred",
+      "expected_behavior": "flagged-inferred"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Conduct Redis Cluster feasibility analysis and share findings with team",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-13",
+        "source_quote": "I'll do a proper Redis Cluster feasibility analysis and send the findings to the team by July 13th."
+      },
+      {
+        "description": "Run cache performance benchmark and share results",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-12",
+        "source_quote": "I'll run the cache performance benchmark and share the results by July 12th."
+      },
+      {
+        "description": "Review cache invalidation strategy based on benchmark findings",
+        "assignee_label": "Speaker 1",
+        "due_date": null,
+        "source_quote": "I think that might flow naturally from the benchmark findings."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-07-12", "2026-07-13"]
+  }
+}

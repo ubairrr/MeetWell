@@ -1,0 +1,41 @@
+{
+  "transcript_id": "test_54_implicit_inference_02",
+  "category": "implicit_inference_traps",
+  "transcript": "[Meeting date: 2026-07-13]\n[00:00] You: We need to decide on the logging infrastructure before next sprint.\n[00:35] Speaker 1: I think we should probably go with Datadog — it integrates well with our existing stack.\n[01:00] Speaker 2: Could be good. We could also look at Splunk — more flexible for custom queries.\n[01:30] Speaker 1: Datadog has better dashboards out of the box. It would be good if we could get a trial set up.\n[02:00] Speaker 2: Let's take this offline and compare options properly before deciding.\n[02:20] You: Agreed. Let's not make a decision in this meeting — we need more research.\n[02:40] Speaker 3: I'll do a proper vendor comparison of Datadog vs Splunk and present findings at next Monday's meeting, July 20th.\n[03:05] Speaker 1: And I'll make sure the requirements document has the logging criteria captured. I'll update that by July 15th.\n[03:30] Speaker 2: It would be good if someone could also check whether our current infrastructure supports the Datadog agent — it might be worth looking into before the comparison.",
+  "adversarial_injections": [
+    {
+      "description": "'I think we should probably go with Datadog' — hedged preference, not a decision; explicitly taken offline for further research",
+      "expected_behavior": "flagged-inferred"
+    },
+    {
+      "description": "'It would be good if we could get a trial set up' — wish expression, not a commitment; no one volunteered to set up the trial",
+      "expected_behavior": "flagged-inferred"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Conduct Datadog vs Splunk vendor comparison and present findings",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-20",
+        "source_quote": "I'll do a proper vendor comparison of Datadog vs Splunk and present findings at next Monday's meeting, July 20th."
+      },
+      {
+        "description": "Update requirements document to capture logging criteria",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-15",
+        "source_quote": "I'll update that by July 15th."
+      },
+      {
+        "description": "Check whether current infrastructure supports Datadog agent before the vendor comparison",
+        "assignee_label": "Speaker 2",
+        "due_date": null,
+        "source_quote": "it might be worth looking into before the comparison."
+      }
+    ],
+    "decisions": [
+      "No logging platform decision made in this meeting — vendor comparison needed first"
+    ],
+    "dates": ["2026-07-15", "2026-07-20"]
+  }
+}

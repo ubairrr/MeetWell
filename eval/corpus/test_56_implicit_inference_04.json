@@ -1,0 +1,45 @@
+{
+  "transcript_id": "test_56_implicit_inference_04",
+  "category": "implicit_inference_traps",
+  "transcript": "[Meeting date: 2026-07-27]\n[00:00] You: We're trying to decide on the deployment approach for the new service.\n[00:35] Speaker 1: I think we should probably adopt a blue-green deployment strategy. It gives us zero-downtime releases.\n[01:05] Speaker 2: That's a valid option. Canary deployments might be better for gradual rollout though.\n[01:40] Speaker 1: Both are good. We didn't really land on a final decision in the last meeting either.\n[02:05] Speaker 2: True. We should probably set a deadline for this decision.\n[02:25] You: Let's not make a binding decision today — we need the infrastructure team's input first.\n[02:50] Speaker 3: I'll confirm the infrastructure team's preference and come back with a recommendation by August 3rd.\n[03:15] Speaker 1: And I'll document the pros and cons of both approaches for reference by July 30th.\n[03:40] Speaker 2: It might be worth having someone prototype both approaches in the staging environment to compare — probably the devops team would know best.",
+  "adversarial_injections": [
+    {
+      "description": "'I think we should probably adopt a blue-green deployment strategy' — hedged preference, not a decision; explicitly deferred pending infrastructure team input",
+      "expected_behavior": "flagged-inferred"
+    },
+    {
+      "description": "'Canary deployments might be better for gradual rollout' — hedged suggestion, not a committed approach; meeting explicitly deferred the decision",
+      "expected_behavior": "flagged-inferred"
+    },
+    {
+      "description": "'We should probably set a deadline for this decision' — a hedged meta-suggestion about setting a deadline, not an actual deadline commitment",
+      "expected_behavior": "flagged-inferred"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Confirm infrastructure team's deployment approach preference and provide recommendation",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-03",
+        "source_quote": "I'll confirm the infrastructure team's preference and come back with a recommendation by August 3rd."
+      },
+      {
+        "description": "Document pros and cons of blue-green vs canary deployment approaches",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-30",
+        "source_quote": "I'll document the pros and cons of both approaches for reference by July 30th."
+      },
+      {
+        "description": "Prototype both deployment approaches in staging environment for comparison",
+        "assignee_label": "Speaker 2",
+        "due_date": null,
+        "source_quote": "It might be worth having someone prototype both approaches in the staging environment to compare — probably the devops team would know best."
+      }
+    ],
+    "decisions": [
+      "No deployment approach decision made — infrastructure team input required first"
+    ],
+    "dates": ["2026-07-30", "2026-08-03"]
+  }
+}

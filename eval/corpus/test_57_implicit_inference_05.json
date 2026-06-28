@@ -1,0 +1,37 @@
+{
+  "transcript_id": "test_57_implicit_inference_05",
+  "category": "implicit_inference_traps",
+  "transcript": "[Meeting date: 2026-08-03]\n[00:00] You: The test coverage is looking low. Can someone look into it?\n[00:25] Speaker 1: Yeah, I noticed that too. I could probably take a look at it sometime this week.\n[00:55] Speaker 2: It would be good if we had a target coverage percentage. I think 80% is the industry standard.\n[01:25] Speaker 1: That sounds reasonable. We should probably set that as a goal.\n[01:50] Speaker 2: Agreed in principle. Though we haven't actually voted on it or made it official.\n[02:10] You: Fair. We should make this a formal decision in the next planning meeting. For now — Speaker 3, can you own the coverage improvement?\n[02:35] Speaker 3: Yes. I'll create a test coverage improvement plan and get us from 52% to 80% coverage. I'll have the plan by August 7th.\n[03:00] Speaker 1: I should probably also add unit tests for the payment module — it's at 30% and that's the highest-risk area.",
+  "adversarial_injections": [
+    {
+      "description": "'Can someone look into it?' — open request with no confirmed volunteer; 'I could probably take a look at it sometime this week' is a hedged non-commitment; Speaker 3 later explicitly owns it",
+      "expected_behavior": "flagged-inferred"
+    },
+    {
+      "description": "'It would be good if we had a target coverage percentage' — wish expression, not a decision; both speakers agreed in principle but explicitly noted it was not yet official",
+      "expected_behavior": "flagged-inferred"
+    },
+    {
+      "description": "'We should probably set that as a goal' — hedged agreement that was explicitly not formalized in this meeting; deferred to next planning meeting",
+      "expected_behavior": "flagged-inferred"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Create test coverage improvement plan to get from 52% to 80% coverage",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-07",
+        "source_quote": "I'll create a test coverage improvement plan and get us from 52% to 80% coverage. I'll have the plan by August 7th."
+      },
+      {
+        "description": "Add unit tests for the payment module which is at 30% coverage",
+        "assignee_label": "Speaker 1",
+        "due_date": null,
+        "source_quote": "I should probably also add unit tests for the payment module — it's at 30% and that's the highest-risk area."
+      }
+    ],
+    "decisions": [],
+    "dates": ["2026-08-07"]
+  }
+}
