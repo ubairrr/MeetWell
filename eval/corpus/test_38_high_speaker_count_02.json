@@ -1,0 +1,56 @@
+{
+  "transcript_id": "test_38_high_speaker_count_02",
+  "category": "high_speaker_count",
+  "transcript": "[Meeting date: 2026-07-14]\n[00:00] You: Cross-functional product review for the Q3 roadmap. We have product, engineering, design, data, marketing, and support all here today.\n[00:55] Speaker 1: Product perspective: the three Q3 priorities are search improvements, notifications v2, and the mobile onboarding flow. All three are in the plan.\n[01:40] Speaker 2: Engineering estimate for search is 6 weeks. I'll have a detailed technical spec ready by July 21st.\n[02:20] Speaker 3: Design needs 2 weeks for the notifications v2 designs. I'll deliver final mockups by July 28th.\n[03:00] Speaker 4: Data — we'll need new event tracking for search. I'll define the event schema and share it with engineering by July 18th.\n[03:35] Speaker 5: Marketing — I'll update the product page to reflect the new search capabilities once specs are final. I'll have copy ready within a week of receiving the spec.\n[04:10] Speaker 6: Support team — we're seeing 40 tickets a week about notification settings. I'll write a help article for the current behavior to reduce ticket volume. I'll publish it by July 17th.\n[04:50] You: Thank you. One cross-team item: we need a shared definition of 'active user' for the Q3 metrics dashboard. Speaker 4 and Speaker 1, can you align on that?\n[05:10] Speaker 4: I'll draft the 'active user' definition and share with Speaker 1 by July 16th.\n[05:35] Speaker 1: I'll review and confirm by July 18th.\n[06:00] Speaker 3: I also want to flag that the mobile onboarding flow redesign is dependent on the new brand guidelines from Speaker 3. I'll share the brand guidelines doc with Speaker 2 by July 15th.\n[06:30] You: Good. The Q3 scope lock is July 25th — no new items after that.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Write detailed technical spec for search improvements",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-21",
+        "source_quote": "I'll have a detailed technical spec ready by July 21st."
+      },
+      {
+        "description": "Deliver final mockups for notifications v2",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-28",
+        "source_quote": "I'll deliver final mockups by July 28th."
+      },
+      {
+        "description": "Define search event tracking schema and share with engineering",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-18",
+        "source_quote": "I'll define the event schema and share it with engineering by July 18th."
+      },
+      {
+        "description": "Publish help article for current notification settings behavior",
+        "assignee_label": "Speaker 6",
+        "due_date": "2026-07-17",
+        "source_quote": "I'll publish it by July 17th."
+      },
+      {
+        "description": "Draft active user definition and share with Speaker 1",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-16",
+        "source_quote": "I'll draft the 'active user' definition and share with Speaker 1 by July 16th."
+      },
+      {
+        "description": "Review and confirm active user definition",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-18",
+        "source_quote": "I'll review and confirm by July 18th."
+      },
+      {
+        "description": "Share brand guidelines doc with engineering team",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-15",
+        "source_quote": "I'll share the brand guidelines doc with Speaker 2 by July 15th."
+      }
+    ],
+    "decisions": [
+      "Q3 priorities: search improvements, notifications v2, mobile onboarding flow",
+      "Q3 scope lock date is July 25th — no new items after that"
+    ],
+    "dates": ["2026-07-15", "2026-07-16", "2026-07-17", "2026-07-18", "2026-07-21", "2026-07-25", "2026-07-28"]
+  }
+}
