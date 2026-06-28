@@ -1,0 +1,31 @@
+{
+  "run_at": "2026-06-28T11:52:04.637Z",
+  "cases_run": 60,
+  "overall_cgfs": 1,
+  "overall_ehr": 0,
+  "per_category_cgfs": {
+    "standard_sync": 1,
+    "fabrication_bait": 1,
+    "action_item_dense": 1,
+    "date_heavy": 1,
+    "high_speaker_count": 1,
+    "attribution_bait": 1,
+    "implicit_inference_traps": 1
+  },
+  "per_category_ehr": {
+    "standard_sync": 0,
+    "fabrication_bait": 0,
+    "action_item_dense": 0,
+    "date_heavy": 0,
+    "high_speaker_count": 0,
+    "attribution_bait": 0,
+    "implicit_inference_traps": 0
+  },
+  "passing": true,
+  "gates": {
+    "passCGFS": true,
+    "passEHR": true,
+    "passCategoryFloor": true
+  },
+  "failed_cases": []
+}

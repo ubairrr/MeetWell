@@ -1,6 +1,8 @@
 // eval/harness.ts
-// Adversarial eval harness — run with: npx ts-node eval/harness.ts [--category <cat>] [--id <id>]
-// Requires GEMINI_API_KEY env var for live LLM calls.
+// Adversarial eval harness — run with: npx ts-node eval/harness.ts [--category <cat>] [--id <id>] [--mock]
+// Requires GEMINI_API_KEY env var for live LLM calls (not needed with --mock).
+// --mock: bypasses ArtifactPipeline entirely; constructs artifacts from ground truth data.
+//         Zero API calls — use for CI / fast regression of scoring logic.
 // Outputs: eval/corpus/eval_report.json
 //
 // Gates (per AI-SPEC §3.5):
@@ -13,7 +15,7 @@
 import Database from 'better-sqlite3-multiple-ciphers'
 import { ALL_DDLS } from '../src/main/store/db'
 import { ArtifactPipeline } from '../src/main/pipeline/ArtifactPipeline'
-import type { MeetingArtifacts } from '../src/shared/schemas'
+import type { MeetingArtifacts, ActionItem } from '../src/shared/schemas'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as crypto from 'crypto'
@@ -93,6 +95,7 @@ const categoryFilter: string | null = args.includes('--category')
 const idFilter: string | null = args.includes('--id')
   ? args[args.indexOf('--id') + 1] ?? null
   : null
+const MOCK_MODE = args.includes('--mock')
 
 // ---------------------------------------------------------------------------
 // Corpus loader
@@ -176,6 +179,44 @@ async function runCase(testCase: AdversarialTestCase): Promise<CaseResult> {
   } finally {
     db.close()
   }
+}
+
+// ---------------------------------------------------------------------------
+// Mock runner — no API calls; builds artifacts directly from ground truth
+// ---------------------------------------------------------------------------
+
+function mockRunCase(testCase: AdversarialTestCase): CaseResult {
+  const meetingId = crypto.randomUUID()
+
+  const action_items: ActionItem[] = testCase.ground_truth.action_items.map((item, idx) => ({
+    id: `mock-${idx}`,
+    description: item.description,
+    assignee_label: item.assignee_label,
+    due_date: item.due_date,
+    raw_deadline_text: null,
+    status: 'proposed' as const,
+    is_calendar_event: false,
+    citations: [
+      {
+        quote_preview: item.source_quote.slice(0, 80),
+        quote_full: item.source_quote,
+        speaker_label: 'Speaker',
+        timestamp_start: 0,
+        timestamp_end: 30,
+        confidence: 'direct' as const,
+      },
+    ],
+  }))
+
+  const artifacts: MeetingArtifacts = {
+    meetingId,
+    mom: { markdown_content: '' },
+    summary: { summary_text: '' },
+    keyPoints: { key_points: [] },
+    actionItems: { action_items },
+  }
+
+  return { testCase, artifacts, error: null }
 }
 
 // ---------------------------------------------------------------------------
@@ -347,7 +388,9 @@ function aggregateResults(
 // ---------------------------------------------------------------------------
 
 async function main(): Promise<void> {
-  if (!process.env.GEMINI_API_KEY) {
+  if (MOCK_MODE) {
+    console.log('[harness] MOCK MODE — no API calls; artifacts built from ground truth')
+  } else if (!process.env.GEMINI_API_KEY) {
     console.warn(
       '[harness] WARNING: GEMINI_API_KEY not set — pipeline will return error payloads for all cases'
     )
@@ -375,7 +418,7 @@ async function main(): Promise<void> {
     const testCase = cases[i]
     process.stdout.write(`[${i + 1}/${cases.length}] ${testCase.transcript_id} — running...`)
 
-    const caseResult = await runCase(testCase)
+    const caseResult = MOCK_MODE ? mockRunCase(testCase) : await runCase(testCase)
     const { itemEvals, cgfs, ehr } = evaluateCase(caseResult)
 
     const cgfsDisplay = cgfs === -1 ? 'N/A (no items)' : cgfs.toFixed(3)

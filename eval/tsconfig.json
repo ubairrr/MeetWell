@@ -13,5 +13,6 @@
       "../src/*": ["../src/*"]
     }
   },
-  "include": ["./**/*.ts", "../src/**/*.ts"]
+  "include": ["./**/*.ts", "../src/**/*.ts"],
+  "exclude": ["../src/main/index.ts", "../src/main/capture/DeepgramClient.ts", "../src/main/capture/CaptureService.ts"]
 }
