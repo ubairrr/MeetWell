@@ -15,10 +15,10 @@ Phase numbering continues from the Discovery & PRD milestone (Phases 1–5).
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 6: Foundation & Scaffold** - Electron app shell, overlay window, SQLCipher DB, hardened IPC, consent gate, SessionManager FSM skeleton
-- [x] **Phase 7: Capture + TranscriptStore** - Dual-channel audio capture (audiotee primary / Chromium fallback), Deepgram Nova-3 dual-WebSocket, encrypted transcript persistence
-- [ ] **Phase 8: ArtifactPipeline** - End-of-meeting batch extraction, CitationValidator, ArtifactReview UI, .ics export, LLM adapter
-- [ ] **Phase 9: Overlay UI + Live Summary Board** - Full session flow, SummaryCardTimer, LiveSummaryBoard, SessionManager FSM end-to-end, settings panel
+- [x] **Phase 6: Foundation & Scaffold** - Electron app shell, overlay window, SQLCipher DB, hardened IPC, consent gate, SessionManager FSM skeleton (completed 2026-06-26)
+- [x] **Phase 7: Capture + TranscriptStore** - Dual-channel audio capture (audiotee primary / Chromium fallback), Deepgram Nova-3 dual-WebSocket, encrypted transcript persistence (completed 2026-06-27)
+- [x] **Phase 8: ArtifactPipeline** - End-of-meeting batch extraction, CitationValidator, ArtifactReview UI, .ics export, LLM adapter (completed 2026-06-27)
+- [x] **Phase 9: Overlay UI + Live Summary Board** - Full session flow, SummaryCardTimer, LiveSummaryBoard, SessionManager FSM end-to-end, settings panel (completed 2026-06-28)
 - [x] **Phase 10: ContextEngine + Break Assist** - Full ContextEngine, EpochCompressor, BreakAssist, 60-minute meeting test (completed 2026-06-28)
 - [x] **Phase 11: Packaging + Eval Harness** - Signed/notarized DMG, adversarial eval corpus, CGFS ≥ 0.85 / EHR ≤ 0.05 shipping gate (completed 2026-06-28)
 
@@ -180,7 +180,9 @@ Phases execute in dependency order: 6 → 7 → 8 → 9 → 10 → 11
 |-------|----------------|--------|-----------|
 | 6. Foundation & Scaffold | 7/7 | Complete | 2026-06-26 |
 | 7. Capture + TranscriptStore | 7/7 | Complete | 2026-06-27 |
-| 8. ArtifactPipeline | 0/TBD | Not started | - |
-| 9. Overlay UI + Live Summary Board | 6/7 | In Progress|  |
-| 10. ContextEngine + Break Assist | 7/7 | Complete   | 2026-06-28 |
-| 11. Packaging + Eval Harness | 5/7 | In Progress|  |
+| 8. ArtifactPipeline | 7/7 | Complete | 2026-06-27 |
+| 9. Overlay UI + Live Summary Board | 7/7 | Complete | 2026-06-28 |
+| 10. ContextEngine + Break Assist | 7/7 | Complete | 2026-06-28 |
+| 11. Packaging + Eval Harness | 7/7 | Complete | 2026-06-28 |
+
+**BUILD MILESTONE COMPLETE — 2026-06-28**
