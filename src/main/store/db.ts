@@ -69,9 +69,10 @@ CREATE TABLE IF NOT EXISTS action_items (
   due_date        TEXT,
   status          TEXT NOT NULL DEFAULT 'proposed'
     CHECK (status IN ('proposed', 'confirmed', 'dismissed')),
-  citations_json  TEXT NOT NULL DEFAULT '[]',
-  ics_exported_at INTEGER,
-  created_at      INTEGER NOT NULL DEFAULT (unixepoch() * 1000)
+  citations_json     TEXT NOT NULL DEFAULT '[]',
+  is_calendar_event  INTEGER NOT NULL DEFAULT 0,
+  ics_exported_at    INTEGER,
+  created_at         INTEGER NOT NULL DEFAULT (unixepoch() * 1000)
 );
 
 CREATE INDEX IF NOT EXISTS idx_action_items_meeting_id
