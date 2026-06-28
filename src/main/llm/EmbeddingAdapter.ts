@@ -5,12 +5,16 @@ const EMBEDDING_DIMENSIONS = 1536
 
 export class EmbeddingAdapter {
   private client: OpenAI
+  private readonly model = EMBEDDING_MODEL
+  private onUsage?: (model: string, inputTokens: number, outputTokens: number) => void
 
   constructor(
     apiKey: string,
-    baseURL = 'https://generativelanguage.googleapis.com/v1beta/openai'
+    baseURL = 'https://generativelanguage.googleapis.com/v1beta/openai',
+    onUsage?: (model: string, inputTokens: number, outputTokens: number) => void
   ) {
     this.client = new OpenAI({ apiKey, baseURL })
+    this.onUsage = onUsage
   }
 
   /**
@@ -25,10 +29,14 @@ export class EmbeddingAdapter {
    */
   async embed(text: string): Promise<Float32Array> {
     const response = await this.client.embeddings.create({
-      model: EMBEDDING_MODEL,
+      model: this.model,
       input: text,
       dimensions: EMBEDDING_DIMENSIONS,
     })
+
+    if (response.usage) {
+      this.onUsage?.(this.model, response.usage.prompt_tokens ?? 0, 0)
+    }
 
     const embedding: number[] = response.data[0].embedding
 
