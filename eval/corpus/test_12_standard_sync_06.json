@@ -1,0 +1,39 @@
+{
+  "transcript_id": "test_12_standard_sync_06",
+  "category": "standard_sync",
+  "transcript": "[Meeting date: 2026-07-01]\n[00:00] You: Thanks for joining the API design review. Today we're finalizing the contract for the notifications service.\n[00:40] Speaker 1: I've reviewed the draft spec. The pagination approach looks good but I want to flag the rate limiting headers — we should follow RFC 7231 for consistency.\n[01:20] Speaker 2: Agreed. And we need to decide on the webhook retry policy. I'd suggest exponential backoff with a cap at 1 hour.\n[02:00] Speaker 3: That makes sense. What about authentication for webhook endpoints? Do we require HMAC signatures?\n[02:30] Speaker 4: Yes, HMAC-SHA256 signature verification should be mandatory. I can add that to the spec.\n[03:00] You: Good. Let's also agree on error response formats. Speaker 2, can you write up the error schema?\n[03:20] Speaker 2: I'll draft the error response schema and share it in the design doc by July 3rd.\n[03:50] Speaker 1: I'll update the pagination spec to reference RFC 7231 rate limiting headers. I'll have that done by end of week, July 4th.\n[04:20] Speaker 4: I'll add the HMAC signature verification requirements to the spec today.\n[04:45] You: Great. We also need a review of the spec from the mobile team. Speaker 3, can you set up a call with them?\n[05:00] Speaker 3: I'll schedule a spec review call with the mobile team for July 7th or 8th. I'll send the invite today.\n[05:30] You: Perfect. Final spec freeze is July 10th. No changes after that.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Draft error response schema and share in design doc",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-03",
+        "source_quote": "I'll draft the error response schema and share it in the design doc by July 3rd."
+      },
+      {
+        "description": "Update pagination spec to reference RFC 7231 rate limiting headers",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-04",
+        "source_quote": "I'll update the pagination spec to reference RFC 7231 rate limiting headers. I'll have that done by end of week, July 4th."
+      },
+      {
+        "description": "Add HMAC signature verification requirements to the notifications spec",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-07-01",
+        "source_quote": "I'll add the HMAC signature verification requirements to the spec today."
+      },
+      {
+        "description": "Schedule spec review call with mobile team for July 7th or 8th",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-01",
+        "source_quote": "I'll schedule a spec review call with the mobile team for July 7th or 8th. I'll send the invite today."
+      }
+    ],
+    "decisions": [
+      "Webhook retry policy: exponential backoff with cap at 1 hour",
+      "HMAC-SHA256 signature verification is mandatory for webhook endpoints",
+      "API spec freeze deadline is July 10th — no changes after that"
+    ],
+    "dates": ["2026-07-03", "2026-07-04", "2026-07-01", "2026-07-10"]
+  }
+}

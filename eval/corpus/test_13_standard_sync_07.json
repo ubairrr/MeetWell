@@ -1,0 +1,37 @@
+{
+  "transcript_id": "test_13_standard_sync_07",
+  "category": "standard_sync",
+  "transcript": "[Meeting date: 2026-07-08]\n[00:00] You: Let's do the Q3 budget review. Speaker 1, can you walk us through where we stand?\n[00:30] Speaker 1: Sure. We're at 42% of annual budget spend through Q2, which is slightly under pace. Engineering is on track. Marketing has underspent by about $80k.\n[01:30] You: That underspend — is it deferred or saved?\n[01:45] Speaker 1: It's deferred. The conference sponsorships we planned for Q2 got pushed to Q3. That'll catch up.\n[02:15] Speaker 2: On the headcount side, we have two open engineering roles that haven't been filled yet. That's a significant variance.\n[02:50] You: Right. Speaker 2, what's the timeline for those hires?\n[03:05] Speaker 2: We're targeting to have both offers out by August 1st. I'll confirm with recruiting today.\n[03:30] You: Good. We also need to reforecast Q3 given the new vendor contract. Speaker 1, can you update the budget model?\n[03:50] Speaker 1: I'll update the forecast model to reflect the new vendor pricing and share it with the team by July 12th.\n[04:20] Speaker 3: We should also revisit the cloud infrastructure budget. Usage has grown 30% since the last estimate.\n[04:45] You: Good point. Speaker 3, can you put together an updated infrastructure cost estimate?\n[05:00] Speaker 3: I'll pull the updated AWS cost data and prepare a revised estimate by July 15th.\n[05:30] You: Great. Budget sign-off deadline is July 22nd, so let's get everything in order before then.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Confirm with recruiting the timeline for the two open engineering roles",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-07-08",
+        "source_quote": "I'll confirm with recruiting today."
+      },
+      {
+        "description": "Update budget forecast model to reflect new vendor pricing",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-12",
+        "source_quote": "I'll update the forecast model to reflect the new vendor pricing and share it with the team by July 12th."
+      },
+      {
+        "description": "Pull updated AWS cost data and prepare revised infrastructure cost estimate",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-15",
+        "source_quote": "I'll pull the updated AWS cost data and prepare a revised estimate by July 15th."
+      },
+      {
+        "description": "Have offers out for two open engineering roles",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-08-01",
+        "source_quote": "We're targeting to have both offers out by August 1st."
+      }
+    ],
+    "decisions": [
+      "Q2 marketing underspend is deferred to Q3 due to conference sponsorships being pushed"
+    ],
+    "dates": ["2026-07-08", "2026-07-12", "2026-07-15", "2026-08-01", "2026-07-22"]
+  }
+}

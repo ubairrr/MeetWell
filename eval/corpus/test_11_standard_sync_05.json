@@ -1,0 +1,38 @@
+{
+  "transcript_id": "test_11_standard_sync_05",
+  "category": "standard_sync",
+  "transcript": "[Meeting date: 2026-06-15]\n[00:00] You: Let's run our retrospective for sprint 22. What went well?\n[00:30] Speaker 1: The deployment pipeline was rock solid this sprint. Zero failed deploys.\n[01:00] Speaker 2: Agreed. The new staging environment really helped catch issues early.\n[01:30] Speaker 3: I'd say the pair programming sessions on the auth refactor worked well too.\n[02:00] You: Great. What could have gone better?\n[02:20] Speaker 1: Our standups were running long. We need to be more disciplined about keeping them to 15 minutes.\n[02:50] Speaker 2: The sprint backlog wasn't fully groomed going in. We lost a day early in the sprint figuring out scope.\n[03:30] Speaker 3: I agree. We also had some blockers that weren't surfaced early enough.\n[04:00] You: Okay. What are our action items? Speaker 2, can you own the backlog grooming before the next sprint?\n[04:20] Speaker 2: Yes, I'll groom the backlog by June 19th so we're ready for sprint 23 planning.\n[04:45] Speaker 1: I'll put together a standup facilitation guide to help keep us on track. I'll have it done by Wednesday, June 17th.\n[05:15] Speaker 3: I'll add a 'blockers' section to our daily standup template so issues get surfaced earlier. I'll update it today.\n[05:45] You: Perfect. Let's also do a retro on the retro itself — Speaker 1, can you send a quick survey after today's meeting to get async feedback?\n[06:00] Speaker 1: Sure, I'll send the survey out by end of day.\n[06:20] You: Good. We're shipping sprint 23 on June 30th, so let's make sure we're set up for success.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Groom sprint 23 backlog before sprint planning",
+        "assignee_label": "Speaker 2",
+        "due_date": "2026-06-19",
+        "source_quote": "I'll groom the backlog by June 19th so we're ready for sprint 23 planning."
+      },
+      {
+        "description": "Create standup facilitation guide to keep standups to 15 minutes",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-06-17",
+        "source_quote": "I'll put together a standup facilitation guide to help keep us on track. I'll have it done by Wednesday, June 17th."
+      },
+      {
+        "description": "Add blockers section to daily standup template",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-06-15",
+        "source_quote": "I'll add a 'blockers' section to our daily standup template so issues get surfaced earlier. I'll update it today."
+      },
+      {
+        "description": "Send async retro feedback survey to the team",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-06-15",
+        "source_quote": "I'll send the survey out by end of day."
+      }
+    ],
+    "decisions": [
+      "Standups should be kept to 15 minutes maximum",
+      "Backlog must be fully groomed before sprint planning begins"
+    ],
+    "dates": ["2026-06-19", "2026-06-17", "2026-06-15", "2026-06-30"]
+  }
+}

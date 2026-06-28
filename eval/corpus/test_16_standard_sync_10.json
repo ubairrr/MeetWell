@@ -1,0 +1,38 @@
+{
+  "transcript_id": "test_16_standard_sync_10",
+  "category": "standard_sync",
+  "transcript": "[Meeting date: 2026-07-27]\n[00:00] You: Product roadmap review for Q3. Let's go through what's committed, what's at-risk, and what we're deferring.\n[00:40] Speaker 1: The notification center feature is on track for August 15th. No blockers.\n[01:10] Speaker 2: The search overhaul is at-risk. We underestimated the index rebuild complexity. It might slip to September.\n[01:50] You: What do we need to get it back on track?\n[02:05] Speaker 2: We need two more weeks of engineering bandwidth. I'd suggest pulling Speaker 3 off the analytics dashboard work temporarily.\n[02:35] Speaker 3: I can do that. If I start on Monday, I can have search back on schedule by August 22nd.\n[03:00] You: Okay. Let's make that call. Speaker 3, you're moving to search starting Monday August 3rd. Can you brief your current stakeholders?\n[03:20] Speaker 3: I'll brief the analytics dashboard stakeholders today about the deprioritization.\n[03:45] Speaker 4: The mobile app v3.2 release is on track for August 29th. The only open item is App Store review time — I'll submit to Apple a week early on August 22nd to buffer for review.\n[04:20] You: Good thinking. Speaker 1, can you update the public roadmap page on the website?\n[04:35] Speaker 1: I'll update the public roadmap to reflect the search timeline adjustment by end of day tomorrow, July 28th.\n[05:00] You: Great. Next roadmap review is August 24th.",
+  "ground_truth": {
+    "action_items": [
+      {
+        "description": "Move to search overhaul project starting August 3rd to get it back on schedule",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-08-03",
+        "source_quote": "If I start on Monday, I can have search back on schedule by August 22nd."
+      },
+      {
+        "description": "Brief analytics dashboard stakeholders about deprioritization",
+        "assignee_label": "Speaker 3",
+        "due_date": "2026-07-27",
+        "source_quote": "I'll brief the analytics dashboard stakeholders today about the deprioritization."
+      },
+      {
+        "description": "Submit mobile app v3.2 to App Store review early to buffer for review time",
+        "assignee_label": "Speaker 4",
+        "due_date": "2026-08-22",
+        "source_quote": "I'll submit to Apple a week early on August 22nd to buffer for review."
+      },
+      {
+        "description": "Update public roadmap website to reflect search timeline adjustment",
+        "assignee_label": "Speaker 1",
+        "due_date": "2026-07-28",
+        "source_quote": "I'll update the public roadmap to reflect the search timeline adjustment by end of day tomorrow, July 28th."
+      }
+    ],
+    "decisions": [
+      "Speaker 3 reassigned from analytics dashboard to search overhaul starting August 3rd",
+      "Search overhaul target adjusted from original date to August 22nd"
+    ],
+    "dates": ["2026-08-15", "2026-08-03", "2026-07-27", "2026-08-22", "2026-07-28", "2026-08-29", "2026-08-24"]
+  }
+}
