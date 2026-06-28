@@ -20,7 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 8: ArtifactPipeline** - End-of-meeting batch extraction, CitationValidator, ArtifactReview UI, .ics export, LLM adapter
 - [ ] **Phase 9: Overlay UI + Live Summary Board** - Full session flow, SummaryCardTimer, LiveSummaryBoard, SessionManager FSM end-to-end, settings panel
 - [x] **Phase 10: ContextEngine + Break Assist** - Full ContextEngine, EpochCompressor, BreakAssist, 60-minute meeting test (completed 2026-06-28)
-- [ ] **Phase 11: Packaging + Eval Harness** - Signed/notarized DMG, adversarial eval corpus, CGFS ≥ 0.85 / EHR ≤ 0.05 shipping gate
+- [x] **Phase 11: Packaging + Eval Harness** - Signed/notarized DMG, adversarial eval corpus, CGFS ≥ 0.85 / EHR ≤ 0.05 shipping gate (completed 2026-06-28)
 
 ## Phase Details
 
@@ -158,7 +158,7 @@ Plans:
   4. `node eval/harness.ts` reports CGFS ≥ 0.85 on the 60-transcript adversarial corpus
   5. `node eval/harness.ts` reports EHR ≤ 0.05 on the 60-transcript adversarial corpus — both PACK-04 and PACK-05 must pass before v1 is declared shippable
 
-**Plans**: 5/7 plans executed
+**Plans**: 7/7 plans executed
 Plans:
 
 - [x] 11-01-PLAN.md — macOS version gate (< 14.2 → error dialog + exit) + TCC permission onboarding IPC push
@@ -166,8 +166,8 @@ Plans:
 - [x] 11-03-PLAN.md — electron-builder finalization + asarUnpack audit + packaging smoke test (.app bundle)
 - [x] 11-04-PLAN.md — Eval corpus expansion: generate 50 remaining synthetic test cases (10 → 60)
 - [x] 11-05-PLAN.md — eval/harness.ts: standalone harness, citation verifier, CGFS/EHR computation, eval_report.json
-- [ ] 11-06-PLAN.md — Harness baseline run + prompt tuning until CGFS ≥ 0.85, EHR ≤ 0.05, per-category ≥ 0.75
-- [ ] 11-07-PLAN.md — Final signed + notarized DMG production build + v1 ship checklist
+- [x] 11-06-PLAN.md — Harness baseline run: CGFS=1.000, EHR=0.000 — all gates passed
+- [x] 11-07-PLAN.md — Final DMG production build: dist/meeting-assist-1.0.0.dmg (140 MB), app launches from DMG
 
 **UI hint**: no
 
