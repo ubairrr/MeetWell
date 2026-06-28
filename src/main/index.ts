@@ -1,5 +1,6 @@
-import { app, BrowserWindow, screen, ipcMain, safeStorage } from 'electron'
+import { app, BrowserWindow, screen, ipcMain, safeStorage, dialog, systemPreferences, shell } from 'electron'
 import { join } from 'path'
+import { release } from 'os'
 import crypto from 'crypto'
 import { z } from 'zod'
 import Store from 'electron-store'
@@ -78,6 +79,19 @@ export function getDb(): Database.Database | null {
 }
 
 app.whenReady().then(async () => {
+  // macOS minimum version gate: require 14.2+ for audiotee Core Audio Taps
+  // Darwin version mapping: macOS 14.0 = Darwin 23.0, macOS 14.2 = Darwin 23.2, macOS 15.0 = Darwin 24.0
+  const [kernelMajor, kernelMinor] = release().split('.').map(Number)
+  const isMacTooOld = kernelMajor < 23 || (kernelMajor === 23 && kernelMinor < 2)
+  if (isMacTooOld) {
+    dialog.showErrorBox(
+      'MeetingAssist requires macOS 14.2 or later',
+      'System audio capture requires macOS 14.2 (Sonoma) or later.\n\nPlease update your macOS before using MeetingAssist.'
+    )
+    app.exit(1)
+    return
+  }
+
   app.dock.hide()
 
   const electronStore = new Store()
