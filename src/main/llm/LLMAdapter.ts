@@ -15,12 +15,12 @@ export class LLMAdapter {
     this.onUsage = onUsage
   }
 
-  async generate<T>(
-    schema: z.ZodSchema<T>,
+  async generate<T extends z.ZodTypeAny>(
+    schema: T,
     schemaName: string,
     systemPrompt: string,
     userContent: string
-  ): Promise<T> {
+  ): Promise<z.output<T>> {
     const model = 'gemini-2.5-flash'
     const completion = await this.client.chat.completions.parse({
       model,
