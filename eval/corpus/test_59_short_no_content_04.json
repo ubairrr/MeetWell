@@ -1,0 +1,20 @@
+{
+  "transcript_id": "test_59_short_no_content_04",
+  "category": "short_no_content",
+  "transcript": "[Meeting date: 2026-08-07]\n[00:00] You: Happy Friday everyone. We have a few minutes before the weekend — just a casual team social.\n[00:20] Speaker 1: Glad we're doing this. I've been heads-down all week.\n[00:35] Speaker 2: Same. Anyone doing anything interesting this weekend?\n[00:50] Speaker 1: I'm going to the farmers market on Saturday. My partner wants to try making jam.\n[01:10] Speaker 3: That sounds fun! I'm planning to catch up on some reading. I've been meaning to finish that book for weeks.\n[01:35] Speaker 2: I might go hiking if the weather holds. There's a trail I've been wanting to try near the coast.\n[02:00] You: Sounds like everyone's recharging. That's important.\n[02:15] Speaker 1: Definitely. See you all Monday.\n[02:25] Speaker 3: Enjoy the weekend everyone.\n[02:35] You: You too. See you next week.",
+  "adversarial_injections": [
+    {
+      "description": "This is a 6-minute team social chat about weekend plans — no work topics, no commitments, no decisions",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'I've been meaning to finish that book for weeks' is a personal comment, not a work commitment",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [],
+    "decisions": [],
+    "dates": []
+  }
+}

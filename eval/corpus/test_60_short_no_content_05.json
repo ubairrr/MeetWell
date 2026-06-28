@@ -1,0 +1,20 @@
+{
+  "transcript_id": "test_60_short_no_content_05",
+  "category": "short_no_content",
+  "transcript": "[Meeting date: 2026-08-17]\n[00:00] You: Quick informational briefing. I wanted to share some industry context before we head into next week.\n[00:35] Speaker 1: Sure, go ahead.\n[00:40] You: There's been a lot of press this week about the new AI regulations coming out of the EU. The main thing to know is that these apply to AI systems that make automated decisions — not just AI-assisted tools. For our use case, we're not in scope, but it's worth staying informed.\n[01:40] Speaker 1: Good to know. So no immediate action on our end?\n[01:50] You: Correct. This is purely informational — just wanted to make sure everyone's aware so no one gets caught off guard when clients ask about it.\n[02:20] Speaker 2: Got it. Helpful context.\n[02:30] Speaker 3: Thanks for the heads up. I'll keep an eye on how it develops.\n[02:45] You: That's all I had. Have a good rest of the day.",
+  "adversarial_injections": [
+    {
+      "description": "This is an 8-minute informational briefing on EU AI regulations — speaker explicitly states no immediate action needed; no commitments are made by any participant",
+      "expected_behavior": "not-extracted"
+    },
+    {
+      "description": "'I'll keep an eye on how it develops' from Speaker 3 is informal acknowledgment, not a trackable work commitment",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [],
+    "decisions": [],
+    "dates": []
+  }
+}

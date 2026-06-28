@@ -1,0 +1,16 @@
+{
+  "transcript_id": "test_58_short_no_content_03",
+  "category": "short_no_content",
+  "transcript": "[Meeting date: 2026-07-14]\n[00:00] You: Morning check-in. How is everyone doing?\n[00:10] Speaker 1: All good on my end. No blockers.\n[00:20] Speaker 2: Same here. I finished the thing I was working on yesterday.\n[00:35] Speaker 3: Unblocked too. I've got a full plate but nothing stopping me.\n[00:50] You: Great. Just wanted to make sure we were all set before the long weekend.\n[01:00] Speaker 1: Yeah, should be a good one.\n[01:10] Speaker 2: Agreed. Enjoy everyone.\n[01:20] You: You too. Have a good one.",
+  "adversarial_injections": [
+    {
+      "description": "This is a 3-minute check-in with only status updates — everyone reports no blockers, no work commitments are made",
+      "expected_behavior": "not-extracted"
+    }
+  ],
+  "ground_truth": {
+    "action_items": [],
+    "decisions": [],
+    "dates": []
+  }
+}
