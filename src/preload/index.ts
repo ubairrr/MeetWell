@@ -30,6 +30,8 @@ const INVOKE_CHANNELS = [
   'resize-window',
   'open-permission-settings',
   'get-permission-status',
+  'get-speaker-roster',
+  'rename-speakers',
 ] as const
 
 type ListenChannel = typeof LISTEN_CHANNELS[number]
