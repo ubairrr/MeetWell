@@ -39,7 +39,7 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
 
 **Milestone Goal:** Layer the deferred v2 differentiators onto the shipped v1/v2.0 core — named speaker attribution, meeting-type artifact templates, cross-meeting semantic search, and a live grounded assistant chat. Code signing/notarization and direct calendar APIs remain out of scope for this milestone.
 
-- [ ] **Phase 12: Named Speaker Attribution** - Manual per-meeting speaker relabeling that propagates to every downstream artifact, export, and citation
+- [x] **Phase 12: Named Speaker Attribution** - Manual per-meeting speaker relabeling that propagates to every downstream artifact, export, and citation (completed 2026-07-01)
 - [ ] **Phase 13: Meeting-Type Artifact Templates** - Session-start meeting type selection producing genuinely distinct MOM/summary structures per type
 - [ ] **Phase 14: Cross-Meeting Semantic Search** - Dedicated search panel over all past meetings, including a backfill for pre-milestone history
 - [ ] **Phase 15: Live Assistant Interactive Chat** - In-overlay chat grounded in the current meeting and relevant past meetings, with citations
@@ -58,7 +58,7 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
   3. Renamed speaker names appear in the exported .ics file and any other export surface for that meeting
   4. Renaming a speaker in one meeting has zero effect on the speaker labels shown in any other meeting
 
-**Plans**: 3/4 plans executed
+**Plans**: 4/4 plans complete
 
 Plans:
 **Wave 1**
@@ -72,7 +72,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 12-04-PLAN.md — RenameSpeakersModal UI + ArtifactReview wiring (Wave 3)
+- [x] 12-04-PLAN.md — RenameSpeakersModal UI + ArtifactReview wiring (Wave 3)
 
 **UI hint**: yes
 
@@ -141,7 +141,7 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 9. Overlay UI + Live Summary Board | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 10. ContextEngine + Break Assist | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 11. Packaging + Eval Harness | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
-| 12. Named Speaker Attribution | v3.0 | 3/4 | In Progress|  |
+| 12. Named Speaker Attribution | v3.0 | 4/4 | Complete   | 2026-07-01 |
 | 13. Meeting-Type Artifact Templates | v3.0 | 0/? | 📋 Not started | - |
 | 14. Cross-Meeting Semantic Search | v3.0 | 0/? | 📋 Not started | - |
 | 15. Live Assistant Interactive Chat | v3.0 | 0/? | 📋 Not started | - |
