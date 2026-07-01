@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { ArtifactItem } from './ArtifactItem'
+import { RenameSpeakersModal } from './RenameSpeakersModal'
 
 interface ActionItemData {
   id: string
@@ -40,6 +41,7 @@ interface ArtifactReviewProps {
 type Section = 'mom' | 'summary' | 'keyPoints' | 'actionItems'
 
 export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): React.JSX.Element {
+  const [localArtifacts, setLocalArtifacts] = useState(artifacts)
   const [expandedSection, setExpandedSection] = useState<Section | null>('actionItems')
   const [dismissedItems, setDismissedItems] = useState<Set<string>>(new Set())
   const [confirmedItems, setConfirmedItems] = useState<Set<string>>(new Set())
@@ -48,6 +50,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
   const [isExporting, setIsExporting] = useState(false)
   const [meetingTitle, setMeetingTitle] = useState('')
   const [titleSaved, setTitleSaved] = useState(false)
+  const [showRenameModal, setShowRenameModal] = useState(false)
   const titleInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -106,7 +109,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
     userSelect: 'none',
   })
 
-  if (artifacts.error) {
+  if (localArtifacts.error) {
     return (
       <div style={{ padding: '16px' }}>
         <div style={{
@@ -118,7 +121,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
           fontSize: '12px',
           color: '#fca5a5',
         }}>
-          {artifacts.errorMessage ?? 'Artifact generation failed — your transcript is saved'}
+          {localArtifacts.errorMessage ?? 'Artifact generation failed — your transcript is saved'}
         </div>
         <button
           onClick={() => window.electronAPI.invoke('start-meeting').catch(console.error)}
@@ -187,13 +190,13 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
       <div>
         <div style={sectionHeaderStyle(expandedSection === 'actionItems')} onClick={() => toggleSection('actionItems')}>
           <span style={{ fontSize: '12px', fontWeight: 500, color: '#e5e7eb' }}>
-            Action Items ({artifacts.actionItems.action_items.length})
+            Action Items ({localArtifacts.actionItems.action_items.length})
           </span>
           <span style={{ color: '#6b7280', fontSize: '11px' }}>{expandedSection === 'actionItems' ? '▼' : '▶'}</span>
         </div>
         {expandedSection === 'actionItems' && (
           <div style={{ padding: '8px 16px' }}>
-            {artifacts.actionItems.action_items
+            {localArtifacts.actionItems.action_items
               .filter((item) => !dismissedItems.has(item.id))
               .map((item) => {
                 const isConfirmed = confirmedItems.has(item.id)
@@ -222,7 +225,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
                   </div>
                 )
               })}
-            {artifacts.actionItems.action_items.filter((i) => !dismissedItems.has(i.id)).length === 0 && (
+            {localArtifacts.actionItems.action_items.filter((i) => !dismissedItems.has(i.id)).length === 0 && (
               <div style={{ fontSize: '12px', color: '#6b7280', padding: '8px 0' }}>No action items</div>
             )}
             {confirmedItems.size > 0 && (
@@ -267,7 +270,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
         {expandedSection === 'summary' && (
           <div style={{ padding: '8px 16px', maxHeight: '30vh', overflowY: 'auto' }}>
             <p style={{ fontSize: '12px', color: '#d1d5db', margin: 0, lineHeight: '1.5' }}>
-              {artifacts.summary.summary_text || 'No summary generated.'}
+              {localArtifacts.summary.summary_text || 'No summary generated.'}
             </p>
           </div>
         )}
@@ -277,16 +280,16 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
       <div>
         <div style={sectionHeaderStyle(expandedSection === 'keyPoints')} onClick={() => toggleSection('keyPoints')}>
           <span style={{ fontSize: '12px', fontWeight: 500, color: '#e5e7eb' }}>
-            Key Points ({artifacts.keyPoints.key_points.length})
+            Key Points ({localArtifacts.keyPoints.key_points.length})
           </span>
           <span style={{ color: '#6b7280', fontSize: '11px' }}>{expandedSection === 'keyPoints' ? '▼' : '▶'}</span>
         </div>
         {expandedSection === 'keyPoints' && (
           <div style={{ padding: '8px 16px' }}>
-            {artifacts.keyPoints.key_points
+            {localArtifacts.keyPoints.key_points
               .filter((_, idx) => !dismissedKeyPoints.has(idx))
               .map((kp, _filteredIdx, _arr) => {
-                const originalIdx = artifacts.keyPoints.key_points.indexOf(kp)
+                const originalIdx = localArtifacts.keyPoints.key_points.indexOf(kp)
                 return (
                   <ArtifactItem
                     key={originalIdx}
@@ -307,7 +310,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
                   />
                 )
               })}
-            {artifacts.keyPoints.key_points.filter((_, idx) => !dismissedKeyPoints.has(idx)).length === 0 && (
+            {localArtifacts.keyPoints.key_points.filter((_, idx) => !dismissedKeyPoints.has(idx)).length === 0 && (
               <div style={{ fontSize: '12px', color: '#6b7280', padding: '8px 0' }}>No key points extracted.</div>
             )}
           </div>
@@ -323,7 +326,7 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
         {expandedSection === 'mom' && (
           <div style={{ padding: '8px 16px', maxHeight: '50vh', overflowY: 'auto' }}>
             <pre style={{ whiteSpace: 'pre-wrap', fontSize: '11px', color: '#d1d5db', margin: 0, lineHeight: '1.5' }}>
-              {artifacts.mom.markdown_content || 'No minutes generated.'}
+              {localArtifacts.mom.markdown_content || 'No minutes generated.'}
             </pre>
           </div>
         )}
@@ -331,6 +334,12 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
 
       {/* Footer buttons */}
       <div style={{ padding: '12px 16px', borderTop: '1px solid #1f2937', marginTop: '8px' }}>
+        <button
+          onClick={() => setShowRenameModal(true)}
+          style={{ width: '100%', padding: '8px 0', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', fontWeight: 500, marginBottom: '8px' }}
+        >
+          Rename Speakers
+        </button>
         <button
           onClick={() => window.electronAPI.invoke('start-meeting').catch(console.error)}
           style={{ width: '100%', padding: '8px 0', backgroundColor: '#2563eb', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', fontWeight: 500, marginBottom: '8px' }}
@@ -344,6 +353,17 @@ export function ArtifactReview({ meetingId, artifacts }: ArtifactReviewProps): R
           Dismiss
         </button>
       </div>
+
+      {showRenameModal && (
+        <RenameSpeakersModal
+          meetingId={meetingId}
+          onClose={() => setShowRenameModal(false)}
+          onRenamed={(updated) => {
+            setLocalArtifacts(updated as typeof localArtifacts)
+            setShowRenameModal(false)
+          }}
+        />
+      )}
     </div>
   )
 }
