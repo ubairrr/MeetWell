@@ -1,7 +1,7 @@
 ---
 phase: 12-named-speaker-attribution
 verified: 2026-07-02T02:20:00Z
-status: passed
+status: human_needed
 score: 4/4 must-haves verified (1 via accepted override)
 behavior_unverified: 0
 overrides_applied: 1
