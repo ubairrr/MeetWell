@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Advanced Assistant Features
 current_phase: 12
-current_phase_name: Named Speaker Attribution
-status: planning
+current_phase_name: named-speaker-attribution
+status: executing
 stopped_at: Phase 12 planned — 4 plans created, ready to execute
-last_updated: "2026-07-02T01:35:00.000Z"
-last_activity: 2026-07-02
-last_activity_desc: Phase 12 (Named Speaker Attribution) planned — 4 plans across 3 waves, SPKR-01/02/03/05 covered, all 8 CONTEXT.md decisions traced
+last_updated: "2026-07-01T20:13:18.384Z"
+last_activity: 2026-07-01
+last_activity_desc: Phase 12 execution started
 progress:
   total_phases: 4
   completed_phases: 0
@@ -24,16 +24,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-01)
 
 **Core value:** A user walks out of any meeting with an accurate, trustworthy record and a ready-to-act set of artifacts — without having taken a single note.
-**Current focus:** v3.0 Advanced Assistant Features — roadmap created, ready to plan Phase 12 (Named Speaker Attribution)
+**Current focus:** Phase 12 — named-speaker-attribution
 
 > **Milestone framing:** ROADMAP.md now covers Phases 12–15 for v3.0 — Named Speaker Attribution, Meeting-Type Artifact Templates, Cross-Meeting Semantic Search, and Live Assistant Interactive Chat. Distribution work (code signing/notarization, direct calendar APIs) remains deferred to a later milestone.
 
 ## Current Position
 
-Phase: 12 of 15 (Named Speaker Attribution)
-Plan: 4 plans created (12-01..12-04), 3 waves — ready to execute
-Status: Planned — ready for /gsd-execute-phase 12
-Last activity: 2026-07-02 — Phase 12 planned: 12-01 (speaker_aliases DDL + propagation utilities + SpeakerAliasStore, Wave 1), 12-02 (CalendarExportService regression coverage, Wave 1), 12-03 (get-speaker-roster/rename-speakers IPC handlers, Wave 2), 12-04 (RenameSpeakersModal + ArtifactReview wiring, Wave 3)
+Phase: 12 (named-speaker-attribution) — EXECUTING
+Plan: 1 of 4
+Status: Executing Phase 12
+Last activity: 2026-07-01 — Phase 12 execution started
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 
