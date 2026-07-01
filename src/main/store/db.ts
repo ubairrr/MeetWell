@@ -109,6 +109,15 @@ CREATE TABLE IF NOT EXISTS epoch_summaries (
   token_count_compressed    INTEGER NOT NULL,
   created_at                TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS speaker_aliases (
+  meeting_id      TEXT NOT NULL
+    REFERENCES meetings(id) ON DELETE CASCADE,
+  original_label  TEXT NOT NULL,
+  display_name    TEXT NOT NULL,
+  updated_at      INTEGER NOT NULL DEFAULT (unixepoch() * 1000),
+  PRIMARY KEY (meeting_id, original_label)
+);
 `
 
 // ---------------------------------------------------------------------------

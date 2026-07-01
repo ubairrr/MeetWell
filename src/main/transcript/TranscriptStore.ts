@@ -49,6 +49,33 @@ export class TranscriptStore {
     )
   }
 
+  getDistinctSpeakerLabels(meetingId: string): string[] {
+    const rows = this.db
+      .prepare('SELECT DISTINCT speaker_label FROM transcript_segments WHERE meeting_id = ? ORDER BY speaker_label ASC')
+      .all(meetingId) as Array<{ speaker_label: string }>
+    return rows.map((r) => r.speaker_label)
+  }
+
+  getRepresentativeExcerpt(meetingId: string, label: string): string | null {
+    const substantial = this.db
+      .prepare(
+        `SELECT text FROM transcript_segments
+         WHERE meeting_id = ? AND speaker_label = ? AND length(text) > 15
+         ORDER BY timestamp_start ASC LIMIT 1`
+      )
+      .get(meetingId, label) as { text: string } | undefined
+    if (substantial) return substantial.text
+
+    const any = this.db
+      .prepare(
+        `SELECT text FROM transcript_segments
+         WHERE meeting_id = ? AND speaker_label = ?
+         ORDER BY timestamp_start ASC LIMIT 1`
+      )
+      .get(meetingId, label) as { text: string } | undefined
+    return any?.text ?? null
+  }
+
   getSegmentsByMeeting(meetingId: string): TranscriptSegmentRow[] {
     const rows = this.getSegmentsStmt.all(meetingId) as Array<{
       id: string

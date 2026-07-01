@@ -100,4 +100,71 @@ describe('TranscriptStore', () => {
     const confidenceCols = columns.filter((c) => c.name === 'confidence')
     expect(confidenceCols).toHaveLength(1)
   })
+
+  describe('getDistinctSpeakerLabels', () => {
+    it('returns distinct labels sorted ascending, collapsing duplicates across many segments', () => {
+      store.createMeeting('mtg-1', Date.now())
+      store.appendSegment(makeSegment({ id: 'seg-a', speakerLabel: 'Speaker 2' }))
+      store.appendSegment(makeSegment({ id: 'seg-b', speakerLabel: 'You' }))
+      store.appendSegment(makeSegment({ id: 'seg-c', speakerLabel: 'Speaker 1' }))
+      store.appendSegment(makeSegment({ id: 'seg-d', speakerLabel: 'Speaker 1' }))
+      store.appendSegment(makeSegment({ id: 'seg-e', speakerLabel: 'Speaker 2' }))
+
+      const labels = store.getDistinctSpeakerLabels('mtg-1')
+      expect(labels).toEqual(['Speaker 1', 'Speaker 2', 'You'])
+    })
+
+    it('returns [] when the meeting has zero transcript_segments rows', () => {
+      store.createMeeting('mtg-empty', Date.now())
+      const labels = store.getDistinctSpeakerLabels('mtg-empty')
+      expect(labels).toEqual([])
+    })
+  })
+
+  describe('getRepresentativeExcerpt', () => {
+    it('returns the earliest-timestamp segment text when a segment for that label exceeds 15 chars', () => {
+      store.createMeeting('mtg-1', Date.now())
+      store.appendSegment(
+        makeSegment({ id: 'seg-late', speakerLabel: 'Speaker 1', timestampStart: 10.0, text: 'This is a long enough sentence' })
+      )
+      store.appendSegment(
+        makeSegment({ id: 'seg-early', speakerLabel: 'Speaker 1', timestampStart: 1.0, text: 'This is the earliest substantial line' })
+      )
+
+      const excerpt = store.getRepresentativeExcerpt('mtg-1', 'Speaker 1')
+      expect(excerpt).toBe('This is the earliest substantial line')
+    })
+
+    it('falls back to the earliest segment text (any length) when no segment exceeds 15 chars', () => {
+      store.createMeeting('mtg-1', Date.now())
+      store.appendSegment(makeSegment({ id: 'seg-short-2', speakerLabel: 'Speaker 1', timestampStart: 5.0, text: 'ok' }))
+      store.appendSegment(makeSegment({ id: 'seg-short-1', speakerLabel: 'Speaker 1', timestampStart: 2.0, text: 'hi' }))
+
+      const excerpt = store.getRepresentativeExcerpt('mtg-1', 'Speaker 1')
+      expect(excerpt).toBe('hi')
+    })
+
+    it('returns null when no segment exists at all for that label', () => {
+      store.createMeeting('mtg-1', Date.now())
+      store.appendSegment(makeSegment({ id: 'seg-1', speakerLabel: 'Speaker 1' }))
+
+      const excerpt = store.getRepresentativeExcerpt('mtg-1', 'Speaker 9')
+      expect(excerpt).toBeNull()
+    })
+  })
+
+  describe('speaker_aliases DDL', () => {
+    it('creates a speaker_aliases table with the expected columns, and re-running ALL_DDLS does not throw', () => {
+      const tables = db
+        .prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'speaker_aliases'")
+        .all() as Array<{ name: string }>
+      expect(tables).toHaveLength(1)
+
+      const columns = db.pragma('table_info(speaker_aliases)') as Array<{ name: string }>
+      const columnNames = columns.map((c) => c.name).sort()
+      expect(columnNames).toEqual(['display_name', 'meeting_id', 'original_label', 'updated_at'].sort())
+
+      expect(() => db.exec(ALL_DDLS)).not.toThrow()
+    })
+  })
 })
