@@ -126,3 +126,9 @@ None - no external service configuration required.
 ---
 *Phase: 12-named-speaker-attribution*
 *Completed: 2026-07-01*
+
+## Self-Check: PASSED
+- FOUND: src/main/calendar/__tests__/CalendarExportService.test.ts
+- FOUND: .planning/phases/12-named-speaker-attribution/12-02-SUMMARY.md
+- FOUND: commit d4bfcd7 (Task 1)
+- FOUND: commit dc3a703 (docs/plan metadata)
