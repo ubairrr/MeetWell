@@ -128,3 +128,12 @@ None - no external service configuration required.
 ---
 *Phase: 12-named-speaker-attribution*
 *Completed: 2026-07-01*
+
+## Self-Check: PASSED
+
+- FOUND: src/preload/index.ts
+- FOUND: src/main/index.ts
+- FOUND: .planning/phases/12-named-speaker-attribution/12-03-SUMMARY.md
+- FOUND: 6f66b09 (Task 1 commit)
+- FOUND: 6c8a908 (Task 2 commit)
+- FOUND: e388d2f (SUMMARY commit)
