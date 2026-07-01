@@ -71,32 +71,34 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SPKR-01 | TBD | Pending |
-| SPKR-02 | TBD | Pending |
-| SPKR-03 | TBD | Pending |
-| SPKR-04 | TBD | Pending |
-| SPKR-05 | TBD | Pending |
-| TMPL-01 | TBD | Pending |
-| TMPL-02 | TBD | Pending |
-| TMPL-03 | TBD | Pending |
-| TMPL-04 | TBD | Pending |
-| TMPL-05 | TBD | Pending |
-| SRCH-01 | TBD | Pending |
-| SRCH-02 | TBD | Pending |
-| SRCH-03 | TBD | Pending |
-| SRCH-04 | TBD | Pending |
-| CHAT-01 | TBD | Pending |
-| CHAT-02 | TBD | Pending |
-| CHAT-03 | TBD | Pending |
-| CHAT-04 | TBD | Pending |
-| CHAT-05 | TBD | Pending |
-| CHAT-06 | TBD | Pending |
+| SPKR-01 | Phase 12 | Pending |
+| SPKR-02 | Phase 12 | Pending |
+| SPKR-03 | Phase 12 | Pending |
+| SPKR-04 | Phase 14 | Pending |
+| SPKR-05 | Phase 12 | Pending |
+| TMPL-01 | Phase 13 | Pending |
+| TMPL-02 | Phase 13 | Pending |
+| TMPL-03 | Phase 13 | Pending |
+| TMPL-04 | Phase 13 | Pending |
+| TMPL-05 | Phase 13 | Pending |
+| SRCH-01 | Phase 14 | Pending |
+| SRCH-02 | Phase 14 | Pending |
+| SRCH-03 | Phase 14 | Pending |
+| SRCH-04 | Phase 14 | Pending |
+| CHAT-01 | Phase 15 | Pending |
+| CHAT-02 | Phase 15 | Pending |
+| CHAT-03 | Phase 15 | Pending |
+| CHAT-04 | Phase 15 | Pending |
+| CHAT-05 | Phase 15 | Pending |
+| CHAT-06 | Phase 15 | Pending |
 
 **Coverage:**
 - v1 requirements: 20 total
-- Mapped to phases: 0
-- Unmapped: 20 ⚠️ (roadmap creation pending)
+- Mapped to phases: 20
+- Unmapped: 0 ✓
+
+**Note:** SPKR-04 is mapped to Phase 14 (Cross-Meeting Semantic Search) rather than Phase 12 (Named Speaker Attribution), since its observable behavior — renamed speakers appearing correctly in search results — cannot be verified until the search panel exists. See ROADMAP.md "Roadmap Rationale" for detail.
 
 ---
 *Requirements defined: 2026-07-01*
-*Last updated: 2026-07-01 after initial definition*
+*Last updated: 2026-07-01 after v3.0 roadmap creation (Phases 12–15, 20/20 requirements mapped)*
