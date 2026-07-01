@@ -11,7 +11,7 @@ Requirements for the v3.0 "Advanced Assistant Features" milestone. Each maps to 
 
 - [ ] **SPKR-01**: User can rename a diarized speaker label to a display name during or after a meeting
 - [ ] **SPKR-02**: Renamed speaker attribution persists and applies to all downstream artifacts (MOM, summary, action items, citations) for that meeting
-- [ ] **SPKR-03**: Renamed speaker attribution appears in exported .ics and any other export surfaces
+- [x] **SPKR-03**: Renamed speaker attribution appears in exported .ics and any other export surfaces
 - [ ] **SPKR-04**: Renamed speaker attribution appears correctly in cross-meeting search results
 - [ ] **SPKR-05**: Speaker labels are scoped per meeting — renaming in one meeting does not affect other meetings' speaker labels
 
@@ -73,7 +73,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | SPKR-01 | Phase 12 | Pending |
 | SPKR-02 | Phase 12 | Pending |
-| SPKR-03 | Phase 12 | Pending |
+| SPKR-03 | Phase 12 | Complete |
 | SPKR-04 | Phase 14 | Pending |
 | SPKR-05 | Phase 12 | Pending |
 | TMPL-01 | Phase 13 | Pending |
@@ -93,6 +93,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CHAT-06 | Phase 15 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 20 total
 - Mapped to phases: 20
 - Unmapped: 0 ✓
