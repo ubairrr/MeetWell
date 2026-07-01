@@ -2,9 +2,13 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Advanced Assistant Features
+current_phase: 12
+current_phase_name: Named Speaker Attribution
 status: planning
-last_updated: "2026-07-01T20:30:00.000Z"
+stopped_at: Phase 12 context gathered
+last_updated: "2026-07-01T19:11:11.044Z"
 last_activity: 2026-07-01
+last_activity_desc: ROADMAP.md and REQUIREMENTS.md traceability created for v3.0 (Phases 12–15, 20/20 requirements mapped)
 progress:
   total_phases: 4
   completed_phases: 0
@@ -43,6 +47,7 @@ Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 59 (v1.0 + v2.0)
 - Average duration: see milestone retrospectives
 - Total execution time: see `.planning/RETROSPECTIVE.md`
@@ -54,6 +59,7 @@ Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 | 12–15 (v3.0) | 0 | - | - |
 
 **Recent Trend:**
+
 - v3.0 not yet started — no plan durations recorded
 
 *Updated after each plan completion*
@@ -110,6 +116,6 @@ Items carried forward from v2.0 Build milestone:
 
 ## Session Continuity
 
-Last session: 2026-07-01 20:30
-Stopped at: ROADMAP.md (Phases 12–15) and REQUIREMENTS.md traceability written for v3.0; awaiting user approval before `/gsd-plan-phase 12`
-Resume file: None
+Last session: 2026-07-01T19:11:11.036Z
+Stopped at: Phase 12 context gathered
+Resume file: .planning/phases/12-named-speaker-attribution/12-CONTEXT.md
