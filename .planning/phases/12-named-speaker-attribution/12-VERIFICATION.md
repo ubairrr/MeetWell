@@ -1,16 +1,18 @@
 ---
 phase: 12-named-speaker-attribution
 verified: 2026-07-02T02:20:00Z
-status: human_needed
+status: passed
 score: 4/4 must-haves verified (1 via accepted override)
 behavior_unverified: 0
 overrides_applied: 1
 overrides:
+
   - must_have: "User can rename a diarized speaker label to a custom display name via an in-app relabeling UI, during or after a meeting"
     reason: "Live rename during Capturing/OnBreak was explicitly descoped in 12-CONTEXT.md D-04 (requires synchronizing SummaryCardTimer/LiveSummaryBoard, deferred to a future enhancement). Post-meeting rename fully satisfies the practical use case; ROADMAP.md SC1 wording updated to reflect this."
     accepted_by: "ubairrr"
     accepted_at: "2026-07-02T02:30:00Z"
 gaps:
+
   - truth: "User can rename a diarized speaker label to a custom display name via an in-app relabeling UI, during or after a meeting"
     status: failed
     reason: >
@@ -28,14 +30,19 @@ gaps:
       ROADMAP.md's Success Criterion 1 wording was never updated to match, so the phase goal as written
       is not fully met.
     artifacts:
+
       - path: "src/main/index.ts"
         issue: "get-speaker-roster/rename-speakers handlers hard-reject every session state except 'Complete' — by design, not a bug"
+
       - path: "src/renderer/src/App.tsx"
         issue: "ArtifactReview (the only mount point for RenameSpeakersModal) only renders when sessionState === 'Complete'"
     missing:
+
       - "Either: update ROADMAP.md Phase 12 Success Criterion 1 to explicitly scope renaming to post-meeting-only (matching 12-CONTEXT.md D-04), accepted via an override in this VERIFICATION.md; or: implement the deferred live-rename-during-Capturing/OnBreak capability before closing this phase."
+
 deferred: []
 human_verification:
+
   - test: >
       Open ArtifactReview for a Complete-state meeting with 2+ distinct speaker labels. Click "Rename
       Speakers". Verify the modal lists every distinct speaker_label (including "You") with a
@@ -127,6 +134,7 @@ None. No `TBD`/`FIXME`/`XXX`/`TODO`/`HACK`/`PLACEHOLDER` debt markers found in a
 
 ```yaml
 overrides:
+
   - must_have: "User can rename a diarized speaker label to a custom display name via an in-app relabeling UI, during or after a meeting"
     reason: "Live rename during Capturing/OnBreak was explicitly descoped in 12-CONTEXT.md D-04 (requires synchronizing SummaryCardTimer/LiveSummaryBoard, deferred to a future enhancement). Post-meeting rename fully satisfies the practical use case; ROADMAP.md SC1 wording should be updated to reflect this."
     accepted_by: "<name>"

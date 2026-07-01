@@ -5,8 +5,8 @@ milestone_name: Advanced Assistant Features
 current_phase: 13
 current_phase_name: Meeting-Type Artifact Templates
 status: executing
-stopped_at: Phase 12 UI-SPEC approved
-last_updated: "2026-07-01T20:48:08.472Z"
+stopped_at: Phase 12 complete, ready to plan Phase 13
+last_updated: "2026-07-01T20:59:17.366Z"
 last_activity: 2026-07-01
 last_activity_desc: Phase 12 complete, transitioned to Phase 13
 progress:
@@ -32,8 +32,8 @@ See: .planning/PROJECT.md (updated 2026-07-01)
 
 Phase: 13 — Meeting-Type Artifact Templates
 Plan: Not started
-Status: Executing Phase 12
-Last activity: 2026-07-01 — Phase 12 complete, transitioned to Phase 13
+Status: Ready to plan
+Last activity: 2026-07-02 — Phase 12 complete, transitioned to Phase 13
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 
@@ -100,6 +100,7 @@ None.
 ### Blockers/Concerns
 
 - Pre-distribution (deferred, not blocking v3.0): Apple Developer ID Application cert needed before public Gatekeeper-approved distribution; full live eval harness run (30/60 live cases run, 30 mock) still pending
+- Dev environment: `better-sqlite3-multiple-ciphers` native binary can drift out of Electron's Node ABI (NODE_MODULE_VERSION mismatch) if rebuilt/installed outside Electron's postinstall hook — fix is `npx electron-rebuild -f -w better-sqlite3-multiple-ciphers` (already wired as the `postinstall` script)
 - (v3.0, flagged by research) `sqlite-vec` 0.1.9's `ALTER TABLE ADD COLUMN` support on `vec0` virtual tables is unverified — resolve as the first sub-step of Phase 14
 - (v3.0, flagged by research) `LLMAdapter.stream()`'s usage-accounting path (`finalChatCompletion()`) is unexercised in production — verify early in Phase 15
 - (v3.0, flagged by research) Concurrent LLM calls from chat (Phase 15) and the existing `SummaryCardTimer` need a request queue/serialization strategy — no existing test coverage
@@ -117,6 +118,6 @@ Items carried forward from v2.0 Build milestone:
 
 ## Session Continuity
 
-Last session: 2026-07-01T19:43:42.757Z
-Stopped at: Phase 12 UI-SPEC approved
-Resume file: .planning/phases/12-named-speaker-attribution/12-UI-SPEC.md
+Last session: 2026-07-02
+Stopped at: Phase 12 complete, ready to plan Phase 13
+Resume file: None

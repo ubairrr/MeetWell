@@ -67,9 +67,12 @@ The product is **v1 shipped** — a working, packaged macOS app (140 MB DMG) wit
 - **CTX-01–06** — ContextEngine, EpochCompressor, BreakAssist, 60-minute test — ✓ v2.0
 - **PACK-01–05** — Packaging pipeline, entitlements, asarUnpack, eval harness CGFS/EHR gates — ✓ v2.0
 
+### Validated (v3.0 Advanced Assistant Features)
+
+- ✓ Named speaker attribution "Alice" / "Bob" via manual in-app relabeling — Phase 12 (ADV-04: `RenameSpeakersModal`, live re-render of MOM/Summary/Key Points/Action Items/Citations with no restart, idempotent re-rename, `.ics` export reflects renamed owner, cross-meeting isolation confirmed)
+
 ### Active (v3.0 Advanced Assistant Features)
 
-- [ ] Named speaker attribution "Alice" / "Bob" via manual in-app relabeling (ADV-04 — v1 ships Speaker 1/2/3 labels)
 - [ ] Live assistant interactive chat UI, grounded in current meeting + past meetings (ADV-01 — ContextEngine built; UI layer + cross-meeting grounding remaining)
 - [ ] Cross-meeting semantic search — dedicated panel + live chat grounding (ADV-03 — sqlite-vec infrastructure ready in v1)
 - [ ] Meeting-type-specific artifact templates: Standup, 1:1, Planning — user-selected at session start (ADV-02)
@@ -138,4 +141,4 @@ This document evolves at phase transitions and milestone boundaries.
 5. Update Context with current state
 
 ---
-*Last updated: 2026-07-01 after starting v3.0 Advanced Assistant Features milestone*
+*Last updated: 2026-07-02 after Phase 12 (named speaker attribution)*
