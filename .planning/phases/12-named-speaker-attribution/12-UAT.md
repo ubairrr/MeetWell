@@ -1,20 +1,14 @@
 ---
-status: testing
+status: complete
 phase: 12-named-speaker-attribution
 source: [12-VERIFICATION.md]
 started: 2026-07-02T02:35:00Z
-updated: 2026-07-02T02:35:00Z
+updated: 2026-07-02T03:00:00Z
 ---
 
 ## Current Test
 
-number: 1
-name: Live UI walkthrough of the rename flow
-expected: |
-  Modal opens with roster+excerpts, staged edits commit in one Save, all five artifact
-  sections re-render live with no restart, re-rename is idempotent, .ics export reflects
-  the rename, other meetings unaffected.
-awaiting: user response
+[testing complete]
 
 ## Tests
 
@@ -28,14 +22,14 @@ expected: |
   third name — verify the second rename also takes effect (idempotent re-rename). Confirm
   exporting to .ics afterward shows the renamed owner (SPKR-03). Confirm a different
   meeting's speaker labels are unaffected (SPKR-05).
-result: [pending]
+result: pass
 
 ## Summary
 
 total: 1
-passed: 0
+passed: 1
 issues: 0
-pending: 1
+pending: 0
 skipped: 0
 blocked: 0
 
