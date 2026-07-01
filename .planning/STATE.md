@@ -5,8 +5,8 @@ milestone_name: Advanced Assistant Features
 current_phase: 12
 current_phase_name: Named Speaker Attribution
 status: planning
-stopped_at: Phase 12 context gathered
-last_updated: "2026-07-01T19:11:11.044Z"
+stopped_at: Phase 12 UI-SPEC approved
+last_updated: "2026-07-01T19:43:42.765Z"
 last_activity: 2026-07-01
 last_activity_desc: ROADMAP.md and REQUIREMENTS.md traceability created for v3.0 (Phases 12–15, 20/20 requirements mapped)
 progress:
@@ -116,6 +116,6 @@ Items carried forward from v2.0 Build milestone:
 
 ## Session Continuity
 
-Last session: 2026-07-01T19:11:11.036Z
-Stopped at: Phase 12 context gathered
-Resume file: .planning/phases/12-named-speaker-attribution/12-CONTEXT.md
+Last session: 2026-07-01T19:43:42.757Z
+Stopped at: Phase 12 UI-SPEC approved
+Resume file: .planning/phases/12-named-speaker-attribution/12-UI-SPEC.md
