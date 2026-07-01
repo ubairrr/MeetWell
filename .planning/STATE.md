@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Advanced Assistant Features
-current_phase: 12
-current_phase_name: named-speaker-attribution
+current_phase: 13
+current_phase_name: Meeting-Type Artifact Templates
 status: executing
-stopped_at: Phase 12 planned — 4 plans created, ready to execute
-last_updated: "2026-07-01T20:13:18.384Z"
+stopped_at: Phase 12 UI-SPEC approved
+last_updated: "2026-07-01T20:48:08.472Z"
 last_activity: 2026-07-01
-last_activity_desc: Phase 12 execution started
+last_activity_desc: Phase 12 complete, transitioned to Phase 13
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 0
-  percent: 0
+  completed_plans: 4
+  percent: 25
 ---
 
 # Project State
@@ -30,10 +30,10 @@ See: .planning/PROJECT.md (updated 2026-07-01)
 
 ## Current Position
 
-Phase: 12 (named-speaker-attribution) — EXECUTING
-Plan: 1 of 4
+Phase: 13 — Meeting-Type Artifact Templates
+Plan: Not started
 Status: Executing Phase 12
-Last activity: 2026-07-01 — Phase 12 execution started
+Last activity: 2026-07-01 — Phase 12 complete, transitioned to Phase 13
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 
@@ -48,7 +48,7 @@ Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 
 **Velocity:**
 
-- Total plans completed: 59 (v1.0 + v2.0)
+- Total plans completed: 4 (v1.0 + v2.0)
 - Average duration: see milestone retrospectives
 - Total execution time: see `.planning/RETROSPECTIVE.md`
 
@@ -57,6 +57,7 @@ Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 12–15 (v3.0) | 0 | - | - |
+| 12 | 4 | - | - |
 
 **Recent Trend:**
 

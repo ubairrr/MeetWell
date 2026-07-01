@@ -9,11 +9,11 @@ Requirements for the v3.0 "Advanced Assistant Features" milestone. Each maps to 
 
 ### Named Speaker Attribution
 
-- [ ] **SPKR-01**: User can rename a diarized speaker label to a display name during or after a meeting
-- [ ] **SPKR-02**: Renamed speaker attribution persists and applies to all downstream artifacts (MOM, summary, action items, citations) for that meeting
+- [x] **SPKR-01**: User can rename a diarized speaker label to a display name after a meeting ends (live rename during Capturing/OnBreak is out of scope per 12-CONTEXT.md D-04)
+- [x] **SPKR-02**: Renamed speaker attribution persists and applies to all downstream artifacts (MOM, summary, action items, citations) for that meeting
 - [x] **SPKR-03**: Renamed speaker attribution appears in exported .ics and any other export surfaces
 - [ ] **SPKR-04**: Renamed speaker attribution appears correctly in cross-meeting search results
-- [ ] **SPKR-05**: Speaker labels are scoped per meeting — renaming in one meeting does not affect other meetings' speaker labels
+- [x] **SPKR-05**: Speaker labels are scoped per meeting — renaming in one meeting does not affect other meetings' speaker labels
 
 ### Meeting-Type Artifact Templates
 
@@ -71,11 +71,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SPKR-01 | Phase 12 | Pending |
-| SPKR-02 | Phase 12 | Pending |
+| SPKR-01 | Phase 12 | Complete |
+| SPKR-02 | Phase 12 | Complete |
 | SPKR-03 | Phase 12 | Complete |
 | SPKR-04 | Phase 14 | Pending |
-| SPKR-05 | Phase 12 | Pending |
+| SPKR-05 | Phase 12 | Complete |
 | TMPL-01 | Phase 13 | Pending |
 | TMPL-02 | Phase 13 | Pending |
 | TMPL-03 | Phase 13 | Pending |

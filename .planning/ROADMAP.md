@@ -48,12 +48,12 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
 
 ### Phase 12: Named Speaker Attribution
 
-**Goal**: Users can correct any diarized "Speaker N" label to a real display name during or after a meeting, and that correction is reflected everywhere the speaker appears for that meeting — without ever mutating the immutable transcript record or leaking across meetings.
+**Goal**: Users can correct any diarized "Speaker N" label to a real display name after a meeting ends, and that correction is reflected everywhere the speaker appears for that meeting — without ever mutating the immutable transcript record or leaking across meetings. (Live rename during Capturing/OnBreak is explicitly out of scope per 12-CONTEXT.md D-04 — deferred as a future enhancement.)
 **Depends on**: Nothing new — builds directly on the shipped v2.0 codebase (independent of Phases 13–15)
 **Requirements**: SPKR-01, SPKR-02, SPKR-03, SPKR-05
 **Success Criteria** (what must be TRUE):
 
-  1. User can rename a diarized speaker label (e.g. "Speaker 1") to a custom display name via an in-app relabeling UI, during or after a meeting
+  1. User can rename a diarized speaker label (e.g. "Speaker 1") to a custom display name via an in-app relabeling UI, after a meeting ends
   2. Renamed speaker names appear consistently across the MOM, summary, key points, action items, and citations for that meeting
   3. Renamed speaker names appear in the exported .ics file and any other export surface for that meeting
   4. Renaming a speaker in one meeting has zero effect on the speaker labels shown in any other meeting
@@ -141,7 +141,7 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 9. Overlay UI + Live Summary Board | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 10. ContextEngine + Break Assist | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 11. Packaging + Eval Harness | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
-| 12. Named Speaker Attribution | v3.0 | 4/4 | Complete   | 2026-07-01 |
+| 12. Named Speaker Attribution | v3.0 | 4/4 | Complete    | 2026-07-01 |
 | 13. Meeting-Type Artifact Templates | v3.0 | 0/? | 📋 Not started | - |
 | 14. Cross-Meeting Semantic Search | v3.0 | 0/? | 📋 Not started | - |
 | 15. Live Assistant Interactive Chat | v3.0 | 0/? | 📋 Not started | - |
