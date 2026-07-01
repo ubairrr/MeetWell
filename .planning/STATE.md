@@ -1,14 +1,10 @@
 ---
 gsd_state_version: 1.0
 milestone: v3.0
-milestone_name: Distribution & v2 Features
-current_phase: null
-current_phase_name: null
+milestone_name: Advanced Assistant Features
 status: planning
-stopped_at: v2.0 Build milestone archived — planning v3.0
-last_updated: "2026-07-01T04:33:00.000Z"
+last_updated: "2026-07-01T13:36:53.869Z"
 last_activity: 2026-07-01
-last_activity_desc: v2.0 milestone archived — ROADMAP collapsed, requirements archived, PROJECT.md evolved
 progress:
   total_phases: 0
   completed_phases: 0
@@ -30,14 +26,10 @@ See: .planning/PROJECT.md (updated 2026-07-01)
 
 ## Current Position
 
-Status: v2.0 Build milestone complete and archived
-Last shipped: v2.0 — 2026-07-01
-Next action: `/gsd-new-milestone` to define v3.0 (Distribution & v2 Features)
-
-```
-Shipped: [██████████████████████████████] v2.0 — 6/6 phases, 42 plans
-Next:    [______________________________] v3.0 — not yet started
-```
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-07-01 — Milestone v3.0 started
 
 ## Shipped Milestones
 

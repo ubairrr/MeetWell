@@ -6,7 +6,19 @@ MeetingAssist is a macOS desktop AI assistant that runs as a persistent **side o
 
 The product is **v1 shipped** — a working, packaged macOS app (140 MB DMG) with a hardened Electron shell, encrypted local DB, adversarial eval harness (CGFS=1.000, EHR=0.000), and the full session flow from consent gate through artifact review.
 
-> **Current state = v2.0 Build milestone complete.** Two milestones shipped: Discovery & PRD (v1.0) and Build (v2.0). Next milestone (v3.0) covers distribution (code signing cert) and v2 features (live assistant chat, named speaker attribution, cross-meeting search).
+> **Current state = v2.0 Build milestone complete.** Two milestones shipped: Discovery & PRD (v1.0) and Build (v2.0). Current milestone (v3.0) covers v2 feature work: live assistant chat, named speaker attribution, cross-meeting semantic search, and meeting-type artifact templates. Distribution (code signing/notarization) is deferred to a later milestone.
+
+## Current Milestone: v3.0 Advanced Assistant Features
+
+**Goal:** Layer the deferred v2 differentiators onto the shipped v1 core — an interactive live assistant grounded in the current meeting and past meetings, named speaker attribution, cross-meeting semantic search, and meeting-type-aware artifact templates.
+
+**Target features:**
+- Named speaker attribution — manual in-app relabeling of diarized "Speaker 1/2/3" to real names
+- Live assistant interactive chat — grounded in the current meeting's transcript/context AND relevant past meetings
+- Cross-meeting semantic search — both a dedicated search panel and as grounding for live chat answers
+- Meeting-type-specific artifact templates — Standup, 1:1, Planning, user-selected at session start
+
+**Out of scope this milestone:** Code signing/notarization, full live eval harness run, Google Calendar/Outlook direct API — all deferred to a future distribution milestone.
 
 ## Current State: Post v2.0 Build
 
@@ -55,19 +67,19 @@ The product is **v1 shipped** — a working, packaged macOS app (140 MB DMG) wit
 - **CTX-01–06** — ContextEngine, EpochCompressor, BreakAssist, 60-minute test — ✓ v2.0
 - **PACK-01–05** — Packaging pipeline, entitlements, asarUnpack, eval harness CGFS/EHR gates — ✓ v2.0
 
-### Active (v3.0 Distribution & v2 Features)
+### Active (v3.0 Advanced Assistant Features)
 
-**Distribution (pre-distribution blockers):**
-- [ ] Code signing + notarization with Apple Developer ID Application cert
-- [ ] Full live eval harness run (all 60 corpus cases)
-- [ ] Gatekeeper-approved DMG verified on fresh macOS 14.2+ machine
+- [ ] Named speaker attribution "Alice" / "Bob" via manual in-app relabeling (ADV-04 — v1 ships Speaker 1/2/3 labels)
+- [ ] Live assistant interactive chat UI, grounded in current meeting + past meetings (ADV-01 — ContextEngine built; UI layer + cross-meeting grounding remaining)
+- [ ] Cross-meeting semantic search — dedicated panel + live chat grounding (ADV-03 — sqlite-vec infrastructure ready in v1)
+- [ ] Meeting-type-specific artifact templates: Standup, 1:1, Planning — user-selected at session start (ADV-02)
 
-**v2 Feature work:**
-- [ ] Live assistant interactive chat UI (ADV-01 — ContextEngine built; UI layer remaining)
-- [ ] Named speaker attribution "Alice" / "Bob" (ADV-04 — v1 ships Speaker 1/2/3 labels)
-- [ ] Cross-meeting semantic search UX (ADV-03 — sqlite-vec infrastructure ready in v1)
-- [ ] Meeting-type-specific artifact templates (ADV-02 — needs usage data first)
-- [ ] Google Calendar / Outlook direct API (ADV-05 — .ics covers v1; OAuth is v2)
+### Future (deferred to distribution milestone)
+
+- Code signing + notarization with Apple Developer ID Application cert
+- Full live eval harness run (all 60 corpus cases)
+- Gatekeeper-approved DMG verified on fresh macOS 14.2+ machine
+- Google Calendar / Outlook direct API (ADV-05 — .ics covers v1; OAuth is a later feature)
 
 ### Out of Scope
 
@@ -111,6 +123,13 @@ The product is **v1 shipped** — a working, packaged macOS app (140 MB DMG) wit
 
 This document evolves at phase transitions and milestone boundaries.
 
+**After each phase transition** (via `/gsd-transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
 **After each milestone** (via `/gsd-complete-milestone`):
 1. Full review of all sections
 2. Core Value check — still the right priority?
@@ -119,4 +138,4 @@ This document evolves at phase transitions and milestone boundaries.
 5. Update Context with current state
 
 ---
-*Last updated: 2026-07-01 after v2.0 Build milestone — v1 shipped, 46/46 requirements complete, DMG produced*
+*Last updated: 2026-07-01 after starting v3.0 Advanced Assistant Features milestone*
