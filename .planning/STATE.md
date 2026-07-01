@@ -1,107 +1,56 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.0
-milestone_name: Build
-current_phase: 11
-current_phase_name: packaging-eval-harness
-status: complete
-stopped_at: Phase 11 complete — Build milestone done
-last_updated: "2026-06-28T12:00:00.000Z"
-last_activity: 2026-06-28
-last_activity_desc: Phase 11 complete — all 7 plans done, DMG built, eval gates passed
+milestone: v3.0
+milestone_name: Distribution & v2 Features
+current_phase: null
+current_phase_name: null
+status: planning
+stopped_at: v2.0 Build milestone archived — planning v3.0
+last_updated: "2026-07-01T04:33:00.000Z"
+last_activity: 2026-07-01
+last_activity_desc: v2.0 milestone archived — ROADMAP collapsed, requirements archived, PROJECT.md evolved
 progress:
-  total_phases: 6
-  completed_phases: 6
-  total_plans: 30
-  completed_plans: 30
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-26)
+See: .planning/PROJECT.md (updated 2026-07-01)
 
 **Core value:** A user walks out of any meeting with an accurate, trustworthy record and a ready-to-act set of artifacts — without having taken a single note.
-**Current focus:** Build milestone COMPLETE — all 6 phases done
+**Current focus:** v2.0 Build milestone archived — start `/gsd-new-milestone` for v3.0 (Distribution & v2 Features)
 
-> **Milestone framing:** This is the Build milestone — the deliverable is a working, packaged, notarized macOS app. All architectural decisions are locked in the PRD documents. Start with Phase 6 (Foundation & Scaffold).
+> **Milestone framing:** v2.0 Build is complete and archived. v1 is shipped as a 140 MB DMG with all 46 requirements satisfied. Next milestone (v3.0) covers code signing + notarization (distribution blocker) and v2 feature work (live assistant chat, named speaker attribution, cross-meeting search).
 
 ## Current Position
 
-Phase: 11 (packaging-eval-harness) — COMPLETE
-Plan: 7 of 7
-Status: Build milestone complete
-Last activity: 2026-06-28 — Phase 11 complete (DMG built, eval gates passed)
+Status: v2.0 Build milestone complete and archived
+Last shipped: v2.0 — 2026-07-01
+Next action: `/gsd-new-milestone` to define v3.0 (Distribution & v2 Features)
 
 ```
-Progress: [██████████████████████████████] 100% (6/6 phases)
+Shipped: [██████████████████████████████] v2.0 — 6/6 phases, 42 plans
+Next:    [______________________________] v3.0 — not yet started
 ```
 
-## Phase Structure
+## Shipped Milestones
 
-| Phase | Name | Requirements | Status |
-|-------|------|--------------|--------|
-| 6 | Foundation & Scaffold | FOUND-01–09 (9 reqs) | Complete (2026-06-26) |
-| 7 | Capture + TranscriptStore | CAPT-01–09 (9 reqs) | Complete (2026-06-27) |
-| 8 | ArtifactPipeline | ART-01–11 (11 reqs) | Complete (2026-06-27) |
-| 9 | Overlay UI + Live Summary Board | UI-01–06 (6 reqs) | Complete (2026-06-28) |
-| 10 | ContextEngine + Break Assist | CTX-01–06 (6 reqs) | Complete (2026-06-28) |
-| 11 | Packaging + Eval Harness | PACK-01–05 (5 reqs) | Complete (2026-06-28) |
-
-**Total v1 requirements: 46 / 46 mapped**
-
-## Performance Metrics
-
-**Velocity:**
-
-- Total plans completed: 0 (build milestone; previous milestone completed 13 plans across Phases 1–5)
-- Average duration: -
-- Total execution time: 0.0 hours
-
-**By Phase (build milestone):**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 06 | TBD | - | - |
-| 07 | TBD | - | - |
-| 08 | TBD | - | - |
-| 09 | TBD | - | - |
-| 10 | TBD | - | - |
-| 11 | TBD | - | - |
-
-**Previous milestone (Discovery & PRD, Phases 1–5):**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 01 | 3 | - | - |
-| 02 | 2 | - | - |
-| 03 | 6 | - | - |
-| 04 | 2 | - | - |
-| 05 | 4 | - | - |
-
-**Recent Trend:**
-
-- Last 5 plans: -
-- Trend: -
-
-*Updated after each plan completion*
-| Phase 09 P09-01 | 46 | 2 tasks | 2 files |
-| Phase 09 P02 | 312 | 3 tasks | 3 files |
-| Phase 09 P03 | 39 | 2 tasks | 2 files |
-| Phase 09 P04 | 99 | 2 tasks | 2 files |
-| Phase Phase 09 PP09-05 | 84 | 3 tasks | 3 files |
-| Phase Phase 09 PP09-06 | 164 | 3 tasks | 2 files |
+| Milestone | Name | Phases | Plans | Shipped |
+|-----------|------|--------|-------|---------|
+| v1.0 | Discovery & PRD | 1–5 | 17 | 2026-06-26 |
+| v2.0 | Build | 6–11 | 42 | 2026-07-01 |
 
 ## Accumulated Context
 
-### Decisions
+### Active Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
 All architectural decisions are locked — see PRD documents before coding any feature.
-
-Key decisions active in this milestone:
 
 - [DEC-01]: Disclosed-not-covert recording posture; consent gate is a hard precondition to any capture
 - [DEC-02]: Local-first, AES-256 encrypted storage; `mip_opt_out: true` hardcoded in Deepgram SDK — never a user setting
@@ -109,10 +58,6 @@ Key decisions active in this milestone:
 - [RSCH-03]: Gemini paid plan only — free tier disqualified (allows training on meeting data)
 - [04-AI-SPEC]: Two-stage extraction (verbatim quotes → structured content); proposed-with-confirm is absolute
 - [ARCH]: All audio/STT/DB/LLM/session logic in Electron main process; renderer is display-only
-- [Phase ?]: SummaryCardSchema uses Zod with min/max key_points; StoredSummaryCard is a plain TypeScript interface
-- [Phase ?]: AudioWorkletHost always mounted via renderContent helper + Fragment pattern
-- [Phase ?]: OnBreak state isolation — digest never rendered in OnBreak; FSM transitions to Capturing first, then break-assist-digest-ready arrives
-- [Phase ?]: QuitButton shifted to right:36px; GearButton at right:8px — both are position absolute, shifting prevents overlap
 
 ### Critical Anti-Patterns to Enforce
 
@@ -120,40 +65,29 @@ Key decisions active in this milestone:
 - No raw `ipcRenderer` exposed in renderer — typed contextBridge allowlist only
 - `mip_opt_out: true` hardcoded at Deepgram SDK client init — verify before any Deepgram testing
 - All artifact items created with `status: 'proposed'` — auto-writing to external systems is never allowed
-- `asarUnpack` must include both `better-sqlite3-multiple-ciphers` `.node` and `audiotee` Swift binary from Phase 7 onward
-- `SessionManager` FSM consent gate enforced in main process — not just the UI
+- `asarUnpack` must include both `better-sqlite3-multiple-ciphers` `.node` and `audiotee` Swift binary
 
 ### Pending Todos
 
-[From .planning/todos/pending/ — ideas captured during sessions]
+None.
 
-None yet.
+### Open Blockers (Pre-Distribution)
 
-### Blockers/Concerns
-
-- Phase 7 (CAPT): Dual-channel audio capture is the highest technical risk in the build milestone. `audiotee` Swift binary requires `asarUnpack` + `disable-library-validation` entitlement; binary signing must be configured correctly from Phase 7 onward.
-- Phase 8 (ART): CitationValidator 90% token overlap threshold may need calibration in practice — record rejection rates in test runs.
-- Phase 11 (PACK): CGFS/EHR gate may require prompt tuning passes before passing; budget time for 2–3 iteration cycles. Eval harness corpus seeding should begin in Phase 8 (not deferred to Phase 11).
+- Code signing + notarization: Apple Developer ID Application cert needed before public Gatekeeper-approved distribution
+- Full live eval harness run: 30/60 live cases run; 30 in mock mode — complete before public distribution
 
 ## Deferred Items
 
-Items acknowledged and carried forward from previous milestone close:
+Items carried forward from v2.0 Build milestone:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| v2 feature | Live assistant chat UI | Deferred to v2 | PRD milestone |
-| v2 feature | Named speaker attribution | Deferred to v2 | PRD milestone |
-| v2 feature | Cross-meeting search UX | Deferred to v2 | PRD milestone |
-| v2 feature | Meeting-type-specific templates | Deferred to v2 | PRD milestone |
-| v2 feature | Google/Outlook direct API | Deferred to v2 | PRD milestone |
-
-## Session Continuity
-
-Last session: 2026-06-28T00:11:07.803Z
-Stopped at: Phase 10 context gathered
-Resume file: .planning/phases/10-contextengine-break-assist/10-CONTEXT.md
-Next action: `/gsd-execute-phase 9`
-
-**Dev run command:** `npm run dev` (launches Electron overlay; no packaging needed until Phase 11)
-
-**Next action:** `/gsd-execute-phase 10`
+| distribution | Code signing / notarization (Apple Developer ID cert) | Needs cert | v2.0 archive |
+| distribution | Full live eval harness run (30/60 live; 30 mock) | Pre-distribution | v2.0 archive |
+| v2 feature | Live assistant chat UI (ADV-01) | Deferred to v3.0 | v2.0 archive |
+| v2 feature | Named speaker attribution (ADV-04) | Deferred to v3.0 | v2.0 archive |
+| v2 feature | Cross-meeting semantic search UX (ADV-03) | Deferred to v3.0 | v2.0 archive |
+| v2 feature | Meeting-type-specific templates (ADV-02) | Deferred to v3.0 | v2.0 archive |
+| v2 feature | Google/Outlook direct API (ADV-05) | Deferred to v3.0 | v2.0 archive |
+| tech debt | Chromium loopback health reflects error state (CAPT-03 v1 limitation) | Document for v2 | v2.0 archive |
+| tech debt | EmbeddingAdapter infrastructure-only (no live embedding in production) | v2 live assistant | v2.0 archive |
