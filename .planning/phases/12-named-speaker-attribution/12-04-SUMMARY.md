@@ -114,3 +114,11 @@ None - no external service configuration required.
 ---
 *Phase: 12-named-speaker-attribution*
 *Completed: 2026-07-02*
+
+## Self-Check: PASSED
+
+- FOUND: src/renderer/src/components/RenameSpeakersModal.tsx
+- FOUND: .planning/phases/12-named-speaker-attribution/12-04-SUMMARY.md
+- FOUND: commit 7c13776 (Task 1)
+- FOUND: commit eed047e (Task 2)
+- FOUND: commit 6e7ac32 (docs: summary)
