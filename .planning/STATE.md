@@ -5,14 +5,14 @@ milestone_name: Advanced Assistant Features
 current_phase: 12
 current_phase_name: Named Speaker Attribution
 status: planning
-stopped_at: Phase 12 UI-SPEC approved
-last_updated: "2026-07-01T19:43:42.765Z"
-last_activity: 2026-07-01
-last_activity_desc: ROADMAP.md and REQUIREMENTS.md traceability created for v3.0 (Phases 12–15, 20/20 requirements mapped)
+stopped_at: Phase 12 planned — 4 plans created, ready to execute
+last_updated: "2026-07-02T01:35:00.000Z"
+last_activity: 2026-07-02
+last_activity_desc: Phase 12 (Named Speaker Attribution) planned — 4 plans across 3 waves, SPKR-01/02/03/05 covered, all 8 CONTEXT.md decisions traced
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
+  total_plans: 4
   completed_plans: 0
   percent: 0
 ---
@@ -31,9 +31,9 @@ See: .planning/PROJECT.md (updated 2026-07-01)
 ## Current Position
 
 Phase: 12 of 15 (Named Speaker Attribution)
-Plan: — (not yet planned)
-Status: Ready to plan
-Last activity: 2026-07-01 — ROADMAP.md and REQUIREMENTS.md traceability created for v3.0 (Phases 12–15, 20/20 requirements mapped)
+Plan: 4 plans created (12-01..12-04), 3 waves — ready to execute
+Status: Planned — ready for /gsd-execute-phase 12
+Last activity: 2026-07-02 — Phase 12 planned: 12-01 (speaker_aliases DDL + propagation utilities + SpeakerAliasStore, Wave 1), 12-02 (CalendarExportService regression coverage, Wave 1), 12-03 (get-speaker-roster/rename-speakers IPC handlers, Wave 2), 12-04 (RenameSpeakersModal + ArtifactReview wiring, Wave 3)
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 

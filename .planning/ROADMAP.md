@@ -55,7 +55,13 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
   2. Renamed speaker names appear consistently across the MOM, summary, key points, action items, and citations for that meeting
   3. Renamed speaker names appear in the exported .ics file and any other export surface for that meeting
   4. Renaming a speaker in one meeting has zero effect on the speaker labels shown in any other meeting
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 12-01-PLAN.md — speaker_aliases DDL, speakerRename.ts propagation utilities, SpeakerAliasStore (Wave 1)
+- [ ] 12-02-PLAN.md — CalendarExportService regression test coverage (Wave 1)
+- [ ] 12-03-PLAN.md — get-speaker-roster / rename-speakers IPC handlers (Wave 2)
+- [ ] 12-04-PLAN.md — RenameSpeakersModal UI + ArtifactReview wiring (Wave 3)
 **UI hint**: yes
 
 ### Phase 13: Meeting-Type Artifact Templates
@@ -114,7 +120,7 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 9. Overlay UI + Live Summary Board | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 10. ContextEngine + Break Assist | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 11. Packaging + Eval Harness | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
-| 12. Named Speaker Attribution | v3.0 | 0/? | 📋 Not started | - |
+| 12. Named Speaker Attribution | v3.0 | 0/4 | 📋 Not started | - |
 | 13. Meeting-Type Artifact Templates | v3.0 | 0/? | 📋 Not started | - |
 | 14. Cross-Meeting Semantic Search | v3.0 | 0/? | 📋 Not started | - |
 | 15. Live Assistant Interactive Chat | v3.0 | 0/? | 📋 Not started | - |
