@@ -9,6 +9,9 @@ import { SessionManager } from './session/SessionManager'
 import { CaptureService } from './capture/CaptureService'
 import { ArtifactPipeline } from './pipeline/ArtifactPipeline'
 import { ArtifactStore } from './store/ArtifactStore'
+import { TranscriptStore } from './transcript/TranscriptStore'
+import { SpeakerAliasStore } from './store/SpeakerAliasStore'
+import { reconstructMeetingArtifacts } from './store/speakerRename'
 import { CalendarExportService } from './calendar/CalendarExportService'
 import { MeetingArtifactsSchema } from '../shared/schemas'
 import { LLMAdapter } from './llm/LLMAdapter'
@@ -161,6 +164,8 @@ app.whenReady().then(async () => {
 
   const captureService = new CaptureService(db!, win!, apiKey)
   const artifactStore = new ArtifactStore(db!)
+  const transcriptStore = new TranscriptStore(db!)
+  const speakerAliasStore = new SpeakerAliasStore(db!)
   const calendarExportService = new CalendarExportService(artifactStore)
   const summaryCardStore = new SummaryCardStore(db!)
   const llmAdapter = new LLMAdapter(geminiApiKey, undefined, accumulateUsage)
@@ -330,6 +335,32 @@ app.whenReady().then(async () => {
     const result = z.object({ meetingId: z.string() }).safeParse(payload)
     if (!result.success) return { filePath: null, skippedCount: 0 }
     return calendarExportService.export(result.data.meetingId)
+  })
+
+  ipcMain.handle('get-speaker-roster', (_event, payload: unknown) => {
+    if (session.getState() !== 'Complete') return { error: 'rename only allowed after meeting completion' }
+    const result = z.object({ meetingId: z.string() }).safeParse(payload)
+    if (!result.success) return { error: 'invalid payload' }
+    const { meetingId } = result.data
+    const roster = transcriptStore.getDistinctSpeakerLabels(meetingId).map((label) => ({
+      label,
+      excerpt: transcriptStore.getRepresentativeExcerpt(meetingId, label),
+      currentName: speakerAliasStore.getAlias(meetingId, label),
+    }))
+    return { roster }
+  })
+
+  ipcMain.handle('rename-speakers', (_event, payload: unknown) => {
+    if (session.getState() !== 'Complete') return { error: 'rename only allowed after meeting completion' }
+    const result = z.object({
+      meetingId: z.string(),
+      mapping: z.record(z.string(), z.string().trim().min(1).max(100)),
+    }).safeParse(payload)
+    if (!result.success) return { error: 'invalid payload' }
+    const { meetingId, mapping } = result.data
+    speakerAliasStore.applyRenames(meetingId, mapping)
+    const rows = artifactStore.getArtifacts(meetingId)
+    return reconstructMeetingArtifacts(meetingId, rows)
   })
 
   ipcMain.handle('get-settings', () => {
