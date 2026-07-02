@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS meetings (
   ended_at         INTEGER,
   participant_count INTEGER,
   raw_audio_path   TEXT,
+  meeting_type TEXT NOT NULL DEFAULT 'general' CHECK (meeting_type IN ('general','standup','1:1','planning')),
   created_at       INTEGER NOT NULL DEFAULT (unixepoch() * 1000)
 );
 
@@ -141,6 +142,13 @@ export function runMigrations(db: Database.Database): void {
   const actionCols = db.pragma('table_info(action_items)') as Array<{ name: string }>
   if (!actionCols.some((c) => c.name === 'is_calendar_event')) {
     runSafe('ALTER TABLE action_items ADD COLUMN is_calendar_event INTEGER NOT NULL DEFAULT 0')
+  }
+
+  const meetingCols = db.pragma('table_info(meetings)') as Array<{ name: string }>
+  if (!meetingCols.some((c) => c.name === 'meeting_type')) {
+    runSafe(
+      "ALTER TABLE meetings ADD COLUMN meeting_type TEXT NOT NULL DEFAULT 'general' CHECK (meeting_type IN ('general','standup','1:1','planning'))"
+    )
   }
 }
 
