@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Advanced Assistant Features
-current_phase: 13
-current_phase_name: meeting-type-artifact-templates
+current_phase: 14
+current_phase_name: Cross-Meeting Semantic Search
 status: executing
 stopped_at: Phase 13 context gathered
-last_updated: "2026-07-02T05:58:04.029Z"
+last_updated: "2026-07-02T15:43:48.733Z"
 last_activity: 2026-07-02
-last_activity_desc: Phase 13 execution started
+last_activity_desc: Phase 13 complete, transitioned to Phase 14
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 8
-  completed_plans: 4
-  percent: 25
+  completed_plans: 8
+  percent: 50
 ---
 
 # Project State
@@ -30,10 +30,10 @@ See: .planning/PROJECT.md (updated 2026-07-01)
 
 ## Current Position
 
-Phase: 13 (meeting-type-artifact-templates) — EXECUTING
-Plan: 1 of 4
+Phase: 14 — Cross-Meeting Semantic Search
+Plan: Not started
 Status: Executing Phase 13
-Last activity: 2026-07-02 — Phase 13 execution started
+Last activity: 2026-07-02 — Phase 13 complete, transitioned to Phase 14
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 
@@ -48,7 +48,7 @@ Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 
 **Velocity:**
 
-- Total plans completed: 4 (v1.0 + v2.0)
+- Total plans completed: 8 (v1.0 + v2.0)
 - Average duration: see milestone retrospectives
 - Total execution time: see `.planning/RETROSPECTIVE.md`
 
@@ -58,6 +58,7 @@ Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 |-------|-------|-------|----------|
 | 12–15 (v3.0) | 0 | - | - |
 | 12 | 4 | - | - |
+| 13 | 4 | - | - |
 
 **Recent Trend:**
 
