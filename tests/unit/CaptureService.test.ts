@@ -119,7 +119,15 @@ describe('CaptureService', () => {
     await service.startCapture('mtg-1')
 
     expect(mockCreateMeeting).toHaveBeenCalledOnce()
-    expect(mockCreateMeeting).toHaveBeenCalledWith('mtg-1', expect.any(Number))
+    expect(mockCreateMeeting).toHaveBeenCalledWith('mtg-1', expect.any(Number), 'general')
+  })
+
+  // Test 1b
+  it('startCapture with an explicit meetingType forwards it to TranscriptStore.createMeeting', async () => {
+    await service.startCapture('mtg-2', 'standup')
+
+    expect(mockCreateMeeting).toHaveBeenCalledOnce()
+    expect(mockCreateMeeting).toHaveBeenCalledWith('mtg-2', expect.any(Number), 'standup')
   })
 
   // Test 2

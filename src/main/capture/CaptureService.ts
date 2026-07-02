@@ -6,6 +6,7 @@ import type { SpeechFinalSegment, HealthStatus } from './DeepgramClient'
 import { SystemAudioSource } from './SystemAudioSource'
 import { TranscriptStore } from '../transcript/TranscriptStore'
 import type { TranscriptSegmentRow } from '../transcript/TranscriptStore'
+import type { MeetingType } from '../../shared/schemas'
 
 export class CaptureService {
   private transcriptStore: TranscriptStore
@@ -22,9 +23,9 @@ export class CaptureService {
     this.transcriptStore = new TranscriptStore(db)
   }
 
-  async startCapture(meetingId: string): Promise<void> {
+  async startCapture(meetingId: string, meetingType: MeetingType = 'general'): Promise<void> {
     this.currentMeetingId = meetingId
-    this.transcriptStore.createMeeting(meetingId, Date.now())
+    this.transcriptStore.createMeeting(meetingId, Date.now(), meetingType)
 
     this.deepgramMic = new DeepgramClient({
       apiKey: this.apiKey,

@@ -13,7 +13,7 @@ import { TranscriptStore } from './transcript/TranscriptStore'
 import { SpeakerAliasStore } from './store/SpeakerAliasStore'
 import { reconstructMeetingArtifacts } from './store/speakerRename'
 import { CalendarExportService } from './calendar/CalendarExportService'
-import { MeetingArtifactsSchema } from '../shared/schemas'
+import { MeetingArtifactsSchema, MeetingTypeSchema, type MeetingType } from '../shared/schemas'
 import { LLMAdapter } from './llm/LLMAdapter'
 import { SummaryCardStore } from './store/SummaryCardStore'
 import { ContextEngine } from './context/ContextEngine'
@@ -174,6 +174,7 @@ app.whenReady().then(async () => {
   let lastCompletedMeetingId: string | null = null
 
   let currentMeetingId: string | null = null
+  let pendingMeetingType: MeetingType = 'general'
 
   session.onStateChange((state, previous) => {
     if (win) {
@@ -202,7 +203,7 @@ app.whenReady().then(async () => {
     if (state === 'Capturing' && previous !== 'OnBreak') {
       // Only generate a new meeting ID when entering Capturing from PreCapture (not from OnBreak)
       currentMeetingId = crypto.randomUUID()
-      captureService.startCapture(currentMeetingId).catch((err: unknown) => {
+      captureService.startCapture(currentMeetingId, pendingMeetingType).catch((err: unknown) => {
         console.error('[MeetingAssist] CaptureService.startCapture failed:', err)
       })
       contextEngine.start(currentMeetingId)
@@ -257,6 +258,13 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.handle('consent-confirmed', (_event, _payload) => {
+    // T-13-04/T-13-05: validate renderer-supplied meetingType against the 4-value
+    // allowlist before it can reach TranscriptStore.createMeeting (DB CHECK constraint).
+    // Any missing, malformed, or unrecognized value safely defaults to 'general'.
+    const parsed = MeetingTypeSchema.safeParse(
+      (_payload as { meetingType?: unknown } | undefined)?.meetingType
+    )
+    pendingMeetingType = parsed.success ? parsed.data : 'general'
     session.transition('consent-confirmed')
   })
 
