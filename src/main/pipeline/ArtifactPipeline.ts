@@ -1,16 +1,17 @@
 import Database from 'better-sqlite3-multiple-ciphers'
 import { BrowserWindow } from 'electron'
 import { get_encoding } from 'tiktoken'
+import { z } from 'zod'
 import { LLMAdapter } from '../llm/LLMAdapter'
 import { CitationValidator } from './CitationValidator'
 import { ArtifactStore } from '../store/ArtifactStore'
 import {
   QuoteAnchorListSchema,
-  MoMSchema,
   SummarySchema,
   KeyPointListSchema,
   ActionItemListSchema,
   MeetingArtifactsSchema,
+  type MeetingType,
   type QuoteAnchor,
   type MoM,
   type Summary,
@@ -18,6 +19,54 @@ import {
   type ActionItemList,
   type MeetingArtifacts,
 } from '../../shared/schemas'
+
+// LLM-facing schema for the MOM call. Intentionally omits meeting_type — the
+// system already knows the value, so it is stamped programmatically after the
+// call rather than relying on the LLM to echo it back correctly (D-08).
+export const MoMGenerationSchema = z.object({ markdown_content: z.string() })
+
+// Type-conditional portion of the MOM OUTPUT FORMAT, interpolated between
+// `## Attendees` and `## Action Items` in the shared prompt skeleton (D-02/D-03).
+export const MOM_SECTION_SPECS: Record<MeetingType, string> = {
+  general: `## Agenda Items Discussed
+(Bullet list of topics, each grounded in at least one quote)
+
+## Key Discussion Points
+(Bullet list of significant discussion points, each grounded in quotes — cite the speaker label)
+
+## Decisions Made
+(Numbered list — if none, write "None recorded")
+
+## Next Steps
+(Brief paragraph synthesizing confirmed action items and any follow-up dates)`,
+  standup: `## Yesterday
+(Bullet list of what each speaker reported completing since the last update, grounded in quotes, attributed by speaker label — if none, write "None recorded")
+
+## Today
+(Bullet list of what each speaker stated they plan to work on, grounded in quotes, attributed by speaker label — if none, write "None recorded")
+
+## Blockers
+(Bullet list of blockers or impediments raised, grounded in quotes, attributed by speaker label — if none, write "None recorded")`,
+  '1:1': `## Discussion Topics
+(Bullet list of topics discussed, each grounded in at least one quote)
+
+## Feedback Themes
+(Bullet list of feedback given or received, grounded in quotes, attributed by speaker label — if none, write "None recorded")
+
+## Growth Notes
+(Bullet list of development, growth, or career-related points raised, grounded in quotes — if none, write "None recorded")
+
+## Follow-ups
+(Bullet list of follow-up items or commitments to revisit, grounded in quotes — if none, write "None recorded")`,
+  planning: `## Decisions
+(Numbered list of decisions made, grounded in quotes — if none, write "None recorded")
+
+## Next Steps
+(Bullet list of next steps or planned actions, grounded in quotes — if none, write "None recorded")
+
+## Open Questions
+(Bullet list of unresolved questions or items requiring follow-up, grounded in quotes — if none, write "None recorded")`,
+}
 
 export class ArtifactPipeline {
   private llmAdapter: LLMAdapter
@@ -69,6 +118,17 @@ export class ArtifactPipeline {
     return new Date(startedAt).toISOString().split('T')[0]
   }
 
+  private getMeetingType(): MeetingType {
+    const row = this.db.prepare('SELECT meeting_type FROM meetings WHERE id = ?').get(this.meetingId) as { meeting_type: string } | undefined
+    const value = row?.meeting_type
+    // Defensive fallback: covers a missing row or any future/unrecognized value
+    // read back from the DB that this lookup does not yet know about.
+    if (value !== undefined && value in MOM_SECTION_SPECS) {
+      return value as MeetingType
+    }
+    return 'general'
+  }
+
   private async runStage1(transcriptText: string, meetingDate: string): Promise<QuoteAnchor[]> {
     const systemPrompt = `You are a meeting transcript analyst. Your sole task is to extract verbatim passages from the transcript that could support extractable meeting artifacts: action items, decisions, deadlines, and key discussion points.
 
@@ -108,7 +168,7 @@ If no extractable quotes exist in the transcript, output {"anchors": []}.`
     return result.anchors
   }
 
-  private async runStage2Mom(anchors: QuoteAnchor[], meetingDate: string): Promise<MoM> {
+  private async runStage2Mom(anchors: QuoteAnchor[], meetingDate: string, meetingType: MeetingType): Promise<MoM> {
     const systemPrompt = `You are a meeting minutes writer. You will receive a JSON array of verbatim quote anchors extracted from a meeting transcript. Your task is to produce formal Minutes of Meeting (MOM) in markdown format.
 
 ABSOLUTE RULES — READ CAREFULLY:
@@ -132,23 +192,15 @@ OUTPUT FORMAT — a JSON object with a "markdown_content" key containing the ful
 ## Attendees
 (List speaker labels present in the quotes)
 
-## Agenda Items Discussed
-(Bullet list of topics, each grounded in at least one quote)
-
-## Key Discussion Points
-(Bullet list of significant discussion points, each grounded in quotes — cite the speaker label)
-
-## Decisions Made
-(Numbered list — if none, write "None recorded")
+${MOM_SECTION_SPECS[meetingType]}
 
 ## Action Items
 (Table: | # | Description | Owner | Due Date | Quote Reference |)
-(If no action items, write "None recorded")
+(If no action items, write "None recorded")`
 
-## Next Steps
-(Brief paragraph synthesizing confirmed action items and any follow-up dates)`
-
-    return this.llmAdapter.generate(MoMSchema, 'minutes_of_meeting', systemPrompt, JSON.stringify({ anchors }))
+    const result = await this.llmAdapter.generate(MoMGenerationSchema, 'minutes_of_meeting', systemPrompt, JSON.stringify({ anchors }))
+    // Stamp meeting_type programmatically — never rely on the LLM to echo it back (D-08).
+    return { markdown_content: result.markdown_content, meeting_type: meetingType }
   }
 
   private async runStage2Summary(anchors: QuoteAnchor[], meetingDate: string): Promise<Summary> {
@@ -280,12 +332,13 @@ OUTPUT FORMAT: A JSON object with an "action_items" array where each object has:
   async run(): Promise<MeetingArtifacts> {
     try {
       const meetingDate = this.getMeetingDate()
+      const meetingType = this.getMeetingType()
       const transcriptText = this.loadTranscript()
 
       if (!transcriptText.trim()) {
         const empty: MeetingArtifacts = {
           meetingId: this.meetingId,
-          mom: { markdown_content: '# Minutes of Meeting\n\nNo content recorded.', meeting_type: 'general' },
+          mom: { markdown_content: '# Minutes of Meeting\n\nNo content recorded.', meeting_type: meetingType },
           summary: { summary_text: 'No meeting content was recorded.' },
           keyPoints: { key_points: [] },
           actionItems: { action_items: [] },
@@ -298,7 +351,7 @@ OUTPUT FORMAT: A JSON object with an "action_items" array where each object has:
       if (anchors.length === 0) {
         const empty: MeetingArtifacts = {
           meetingId: this.meetingId,
-          mom: { markdown_content: '# Minutes of Meeting\n\nNo actionable content extracted.', meeting_type: 'general' },
+          mom: { markdown_content: '# Minutes of Meeting\n\nNo actionable content extracted.', meeting_type: meetingType },
           summary: { summary_text: 'No actionable content was found in the meeting transcript.' },
           keyPoints: { key_points: [] },
           actionItems: { action_items: [] },
@@ -307,7 +360,7 @@ OUTPUT FORMAT: A JSON object with an "action_items" array where each object has:
       }
 
       const [mom, summary, keyPoints, actionItems] = await Promise.all([
-        this.runStage2Mom(anchors, meetingDate),
+        this.runStage2Mom(anchors, meetingDate, meetingType),
         this.runStage2Summary(anchors, meetingDate),
         this.runStage2KeyPoints(anchors, meetingDate),
         this.runStage2ActionItems(anchors, meetingDate),
