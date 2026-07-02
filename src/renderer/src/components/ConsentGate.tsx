@@ -57,6 +57,7 @@ interface ConsentGateProps {
 
 export function ConsentGate({ onConfirmed, permissionStatus }: ConsentGateProps): React.JSX.Element {
   const [agreed, setAgreed] = useState(false)
+  const [meetingType, setMeetingType] = useState<'general' | 'standup' | '1:1' | 'planning'>('general')
 
   const micBlocked =
     permissionStatus?.microphone === 'denied' || permissionStatus?.microphone === 'restricted'
@@ -68,6 +69,7 @@ export function ConsentGate({ onConfirmed, permissionStatus }: ConsentGateProps)
     await window.electronAPI.invoke('consent-confirmed', {
       meetingId: crypto.randomUUID(),
       timestamp: Date.now(),
+      meetingType,
     })
     onConfirmed()
   }
@@ -92,6 +94,35 @@ export function ConsentGate({ onConfirmed, permissionStatus }: ConsentGateProps)
         Transcripts are stored locally and encrypted with AES-256. Audio is discarded
         after transcription. No data leaves your device without your explicit action.
       </p>
+      <div style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
+        {(
+          [
+            { value: 'general', label: 'General' },
+            { value: 'standup', label: 'Standup' },
+            { value: '1:1', label: '1:1' },
+            { value: 'planning', label: 'Planning' },
+          ] as const
+        ).map(({ value, label }) => (
+          <button
+            key={value}
+            onClick={() => setMeetingType(value)}
+            style={{
+              fontSize: '12px',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              background: meetingType === value ? 'rgba(59,130,246,0.25)' : 'transparent',
+              border:
+                meetingType === value
+                  ? '1px solid rgba(59,130,246,0.7)'
+                  : '1px solid rgba(148,163,184,0.4)',
+              color: meetingType === value ? '#93c5fd' : 'inherit',
+            }}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
       <label
         style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px' }}
       >
