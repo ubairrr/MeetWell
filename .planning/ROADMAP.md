@@ -89,13 +89,13 @@ Plans:
   4. Each meeting type's generated content reflects a type-specific extraction prompt (e.g. Standup surfaces blockers, 1:1 surfaces feedback themes, Planning surfaces decisions/next steps), not a generic one
   5. The verbatim-quote extraction stage (Stage 1) produces identical behavior regardless of the selected meeting type — only Stage 2 generation varies
 
-**Plans**: 0/4 plans executed
+**Plans**: 2/4 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 13-01-PLAN.md — meeting_type DB column + migration, MeetingTypeSchema/MoMSchema, TranscriptStore.createMeeting (Wave 1)
-- [ ] 13-02-PLAN.md — ConsentGate.tsx meeting-type segmented selector (Wave 1)
+- [x] 13-01-PLAN.md — meeting_type DB column + migration, MeetingTypeSchema/MoMSchema, TranscriptStore.createMeeting (Wave 1)
+- [x] 13-02-PLAN.md — ConsentGate.tsx meeting-type segmented selector (Wave 1)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -154,7 +154,7 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 10. ContextEngine + Break Assist | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 11. Packaging + Eval Harness | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 12. Named Speaker Attribution | v3.0 | 4/4 | Complete    | 2026-07-01 |
-| 13. Meeting-Type Artifact Templates | v3.0 | 0/4 | Planned    |  |
+| 13. Meeting-Type Artifact Templates | v3.0 | 2/4 | In Progress|  |
 | 14. Cross-Meeting Semantic Search | v3.0 | 0/? | 📋 Not started | - |
 | 15. Live Assistant Interactive Chat | v3.0 | 0/? | 📋 Not started | - |
 
