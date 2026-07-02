@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, ipcMain, safeStorage, dialog, systemPreferences, shell, globalShortcut } from 'electron'
+import { app, BrowserWindow, screen, ipcMain, safeStorage, dialog, systemPreferences, shell } from 'electron'
 import { join } from 'path'
 import { release } from 'os'
 import crypto from 'crypto'
@@ -129,31 +129,6 @@ app.whenReady().then(async () => {
     app.quit()
     return
   }
-
-  // TEMP DEBUG (Phase 13 UAT #2) — Cmd+Shift+D dumps recent meetings to a file.
-  // Remove after UAT is complete.
-  globalShortcut.register('CommandOrControl+Shift+D', () => {
-    try {
-      const rows = db!
-        .prepare(
-          'SELECT id, title, meeting_type, started_at, created_at FROM meetings ORDER BY created_at DESC LIMIT 10'
-        )
-        .all()
-      const latestMom = db!
-        .prepare(
-          `SELECT a.meeting_id, a.content_json, m.meeting_type
-           FROM artifacts a JOIN meetings m ON m.id = a.meeting_id
-           WHERE a.artifact_type = 'mom'
-           ORDER BY a.created_at DESC LIMIT 1`
-        )
-        .get()
-      const outPath = join(app.getPath('userData'), 'debug-meetings-dump.json')
-      require('fs').writeFileSync(outPath, JSON.stringify({ meetings: rows, latestMom }, null, 2))
-      console.log('[DEBUG] wrote', outPath, rows, latestMom)
-    } catch (err) {
-      console.error('[DEBUG] dump failed:', err)
-    }
-  })
 
   win = createOverlayWindow(overlayWidth)
   win.setIgnoreMouseEvents(false)  // Idle state is interactive on startup
