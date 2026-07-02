@@ -139,9 +139,17 @@ app.whenReady().then(async () => {
           'SELECT id, title, meeting_type, started_at, created_at FROM meetings ORDER BY created_at DESC LIMIT 10'
         )
         .all()
+      const latestMom = db!
+        .prepare(
+          `SELECT a.meeting_id, a.content_json, m.meeting_type
+           FROM artifacts a JOIN meetings m ON m.id = a.meeting_id
+           WHERE a.artifact_type = 'mom'
+           ORDER BY a.created_at DESC LIMIT 1`
+        )
+        .get()
       const outPath = join(app.getPath('userData'), 'debug-meetings-dump.json')
-      require('fs').writeFileSync(outPath, JSON.stringify(rows, null, 2))
-      console.log('[DEBUG] wrote', outPath, rows)
+      require('fs').writeFileSync(outPath, JSON.stringify({ meetings: rows, latestMom }, null, 2))
+      console.log('[DEBUG] wrote', outPath, rows, latestMom)
     } catch (err) {
       console.error('[DEBUG] dump failed:', err)
     }
