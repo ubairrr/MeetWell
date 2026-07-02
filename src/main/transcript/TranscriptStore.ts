@@ -1,4 +1,5 @@
 import type Database from 'better-sqlite3-multiple-ciphers'
+import type { MeetingType } from '../../shared/schemas'
 
 export interface TranscriptSegmentRow {
   id: string
@@ -20,7 +21,7 @@ export class TranscriptStore {
 
   constructor(private db: Database.Database) {
     this.insertMeetingStmt = db.prepare(
-      'INSERT INTO meetings (id, started_at, created_at) VALUES (?, ?, ?)'
+      'INSERT INTO meetings (id, started_at, created_at, meeting_type) VALUES (?, ?, ?, ?)'
     )
     this.insertSegmentStmt = db.prepare(
       'INSERT INTO transcript_segments (id, meeting_id, speaker_label, channel, timestamp_start, timestamp_end, text, is_speech_final, confidence, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
@@ -30,8 +31,8 @@ export class TranscriptStore {
     )
   }
 
-  createMeeting(meetingId: string, startedAt: number): void {
-    this.insertMeetingStmt.run(meetingId, startedAt, Date.now())
+  createMeeting(meetingId: string, startedAt: number, meetingType: MeetingType = 'general'): void {
+    this.insertMeetingStmt.run(meetingId, startedAt, Date.now(), meetingType)
   }
 
   appendSegment(row: TranscriptSegmentRow): void {

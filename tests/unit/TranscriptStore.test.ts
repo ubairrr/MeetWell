@@ -55,6 +55,24 @@ describe('TranscriptStore', () => {
     expect(row!.id).toBe('mtg-1')
   })
 
+  it('createMeeting stores an explicit meetingType', () => {
+    store.createMeeting('mtg-standup', Date.now(), 'standup')
+    const row = db
+      .prepare('SELECT meeting_type FROM meetings WHERE id = ?')
+      .get('mtg-standup') as { meeting_type: string } | undefined
+    expect(row).toBeDefined()
+    expect(row!.meeting_type).toBe('standup')
+  })
+
+  it('createMeeting without a meetingType argument defaults to general', () => {
+    store.createMeeting('mtg-default', Date.now())
+    const row = db
+      .prepare('SELECT meeting_type FROM meetings WHERE id = ?')
+      .get('mtg-default') as { meeting_type: string } | undefined
+    expect(row).toBeDefined()
+    expect(row!.meeting_type).toBe('general')
+  })
+
   it('appendSegment writes a transcript_segments row with confidence', () => {
     store.createMeeting('mtg-1', Date.now())
     const seg = makeSegment({ id: 'seg-conf', confidence: 0.92 })
