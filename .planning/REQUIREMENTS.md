@@ -19,9 +19,9 @@ Requirements for the v3.0 "Advanced Assistant Features" milestone. Each maps to 
 
 - [x] **TMPL-01**: User selects a meeting type (Standup, 1:1, Planning, or General/default) at session start
 - [x] **TMPL-02**: Meeting type selection is optional and non-blocking — defaults to General if not chosen
-- [ ] **TMPL-03**: Each meeting type produces a distinctly structured MOM/summary artifact (not just relabeled fields)
-- [ ] **TMPL-04**: Standup, 1:1, and Planning each have type-specific extraction prompts guiding Stage 2 generation
-- [ ] **TMPL-05**: Stage 1 verbatim-quote extraction remains template-agnostic and unchanged regardless of meeting type
+- [x] **TMPL-03**: Each meeting type produces a distinctly structured MOM/summary artifact (not just relabeled fields)
+- [x] **TMPL-04**: Standup, 1:1, and Planning each have type-specific extraction prompts guiding Stage 2 generation
+- [x] **TMPL-05**: Stage 1 verbatim-quote extraction remains template-agnostic and unchanged regardless of meeting type
 
 ### Cross-Meeting Semantic Search
 
@@ -78,9 +78,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SPKR-05 | Phase 12 | Complete |
 | TMPL-01 | Phase 13 | Complete |
 | TMPL-02 | Phase 13 | Complete |
-| TMPL-03 | Phase 13 | Pending |
-| TMPL-04 | Phase 13 | Pending |
-| TMPL-05 | Phase 13 | Pending |
+| TMPL-03 | Phase 13 | Complete |
+| TMPL-04 | Phase 13 | Complete |
+| TMPL-05 | Phase 13 | Complete |
 | SRCH-01 | Phase 14 | Pending |
 | SRCH-02 | Phase 14 | Pending |
 | SRCH-03 | Phase 14 | Pending |
