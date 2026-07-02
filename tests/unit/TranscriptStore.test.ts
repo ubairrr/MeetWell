@@ -167,4 +167,67 @@ describe('TranscriptStore', () => {
       expect(() => db.exec(ALL_DDLS)).not.toThrow()
     })
   })
+
+  describe('meeting_type column (DDL + migration)', () => {
+    it('fresh install: a meetings row inserted without meeting_type defaults to general', () => {
+      db.prepare('INSERT INTO meetings (id, started_at) VALUES (?, ?)').run('mtg-fresh', Date.now())
+      const row = db
+        .prepare('SELECT meeting_type FROM meetings WHERE id = ?')
+        .get('mtg-fresh') as { meeting_type: string } | undefined
+      expect(row).toBeDefined()
+      expect(row!.meeting_type).toBe('general')
+    })
+
+    it('CHECK constraint accepts all 4 allowed meeting_type values', () => {
+      const insert = db.prepare('INSERT INTO meetings (id, started_at, meeting_type) VALUES (?, ?, ?)')
+      for (const value of ['general', 'standup', '1:1', 'planning']) {
+        expect(() => insert.run(`mtg-${value}`, Date.now(), value)).not.toThrow()
+      }
+    })
+
+    it('CHECK constraint rejects an invalid meeting_type value', () => {
+      const insert = db.prepare('INSERT INTO meetings (id, started_at, meeting_type) VALUES (?, ?, ?)')
+      expect(() => insert.run('mtg-bad', Date.now(), 'invalid-type')).toThrow()
+    })
+
+    it('runMigrations is idempotent — calling twice does not error, meeting_type column appears exactly once', () => {
+      // runMigrations was already called in openTestDb(); call it a second time
+      expect(() => runMigrations(db)).not.toThrow()
+
+      const columns = db.pragma('table_info(meetings)') as Array<{ name: string }>
+      const meetingTypeCols = columns.filter((c) => c.name === 'meeting_type')
+      expect(meetingTypeCols).toHaveLength(1)
+    })
+
+    it('migration path: a pre-existing install without meeting_type upgrades safely, existing rows read back general', () => {
+      // Simulate a database created before this phase shipped: full schema,
+      // but the meetings table lacks the meeting_type column and already has a row.
+      const legacyDb = new Database(':memory:')
+      sqliteVec.load(legacyDb)
+      legacyDb.exec(ALL_DDLS)
+      legacyDb.exec(`
+        DROP TABLE meetings;
+        CREATE TABLE meetings (
+          id               TEXT PRIMARY KEY,
+          title            TEXT,
+          started_at       INTEGER NOT NULL,
+          ended_at         INTEGER,
+          participant_count INTEGER,
+          raw_audio_path   TEXT,
+          created_at       INTEGER NOT NULL DEFAULT (unixepoch() * 1000)
+        );
+      `)
+      legacyDb.prepare('INSERT INTO meetings (id, started_at) VALUES (?, ?)').run('mtg-legacy', Date.now())
+
+      expect(() => runMigrations(legacyDb)).not.toThrow()
+
+      const row = legacyDb
+        .prepare('SELECT meeting_type FROM meetings WHERE id = ?')
+        .get('mtg-legacy') as { meeting_type: string } | undefined
+      expect(row).toBeDefined()
+      expect(row!.meeting_type).toBe('general')
+
+      legacyDb.close()
+    })
+  })
 })
