@@ -225,7 +225,7 @@ app.whenReady().then(async () => {
             console.error('[MeetingAssist] ArtifactPipeline failed:', err)
             proposals = {
               meetingId: meetingId ?? '',
-              mom: { markdown_content: '' },
+              mom: { markdown_content: '', meeting_type: 'general' },
               summary: { summary_text: '' },
               keyPoints: { key_points: [] },
               actionItems: { action_items: [] },

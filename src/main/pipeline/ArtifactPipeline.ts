@@ -285,7 +285,7 @@ OUTPUT FORMAT: A JSON object with an "action_items" array where each object has:
       if (!transcriptText.trim()) {
         const empty: MeetingArtifacts = {
           meetingId: this.meetingId,
-          mom: { markdown_content: '# Minutes of Meeting\n\nNo content recorded.' },
+          mom: { markdown_content: '# Minutes of Meeting\n\nNo content recorded.', meeting_type: 'general' },
           summary: { summary_text: 'No meeting content was recorded.' },
           keyPoints: { key_points: [] },
           actionItems: { action_items: [] },
@@ -298,7 +298,7 @@ OUTPUT FORMAT: A JSON object with an "action_items" array where each object has:
       if (anchors.length === 0) {
         const empty: MeetingArtifacts = {
           meetingId: this.meetingId,
-          mom: { markdown_content: '# Minutes of Meeting\n\nNo actionable content extracted.' },
+          mom: { markdown_content: '# Minutes of Meeting\n\nNo actionable content extracted.', meeting_type: 'general' },
           summary: { summary_text: 'No actionable content was found in the meeting transcript.' },
           keyPoints: { key_points: [] },
           actionItems: { action_items: [] },
@@ -331,7 +331,7 @@ OUTPUT FORMAT: A JSON object with an "action_items" array where each object has:
       console.error('[ArtifactPipeline] run() failed:', err)
       return {
         meetingId: this.meetingId,
-        mom: { markdown_content: '' },
+        mom: { markdown_content: '', meeting_type: 'general' },
         summary: { summary_text: '' },
         keyPoints: { key_points: [] },
         actionItems: { action_items: [] },

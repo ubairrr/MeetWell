@@ -14,6 +14,11 @@ export const TranscriptSegmentSchema = z.object({
 })
 export type TranscriptSegment = z.infer<typeof TranscriptSegmentSchema>
 
+// Single source of truth for the 4 meeting-type values. The meetings.meeting_type
+// DB CHECK constraint in src/main/store/db.ts is hand-written to match this list.
+export const MeetingTypeSchema = z.enum(['general', 'standup', '1:1', 'planning'])
+export type MeetingType = z.infer<typeof MeetingTypeSchema>
+
 export const QuoteAnchorSchema = z.object({
   quote_preview: z.string(),
   quote_full: z.string(),
@@ -30,6 +35,7 @@ export type QuoteAnchorList = z.infer<typeof QuoteAnchorListSchema>
 
 export const MoMSchema = z.object({
   markdown_content: z.string(),
+  meeting_type: MeetingTypeSchema,
 })
 export type MoM = z.infer<typeof MoMSchema>
 
