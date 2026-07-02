@@ -40,7 +40,7 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
 **Milestone Goal:** Layer the deferred v2 differentiators onto the shipped v1/v2.0 core — named speaker attribution, meeting-type artifact templates, cross-meeting semantic search, and a live grounded assistant chat. Code signing/notarization and direct calendar APIs remain out of scope for this milestone.
 
 - [x] **Phase 12: Named Speaker Attribution** - Manual per-meeting speaker relabeling that propagates to every downstream artifact, export, and citation (completed 2026-07-01)
-- [ ] **Phase 13: Meeting-Type Artifact Templates** - Session-start meeting type selection producing genuinely distinct MOM/summary structures per type
+- [x] **Phase 13: Meeting-Type Artifact Templates** - Session-start meeting type selection producing genuinely distinct MOM/summary structures per type (completed 2026-07-02)
 - [ ] **Phase 14: Cross-Meeting Semantic Search** - Dedicated search panel over all past meetings, including a backfill for pre-milestone history
 - [ ] **Phase 15: Live Assistant Interactive Chat** - In-overlay chat grounded in the current meeting and relevant past meetings, with citations
 
@@ -89,7 +89,7 @@ Plans:
   4. Each meeting type's generated content reflects a type-specific extraction prompt (e.g. Standup surfaces blockers, 1:1 surfaces feedback themes, Planning surfaces decisions/next steps), not a generic one
   5. The verbatim-quote extraction stage (Stage 1) produces identical behavior regardless of the selected meeting type — only Stage 2 generation varies
 
-**Plans**: 2/4 plans executed
+**Plans**: 4/4 plans complete
 
 Plans:
 **Wave 1**
@@ -99,8 +99,8 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 13-03-PLAN.md — CaptureService + main/index.ts consent-confirmed propagation (Wave 2)
-- [ ] 13-04-PLAN.md — ArtifactPipeline type-conditional MOM generation (Wave 2)
+- [x] 13-03-PLAN.md — CaptureService + main/index.ts consent-confirmed propagation (Wave 2)
+- [x] 13-04-PLAN.md — ArtifactPipeline type-conditional MOM generation (Wave 2)
 
 **UI hint**: yes
 
@@ -154,7 +154,7 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 10. ContextEngine + Break Assist | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 11. Packaging + Eval Harness | v2.0 | 7/7 | ✅ Complete | 2026-06-28 |
 | 12. Named Speaker Attribution | v3.0 | 4/4 | Complete    | 2026-07-01 |
-| 13. Meeting-Type Artifact Templates | v3.0 | 2/4 | In Progress|  |
+| 13. Meeting-Type Artifact Templates | v3.0 | 4/4 | Complete   | 2026-07-02 |
 | 14. Cross-Meeting Semantic Search | v3.0 | 0/? | 📋 Not started | - |
 | 15. Live Assistant Interactive Chat | v3.0 | 0/? | 📋 Not started | - |
 
