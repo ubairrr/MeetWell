@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-07-03T20:07:40.954Z",
+  "phase": "14",
+  "phase_name": "Cross-Meeting Semantic Search",
+  "phase_dir": ".planning/phases/14-cross-meeting-semantic-search",
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Gather phase context (discuss-phase)", "status": "done", "commit": "5ff1227"},
+    {"id": 2, "name": "Record phase 14 context session in STATE.md", "status": "done", "commit": "14bd04b"}
+  ],
+  "remaining_tasks": [
+    {"id": 3, "name": "Run /gsd-plan-phase for Phase 14 to produce PLAN.md", "status": "not_started"},
+    {"id": 4, "name": "Execute Phase 14 plan(s) via /gsd-execute-phase", "status": "not_started"}
+  ],
+  "blockers": [
+    {"description": "D-01, D-03, D-04 in 14-CONTEXT.md are unconfirmed recommended defaults — AskUserQuestion timed out 3x with no response during discuss-phase", "type": "human_action", "workaround": "Treated as strong defaults; flag for quick user review before/during planning"}
+  ],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {"action": "Review D-01 (new vec_search_chunks table vs reusing vec_chunks), D-03 (search panel UI placement/modal pattern), and D-04 (top-10 cosine similarity ranking, no date/meeting filters) in 14-CONTEXT.md", "context": "These were Claude's recommended defaults, not user-confirmed, because interactive confirmation timed out during discuss-phase", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "New separate vec_search_chunks virtual table for search, not reusing vec_chunks from EpochCompressor", "rationale": "vec_chunks are epoch-level compressed summaries with speaker_label hardcoded to 'epoch'; search needs verbatim quotes + real speaker + model_version column for SRCH-04; vec0 virtual tables don't reliably support ALTER TABLE ADD COLUMN", "phase": "14"},
+    {"decision": "Backfill via manual toggle in SettingsPanel.tsx, not auto-run", "rationale": "User-confirmed (D-02) — indexes all meetings missing vec_search_chunks rows on toggle-on", "phase": "14"},
+    {"decision": "Search panel as full-overlay modal within existing 380px BrowserWindow, following SettingsPanel pattern", "rationale": "No precedent for multi-window management in the app; keep consistent with existing UI pattern", "phase": "14"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Run /gsd-plan-phase for Phase 14 (Cross-Meeting Semantic Search) to produce PLAN.md — 14-CONTEXT.md and 14-DISCUSSION-LOG.md are already written and ready",
+  "context_notes": "Working tree is clean; git status shows nothing pending. Phase 14 discuss-phase step is fully done (context + discussion log committed). No PLAN.md exists yet, so no execution has started — this is a clean phase-boundary pause, not a mid-task interruption. Phase 14 depends on Phase 12 (speaker-resolution reuse via speaker_aliases) which is already complete. Before planning, verify sqlite-vec 0.1.9 CREATE VIRTUAL TABLE support for the new model_version/embedding_model column (flagged as unverified in STATE.md)."
+}
