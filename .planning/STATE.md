@@ -33,7 +33,7 @@ See: .planning/PROJECT.md (updated 2026-07-01)
 Phase: 14 — Cross-Meeting Semantic Search
 Plan: Not started
 Status: Executing Phase 13
-Last activity: 2026-07-02 — Phase 13 complete, transitioned to Phase 14
+Last activity: 2026-07-11 — Completed quick task 260712-2go: Write exhaustive showcase README.md at repo root
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 
@@ -105,6 +105,12 @@ None.
 - (v3.0, flagged by research) `sqlite-vec` 0.1.9's `ALTER TABLE ADD COLUMN` support on `vec0` virtual tables is unverified — resolve as the first sub-step of Phase 14
 - (v3.0, flagged by research) `LLMAdapter.stream()`'s usage-accounting path (`finalChatCompletion()`) is unexercised in production — verify early in Phase 15
 - (v3.0, flagged by research) Concurrent LLM calls from chat (Phase 15) and the existing `SummaryCardTimer` need a request queue/serialization strategy — no existing test coverage
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260712-2go | Write exhaustive showcase README.md at repo root | 2026-07-11 | f0f87d0 | [260712-2go-write-exhaustive-showcase-readme-md-at-r](./quick/260712-2go-write-exhaustive-showcase-readme-md-at-r/) |
 
 ## Deferred Items
 
