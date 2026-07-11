@@ -93,15 +93,15 @@ Expanded the adversarial eval corpus from 10 to 60 synthetic meeting transcripts
 
 | Task | Name | Commit | Files |
 |------|------|--------|-------|
-| Pre-task fix | Retrofit existing adversarial files to object format | 96dccfc | test_05–10 (6 files) |
-| 1 | Generate 6 standard_sync cases (test_11–16) | b90075f | 6 new files |
-| 2 | Generate 10 action_item_dense cases (test_17–26) | 504d778 | 10 new files |
-| 3 | Generate 10 date_heavy cases (test_27–36) | 30c223b | 10 new files |
-| 4 | Generate 5 high_speaker_count cases (test_37–41) | 5eb427f | 5 new files |
-| 5 | Generate 6 more fabrication_bait cases (test_42–47) | 2e33867 | 6 new files |
-| 6 | Generate 5 attribution_bait cases (test_48–52) | 873b385 | 5 new files |
-| 7 | Generate 5 implicit_inference_traps cases (test_53–57) | 94b986a | 5 new files |
-| 8 | Generate 3 more short_no_content cases (test_58–60) | daca60b | 3 new files |
+| Pre-task fix | Retrofit existing adversarial files to object format | e305e51 | test_05–10 (6 files) |
+| 1 | Generate 6 standard_sync cases (test_11–16) | 7cbc73f | 6 new files |
+| 2 | Generate 10 action_item_dense cases (test_17–26) | 31e1d9f | 10 new files |
+| 3 | Generate 10 date_heavy cases (test_27–36) | c609613 | 10 new files |
+| 4 | Generate 5 high_speaker_count cases (test_37–41) | 0f0b4ac | 5 new files |
+| 5 | Generate 6 more fabrication_bait cases (test_42–47) | 4d6cb43 | 6 new files |
+| 6 | Generate 5 attribution_bait cases (test_48–52) | 5ebb4ff | 5 new files |
+| 7 | Generate 5 implicit_inference_traps cases (test_53–57) | 7063996 | 5 new files |
+| 8 | Generate 3 more short_no_content cases (test_58–60) | cc0742f | 3 new files |
 | 9 | Verify corpus totals | (verification only) | — |
 
 ## Corpus Final State
@@ -129,7 +129,7 @@ All 60 files are valid JSON, all transcript_id values are unique, and all source
 - **Issue:** The 6 existing adversarial files (test_05–08 fabrication_bait, test_09–10 short_no_content) used plain string arrays for adversarial_injections. The AI-SPEC §3.6 TypeScript interface defines it as `{description: string; expected_behavior: 'not-extracted' | 'flagged-inferred'}[]`. Without the expected_behavior field, the harness (11-05) cannot check injection behavior programmatically.
 - **Fix:** Rewrote all 6 existing adversarial files to use the object format with explicit description and expected_behavior fields.
 - **Files modified:** test_05–10
-- **Commit:** 96dccfc
+- **Commit:** e305e51
 
 **2. [Rule 1 - Bug] Fixed missing hedged source_quotes in implicit_inference_traps files**
 - **Found during:** Task 7 verification (plan must_have: "at least one action_item in ground_truth with a source_quote that uses hedging language")

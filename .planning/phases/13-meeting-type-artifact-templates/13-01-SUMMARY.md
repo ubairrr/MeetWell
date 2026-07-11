@@ -44,17 +44,17 @@ status: complete
 
 ## What Was Built
 
-### Task 1 — meetings.meeting_type DDL + migration (commit 3720af6)
+### Task 1 — meetings.meeting_type DDL + migration (commit ad4abf5)
 - `ALL_DDLS` meetings table gains `meeting_type TEXT NOT NULL DEFAULT 'general' CHECK (meeting_type IN ('general','standup','1:1','planning'))`
 - `runMigrations()` gains a third column-guard block (`table_info(meetings)` pragma + `meeting_type` name check + `runSafe` ALTER with the identical column definition), so fresh and migrated installs converge on an identical schema
 - 5 new tests in `tests/unit/TranscriptStore.test.ts`: fresh-install default, CHECK accepts all 4 values, CHECK rejects invalid value, migration idempotency, and a legacy-DB upgrade test (pre-phase schema + existing row migrates safely, row reads back `'general'`)
 
-### Task 2 — MeetingTypeSchema + MoMSchema.meeting_type (commit 4fbe8b9)
+### Task 2 — MeetingTypeSchema + MoMSchema.meeting_type (commit ce16fb9)
 - `MeetingTypeSchema = z.enum(['general', 'standup', '1:1', 'planning'])` and `MeetingType` exported from `src/shared/schemas/index.ts` — the single source of truth for the 4 values (DB CHECK constraint is hand-written to match)
 - `MoMSchema` gains required `meeting_type: MeetingTypeSchema` (per D-08)
 - New `tests/unit/schemas-meeting-type.test.ts` with 5 cases (4 accepted values, bogus rejected, MoM parse success, missing field throws, invalid value throws)
 
-### Task 3 — TranscriptStore.createMeeting(meetingType) (commit aada378)
+### Task 3 — TranscriptStore.createMeeting(meetingType) (commit 87c0d4d)
 - `insertMeetingStmt` inserts `meeting_type` as 4th column
 - `createMeeting(meetingId: string, startedAt: number, meetingType: MeetingType = 'general'): void`
 - 2 new tests: explicit `'standup'` persists; 2-arg call defaults to `'general'`
@@ -68,14 +68,14 @@ status: complete
 - **Issue:** Making `MoMSchema.meeting_type` required introduced 4 new TS2741 errors in consumers constructing inline `MoM` fallback literals: `src/main/pipeline/ArtifactPipeline.ts` (3 sites — empty-transcript, zero-anchors, catch-all error paths) and `src/main/index.ts` (1 site — pipeline-failure fallback). `eval/harness.ts` had a 5th (not tsc-gated) literal.
 - **Fix:** Added `meeting_type: 'general'` to all 5 literals — the correct interim default matching the DB default. Plan 13-04 threads the real user-selected value through the pipeline.
 - **Files modified:** src/main/pipeline/ArtifactPipeline.ts, src/main/index.ts, eval/harness.ts
-- **Commit:** 4fbe8b9
+- **Commit:** ce16fb9
 
 **2. [Rule 2 - Missing critical test coverage] Added legacy-DB migration-path test**
 - **Found during:** Task 1
 - **Issue:** The plan's 4 specified test cases all run against a fresh-DDL database (where the migration guard is a no-op), but the plan's must-have truth and `<done>` criterion require proving the migration path independently ("already-installed database upgrades safely... existing rows read back meeting_type = 'general'").
 - **Fix:** Added a 5th test that builds a pre-phase-schema database (full DDLs, then meetings recreated without the column), inserts a row, runs `runMigrations()`, and asserts the row reads back `'general'`.
 - **Files modified:** tests/unit/TranscriptStore.test.ts
-- **Commit:** 3720af6
+- **Commit:** ad4abf5
 
 ## Verification
 
@@ -102,6 +102,6 @@ TMPL-01 / TMPL-02 are claimed jointly by plans 13-01, 13-02, and 13-03 and are n
 
 | Task | Commit | Message |
 | ---- | ------ | ------- |
-| 1 | 3720af6 | feat(13-01): add meetings.meeting_type column with DDL + migration |
-| 2 | 4fbe8b9 | feat(13-01): add MeetingTypeSchema and require meeting_type on MoMSchema |
-| 3 | aada378 | feat(13-01): extend TranscriptStore.createMeeting with meetingType parameter |
+| 1 | ad4abf5 | feat(13-01): add meetings.meeting_type column with DDL + migration |
+| 2 | ce16fb9 | feat(13-01): add MeetingTypeSchema and require meeting_type on MoMSchema |
+| 3 | 87c0d4d | feat(13-01): extend TranscriptStore.createMeeting with meetingType parameter |

@@ -44,7 +44,7 @@ status: complete
 
 | Task | Name | Commit |
 | ---- | ---- | ------ |
-| 1 | Meeting-type segmented selector in ConsentGate | 26a3c6d |
+| 1 | Meeting-type segmented selector in ConsentGate | e6d40c8 |
 
 ## Verification
 
@@ -67,4 +67,4 @@ None — the selector is fully wired to component state and the IPC payload. The
 ## Self-Check: PASSED
 
 - FOUND: src/renderer/src/components/ConsentGate.tsx (modified)
-- FOUND: commit 26a3c6d
+- FOUND: commit e6d40c8

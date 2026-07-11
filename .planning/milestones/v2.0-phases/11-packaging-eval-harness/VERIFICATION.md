@@ -26,14 +26,14 @@ The app is packaged, signed, notarized, and passes the adversarial eval harness 
 | Eval CGFS ≥ 0.85 | PASS | 1.0000 (live, 30 cases) |
 | Eval EHR ≤ 0.05 | PASS | 0.0000 (live, 30 cases) |
 | Per-category CGFS ≥ 0.75 | PASS | 1.0000 across all 4 scored categories |
-| `eval/corpus/eval_report.json` written with `passing: true` | PASS | Committed at `a0c69ef` |
+| `eval/corpus/eval_report.json` written with `passing: true` | PASS | Committed at `a84040e` |
 
 ## Fixes Required During Execution
 
 | Bug | Fix | Commit |
 |-----|-----|--------|
-| `LLMAdapter.generate` inferred Zod INPUT type instead of OUTPUT — broke strict TypeScript in eval/tsconfig | Changed `<T>(schema: z.ZodSchema<T>)` → `<T extends z.ZodTypeAny>(schema: T): Promise<z.output<T>>` | `2d306f1` |
-| `is_calendar_event` column missing from `CREATE TABLE` DDL — harness seeds in-memory DBs from `ALL_DDLS` directly, bypassing the migration guard | Added `is_calendar_event INTEGER NOT NULL DEFAULT 0` to initial DDL | `580a774` |
+| `LLMAdapter.generate` inferred Zod INPUT type instead of OUTPUT — broke strict TypeScript in eval/tsconfig | Changed `<T>(schema: z.ZodSchema<T>)` → `<T extends z.ZodTypeAny>(schema: T): Promise<z.output<T>>` | `581b248` |
+| `is_calendar_event` column missing from `CREATE TABLE` DDL — harness seeds in-memory DBs from `ALL_DDLS` directly, bypassing the migration guard | Added `is_calendar_event INTEGER NOT NULL DEFAULT 0` to initial DDL | `ec50ebc` |
 
 ## Test Suite
 

@@ -112,9 +112,9 @@ completed: 2026-06-27
 
 Each task was committed atomically:
 
-1. **T1: Create BreakAssistPanel component** - `5491f9b` (feat)
-2. **T2: Create BreakAssistDigest component** - `aa05daa` (feat)
-3. **T3: Add break flow state to App.tsx** - `2a2e1f7` (feat)
+1. **T1: Create BreakAssistPanel component** - `72609b9` (feat)
+2. **T2: Create BreakAssistDigest component** - `0e7d659` (feat)
+3. **T3: Add break flow state to App.tsx** - `80bd904` (feat)
 
 ## Files Created/Modified
 
@@ -145,9 +145,9 @@ No new network endpoints, auth paths, file access, or trust boundary changes. `B
 - [x] `src/renderer/src/components/BreakAssistPanel.tsx` — created, named export, I'm Back button with onBack prop
 - [x] `src/renderer/src/components/BreakAssistDigest.tsx` — created, named export, empty/non-empty body
 - [x] `src/renderer/src/App.tsx` — modified, OnBreak branch added, useBreakDigest hook added, showDigest state added, digest overlay in Capturing block
-- [x] Commit 5491f9b (T1) exists in git log
-- [x] Commit aa05daa (T2) exists in git log
-- [x] Commit 2a2e1f7 (T3) exists in git log
+- [x] Commit 72609b9 (T1) exists in git log
+- [x] Commit 0e7d659 (T2) exists in git log
+- [x] Commit 80bd904 (T3) exists in git log
 - [x] `npx tsc --noEmit` exits zero (all three stages)
 
 ## Next Phase Readiness

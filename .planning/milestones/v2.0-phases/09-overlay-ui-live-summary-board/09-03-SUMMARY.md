@@ -84,6 +84,6 @@ No network endpoints, auth paths, file access, or trust boundary changes. Both c
 
 - [x] `src/renderer/src/components/SummaryCard.tsx` — created, all five data sections rendered
 - [x] `src/renderer/src/components/LiveSummaryBoard.tsx` — created, header + scrollable card list
-- [x] Commit 5395d27 exists in git log
+- [x] Commit 61ef822 exists in git log
 - [x] `npx tsc --noEmit` exits zero (no errors)
 - [x] `isLatest=true` applies blue left border; `isLatest=false` uses transparent border (no layout shift)

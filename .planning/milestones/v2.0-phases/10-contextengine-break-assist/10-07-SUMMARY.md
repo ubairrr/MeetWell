@@ -112,7 +112,7 @@ None — tests only, no new network endpoints, auth paths, or file access patter
 
 - `tests/session.test.ts` exists and contains 10 tests ✓
 - `tests/unit/break-digest.test.ts` exists and contains 3 tests ✓
-- Commit `a3360ca` exists (session.test.ts CTX-05 OnBreak FSM tests) ✓
-- Commit `9de91db` exists (break-digest.test.ts CTX-04 window filter tests) ✓
+- Commit `058bd2a` exists (session.test.ts CTX-05 OnBreak FSM tests) ✓
+- Commit `913180b` exists (break-digest.test.ts CTX-04 window filter tests) ✓
 - No production source files modified ✓
 - Full Vitest suite: 112 tests, all passed ✓

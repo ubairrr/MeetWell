@@ -145,6 +145,6 @@ No new threat surface beyond what was scoped in the plan.
 
 | Hash | Type | Description |
 |------|------|-------------|
-| `78228fc` | feat | implement EpochCompressor — LLM compression, epoch_summaries write, vec_chunks embed |
+| `aae28ff` | feat | implement EpochCompressor — LLM compression, epoch_summaries write, vec_chunks embed |
 
 ## Self-Check: PASSED

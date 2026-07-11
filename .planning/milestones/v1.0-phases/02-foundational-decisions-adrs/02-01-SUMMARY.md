@@ -69,7 +69,7 @@ The ADR presents four options in a structured table — including the "Never shi
 
 | Task | Description | Commit | Files |
 |------|-------------|--------|-------|
-| Task 1 | Write DEC-01 Consent & Recording Posture ADR | `1a009c9` | `.planning/phases/02-foundational-decisions-adrs/02-DEC-01-consent-recording-posture.md` (created) |
+| Task 1 | Write DEC-01 Consent & Recording Posture ADR | `f789384` | `.planning/phases/02-foundational-decisions-adrs/02-DEC-01-consent-recording-posture.md` (created) |
 
 ---
 
@@ -120,5 +120,5 @@ The STRIDE threat register items from the plan's threat model are addressed:
 ## Self-Check: PASSED
 
 - File exists: `/Users/ubair/Gits/MeetingAssist/.planning/phases/02-foundational-decisions-adrs/02-DEC-01-consent-recording-posture.md` — FOUND
-- Commit `1a009c9` — FOUND
+- Commit `f789384` — FOUND
 - SUMMARY.md created at correct path — FOUND

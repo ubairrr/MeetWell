@@ -35,7 +35,7 @@ macOS 14.2+ minimum version gate and TCC permission onboarding IPC added to main
 
 ## What Was Built
 
-### Task 1: macOS minimum version gate (commit 965bde1)
+### Task 1: macOS minimum version gate (commit 3dace40)
 
 Added a Darwin kernel version check at the top of `app.whenReady()`, before `app.dock.hide()` and before any window or DB initialization. Uses `os.release()` to parse the kernel version tuple.
 
@@ -47,7 +47,7 @@ Error dialog message: "MeetingAssist requires macOS 14.2 or later" / "System aud
 
 New imports added: `dialog`, `systemPreferences`, `shell` from `'electron'`; `release` from `'os'`.
 
-### Task 2: TCC permission check + IPC push to renderer (commit e62cecf)
+### Task 2: TCC permission check + IPC push to renderer (commit c981682)
 
 **Main process (`src/main/index.ts`):**
 - After window loads (`win.webContents.once('did-finish-load')`), queries `systemPreferences.getMediaAccessStatus('microphone')` and `getMediaAccessStatus('screen')` and sends `'permission-status'` with `{ microphone, screen }` to the renderer.
@@ -76,21 +76,21 @@ New imports added: `dialog`, `systemPreferences`, `shell` from `'electron'`; `re
 - **Issue:** The plan's push-only approach (`did-finish-load` event + listener in ConsentGate) has a timing race: `did-finish-load` fires at startup during `Idle` state, but `ConsentGate` only mounts during `PreCapture`. By the time ConsentGate mounts, the push has already been dropped.
 - **Fix:** Added `ipcMain.handle('get-permission-status')` and corresponding invoke-channel allowlist entry. `usePermissionStatus` hook in App calls both pull (on mount) and listens for push events. This makes status delivery deterministic.
 - **Files modified:** `src/main/index.ts`, `src/preload/index.ts`, `src/renderer/src/App.tsx`
-- **Commits:** e62cecf
+- **Commits:** c981682
 
 **2. [Rule 2 - Security] Enum guard on open-permission-settings**
 - **Found during:** Threat model review (T-11-01-A)
 - **Issue:** The plan's sample code used `urls[type]` with `type` inferred from renderer input — if `type` were an unexpected string, `urls[type]` would be `undefined`, passing `undefined` to `shell.openExternal`.
 - **Fix:** Added `typeof type !== 'string' || !(type in PERMISSION_URLS)` guard that logs and returns early for any non-enum input.
 - **Files modified:** `src/main/index.ts`
-- **Commits:** e62cecf
+- **Commits:** c981682
 
 **3. [Rule 3 - Architecture alignment] Permission status hook at App level, not ConsentGate**
 - **Found during:** Task 2 implementation
 - **Issue:** The plan suggested adding `useEffect` inside `ConsentGate`, but the existing architecture pattern is that App owns all IPC subscription hooks (`useSessionState`, `useCapturingHealth`, etc.) and passes data down as props.
 - **Fix:** Added `usePermissionStatus` hook in App.tsx, passed result as prop to `ConsentGate`. This matches the existing pattern and avoids mounting/unmounting subscription lifecycle issues.
 - **Files modified:** `src/renderer/src/App.tsx`, `src/renderer/src/components/ConsentGate.tsx`
-- **Commits:** e62cecf
+- **Commits:** c981682
 
 ## Known Stubs
 
@@ -111,7 +111,7 @@ None. All permission status paths are wired to live `systemPreferences` API call
 | src/renderer/src/components/ConsentGate.tsx exists | FOUND |
 | src/renderer/src/App.tsx exists | FOUND |
 | 11-01-SUMMARY.md exists | FOUND |
-| Task 1 commit 965bde1 exists | FOUND |
-| Task 2 commit e62cecf exists | FOUND |
+| Task 1 commit 3dace40 exists | FOUND |
+| Task 2 commit c981682 exists | FOUND |
 | No new TypeScript errors in node target | PASSED (only pre-existing errors) |
 | No new TypeScript errors in web target | PASSED (only pre-existing errors) |

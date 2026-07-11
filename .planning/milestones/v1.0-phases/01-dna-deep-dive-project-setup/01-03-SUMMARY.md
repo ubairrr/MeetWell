@@ -82,7 +82,7 @@ status: complete
 
 Each task was committed atomically:
 
-1. **Task 1: Write the DNA audio-capture assessment (DNA-04)** - `54d23b8` (docs)
+1. **Task 1: Write the DNA audio-capture assessment (DNA-04)** - `96e3048` (docs)
 
 ## Files Created/Modified
 

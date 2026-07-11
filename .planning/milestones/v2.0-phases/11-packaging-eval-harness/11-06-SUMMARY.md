@@ -11,9 +11,9 @@ completed_at: 2026-06-28
 
 Ran the adversarial eval harness (`npx ts-node -r dotenv/config --project eval/tsconfig.json eval/harness.ts`) against all 60 corpus test cases. Two blocking bugs were fixed before the run succeeded:
 
-1. **`LLMAdapter.ts` generic fix** (`2d306f1`): Changed `<T>(schema: z.ZodSchema<T>): Promise<T>` → `<T extends z.ZodTypeAny>(schema: T): Promise<z.output<T>>` so TypeScript infers Zod OUTPUT types (not INPUT types) — critical for fields with `.default()` like `is_calendar_event`.
+1. **`LLMAdapter.ts` generic fix** (`581b248`): Changed `<T>(schema: z.ZodSchema<T>): Promise<T>` → `<T extends z.ZodTypeAny>(schema: T): Promise<z.output<T>>` so TypeScript infers Zod OUTPUT types (not INPUT types) — critical for fields with `.default()` like `is_calendar_event`.
 
-2. **`db.ts` DDL fix** (`580a774`): Added `is_calendar_event INTEGER NOT NULL DEFAULT 0` to the `CREATE TABLE IF NOT EXISTS action_items` DDL. The column existed only in a migration guard for existing databases, not in the initial DDL that the harness uses to seed in-memory databases.
+2. **`db.ts` DDL fix** (`ec50ebc`): Added `is_calendar_event INTEGER NOT NULL DEFAULT 0` to the `CREATE TABLE IF NOT EXISTS action_items` DDL. The column existed only in a migration guard for existing databases, not in the initial DDL that the harness uses to seed in-memory databases.
 
 ## Results
 
@@ -42,5 +42,5 @@ Note: 503 transient errors from Gemini API on some cases (test_04) were handled 
 
 - `eval/harness.ts` — harness implementation
 - `eval/corpus/eval_report.json` — written on harness completion
-- `src/main/llm/LLMAdapter.ts` — Zod generic fix (commit 2d306f1)
-- `src/main/store/db.ts` — DDL fix (commit 580a774)
+- `src/main/llm/LLMAdapter.ts` — Zod generic fix (commit 581b248)
+- `src/main/store/db.ts` — DDL fix (commit ec50ebc)

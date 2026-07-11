@@ -47,7 +47,7 @@ ContextEngine wired into src/main/index.ts — SummaryCardTimer replaced, full c
 
 ## What Was Built
 
-### Task 1: Replace SummaryCardTimer with ContextEngine (ffddc35)
+### Task 1: Replace SummaryCardTimer with ContextEngine (9466b93)
 
 Five targeted edits to `src/main/index.ts`:
 
@@ -61,7 +61,7 @@ Five targeted edits to `src/main/index.ts`:
 
 Break assist handlers (`breakStartMs` declaration, `start-break` handler, `end-break` handler) were not touched — verified 4 `breakStartMs` references remain.
 
-### Task 2: Session token usage summary (fdb9f2d)
+### Task 2: Session token usage summary (479ffc6)
 
 **LLMAdapter.ts:** Added optional `onUsage?: (model: string, inputTokens: number, outputTokens: number) => void` constructor parameter. Called after `generate()` (using `completion.usage.prompt_tokens / completion_tokens`) and after `stream()` (using `stream.finalChatCompletion().usage`).
 
@@ -104,8 +104,8 @@ No new network endpoints, auth paths, or trust boundary changes introduced. The 
 
 ## Self-Check: PASSED
 
-- `src/main/index.ts` modified and committed at ffddc35 and fdb9f2d
-- `src/main/llm/LLMAdapter.ts` modified and committed at fdb9f2d
-- `src/main/llm/EmbeddingAdapter.ts` modified and committed at fdb9f2d
+- `src/main/index.ts` modified and committed at 9466b93 and 479ffc6
+- `src/main/llm/LLMAdapter.ts` modified and committed at 479ffc6
+- `src/main/llm/EmbeddingAdapter.ts` modified and committed at 479ffc6
 - Both commits present in git log
 - tsc --noEmit clean, npm run build clean

@@ -89,5 +89,5 @@ No new network endpoints, auth paths, or trust boundary changes introduced. Both
 
 - [x] `src/shared/schemas/index.ts` — modified, SummaryCardSchema/SummaryCard/StoredSummaryCard present
 - [x] `src/main/store/SummaryCardStore.ts` — created, three public methods implemented
-- [x] Commit a52ffc3 exists in git log
+- [x] Commit 0b3f5f4 exists in git log
 - [x] `tsc --noEmit` exits zero

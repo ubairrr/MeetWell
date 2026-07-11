@@ -108,9 +108,9 @@ status: complete
 
 Each task was committed atomically:
 
-1. **Task 1: speaker_aliases DDL + TranscriptStore roster queries** - `7b9635f` (feat)
-2. **Task 2: speakerRename.ts — JSON-safe propagation utilities** - `b0cb845` (feat)
-3. **Task 3: SpeakerAliasStore — transactional rename propagation** - `e829d40` (feat)
+1. **Task 1: speaker_aliases DDL + TranscriptStore roster queries** - `74e072f` (feat)
+2. **Task 2: speakerRename.ts — JSON-safe propagation utilities** - `f6b3072` (feat)
+3. **Task 3: SpeakerAliasStore — transactional rename propagation** - `5616bc5` (feat)
 
 **Plan metadata:** committed together with this SUMMARY.md (worktree mode — orchestrator handles the final metadata commit after wave merge)
 
@@ -149,7 +149,7 @@ _Note: All three tasks were `tdd="true"` — each commit includes both the imple
 - **Fix:** Added `*.tsbuildinfo` to `.gitignore`; deleted the generated file before each task's commit so it never entered the working tree at commit time.
 - **Files modified:** `.gitignore`
 - **Verification:** `git status --short` shows no untracked files after each task commit
-- **Committed in:** `7b9635f` (Task 1 commit)
+- **Committed in:** `74e072f` (Task 1 commit)
 
 ---
 
@@ -174,4 +174,4 @@ None - no external service configuration required.
 
 ## Self-Check: PASSED
 
-All created/modified files verified present on disk; all 3 task commit hashes (`7b9635f`, `b0cb845`, `e829d40`) verified present in `git log --oneline --all`.
+All created/modified files verified present on disk; all 3 task commit hashes (`74e072f`, `f6b3072`, `5616bc5`) verified present in `git log --oneline --all`.

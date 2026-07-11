@@ -92,8 +92,8 @@ status: complete
 
 Each task was committed atomically:
 
-1. **Task 1: Allowlist new IPC channels in preload** - `6f66b09` (feat)
-2. **Task 2: get-speaker-roster and rename-speakers IPC handlers** - `6c8a908` (feat)
+1. **Task 1: Allowlist new IPC channels in preload** - `0bf06fd` (feat)
+2. **Task 2: get-speaker-roster and rename-speakers IPC handlers** - `735e451` (feat)
 
 _Note: no TDD tasks in this plan — matches existing `ipcMain.handle` convention (no dedicated test coverage for IPC wiring anywhere in this codebase)._
 
@@ -134,6 +134,6 @@ None - no external service configuration required.
 - FOUND: src/preload/index.ts
 - FOUND: src/main/index.ts
 - FOUND: .planning/phases/12-named-speaker-attribution/12-03-SUMMARY.md
-- FOUND: 6f66b09 (Task 1 commit)
-- FOUND: 6c8a908 (Task 2 commit)
-- FOUND: e388d2f (SUMMARY commit)
+- FOUND: 0bf06fd (Task 1 commit)
+- FOUND: 735e451 (Task 2 commit)
+- FOUND: ee8aad0 (SUMMARY commit)

@@ -113,7 +113,7 @@ Added `'set-focusable'` to `INVOKE_CHANNELS`. No other changes, no reformatting.
 - **Issue:** The original code unconditionally generated a new `currentMeetingId` on every entry to `Capturing`. Returning from OnBreak would have overwritten the active meeting ID and broken the transcript/timer continuity.
 - **Fix:** Added `previous !== 'OnBreak'` guard so `currentMeetingId` and `captureService.startCapture()` are only called on initial Capturing entry (from PreCapture), not on return from a break.
 - **Files modified:** `src/main/index.ts`
-- **Commit:** a528ef4
+- **Commit:** 7e17571
 
 ## Known Stubs
 
@@ -128,5 +128,5 @@ No new network endpoints introduced. `safeStorage.encryptString/decryptString` i
 - [x] `src/main/context/SummaryCardTimer.ts` — created
 - [x] `src/main/index.ts` — modified, all stubs replaced, OnBreak fix applied
 - [x] `src/preload/index.ts` — modified, set-focusable added
-- [x] Commit 9bef232 (T1), a528ef4 (T2), 13a355c (T3) exist in git log
+- [x] Commit eb9e408 (T1), 7e17571 (T2), 35a9325 (T3) exist in git log
 - [x] `tsc --noEmit` exits zero

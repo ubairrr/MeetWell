@@ -78,8 +78,8 @@ status: complete
 
 Each task was committed atomically:
 
-1. **Task 1: RenameSpeakersModal component** - `7c13776` (feat)
-2. **Task 2: Wire Rename Speakers into ArtifactReview** - `eed047e` (feat)
+1. **Task 1: RenameSpeakersModal component** - `fcd8009` (feat)
+2. **Task 2: Wire Rename Speakers into ArtifactReview** - `352a0d4` (feat)
 
 **Plan metadata:** (this commit)
 
@@ -119,6 +119,6 @@ None - no external service configuration required.
 
 - FOUND: src/renderer/src/components/RenameSpeakersModal.tsx
 - FOUND: .planning/phases/12-named-speaker-attribution/12-04-SUMMARY.md
-- FOUND: commit 7c13776 (Task 1)
-- FOUND: commit eed047e (Task 2)
-- FOUND: commit 6e7ac32 (docs: summary)
+- FOUND: commit fcd8009 (Task 1)
+- FOUND: commit 352a0d4 (Task 2)
+- FOUND: commit dddc59a (docs: summary)

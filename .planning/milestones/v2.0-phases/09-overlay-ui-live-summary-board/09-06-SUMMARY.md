@@ -87,8 +87,8 @@ New named-export component implementing the full settings panel:
 Each task was committed atomically:
 
 1. **T1: electron-store check** — no commit (pre-flight verification only)
-2. **T2: Create SettingsPanel component** — `0fe674d` (feat)
-3. **T3: Add gear icon and showSettings to App.tsx** — `6429fc7` (feat)
+2. **T2: Create SettingsPanel component** — `8e8b86f` (feat)
+3. **T3: Add gear icon and showSettings to App.tsx** — `19754ac` (feat)
 
 ## Files Created/Modified
 
@@ -110,7 +110,7 @@ Each task was committed atomically:
 - **Issue:** QuitButton (existing) and GearButton (new) both use `position: absolute, top: 8px, right: 8px` — they render on top of each other, making the quit button unreachable
 - **Fix:** Shifted `QuitButton` from `right: 8px` to `right: 36px`, leaving the `GearButton` at `right: 8px` per plan spec
 - **Files modified:** `src/renderer/src/App.tsx`
-- **Commit:** `6429fc7`
+- **Commit:** `19754ac`
 
 ## Known Stubs
 
@@ -124,8 +124,8 @@ No new network endpoints or trust boundary changes. `set-setting` with `gemini-a
 
 - [x] `src/renderer/src/components/SettingsPanel.tsx` — created, named export
 - [x] `src/renderer/src/App.tsx` — modified, GearButton + showSettings + withChrome() + SettingsPanel in all user-facing branches
-- [x] Commit 0fe674d (T2) exists
-- [x] Commit 6429fc7 (T3) exists
+- [x] Commit 8e8b86f (T2) exists
+- [x] Commit 19754ac (T3) exists
 - [x] `npx tsc --noEmit` exits zero (verified after both T2 and T3)
 - [x] Paid-plan warning always visible in SettingsPanel (non-dismissable)
 - [x] set-focusable IPC called on mount (true) and unmount (false)

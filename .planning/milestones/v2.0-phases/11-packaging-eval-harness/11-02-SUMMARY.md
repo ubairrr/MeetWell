@@ -34,7 +34,7 @@ Replaced the `scripts/notarize.js` stub with a real `@electron/notarize` notaryt
 
 | Task | Name | Commit | Files |
 |------|------|--------|-------|
-| 1 | Implement notarize.js with @electron/notarize notarytool | c6c1b95 | scripts/notarize.js |
+| 1 | Implement notarize.js with @electron/notarize notarytool | 722adf3 | scripts/notarize.js |
 
 ## What Was Built
 
@@ -90,5 +90,5 @@ None. T-11-02-A (APPLE_ID_PASSWORD information disclosure) is accepted as docume
 ## Self-Check: PASSED
 
 - [x] `scripts/notarize.js` exists and requires without error
-- [x] Commit c6c1b95 exists in git log
+- [x] Commit 722adf3 exists in git log
 - [x] No STATE.md or ROADMAP.md modifications made

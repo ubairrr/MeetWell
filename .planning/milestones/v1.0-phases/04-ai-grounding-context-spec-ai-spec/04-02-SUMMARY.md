@@ -119,5 +119,5 @@ No new security-relevant surface introduced. This plan modified only a planning 
 - eval/harness.ts: VERIFIED (8 occurrences)
 - CGFS >= 0.85 / EHR <= 0.05: VERIFIED
 - status: final in frontmatter: VERIFIED
-- Task 1 commit e4b3e24: VERIFIED
-- Task 2 commit dbfd185: VERIFIED
+- Task 1 commit c8efdc8: VERIFIED
+- Task 2 commit 12899a1: VERIFIED

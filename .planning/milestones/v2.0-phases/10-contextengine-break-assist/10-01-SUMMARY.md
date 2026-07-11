@@ -87,9 +87,9 @@ All three tasks followed strict RED → GREEN cycle:
 
 | Task | RED commit | GREEN commit | Tests |
 |------|-----------|-------------|-------|
-| 1 — EpochSummarySchema | `081502b` | `9a1391e` | 6 passing |
-| 2 — RollingWindow | `c120237` | `9134a36` | 6 passing |
-| 3 — TokenMonitor | `a3dcd0a` | `36f40e0` | 9 passing |
+| 1 — EpochSummarySchema | `4a90a4f` | `c01f073` | 6 passing |
+| 2 — RollingWindow | `bddc6cf` | `99cb1cf` | 6 passing |
+| 3 — TokenMonitor | `0c36b07` | `411ac4e` | 9 passing |
 
 Total: 21 tests, all passing.
 
@@ -138,11 +138,11 @@ T-10-01-B accepted: EpochSummarySchema Zod validation is applied at LLM response
 
 | Hash | Type | Description |
 |------|------|-------------|
-| `081502b` | test | RED — EpochSummarySchema + StoredEpochSummary tests |
-| `9a1391e` | feat | GREEN — EpochSummarySchema + StoredEpochSummary implementation |
-| `c120237` | test | RED — RollingWindow tests |
-| `9134a36` | feat | GREEN — RollingWindow implementation |
-| `a3dcd0a` | test | RED — TokenMonitor tests |
-| `36f40e0` | feat | GREEN — TokenMonitor implementation + mocked tests |
+| `4a90a4f` | test | RED — EpochSummarySchema + StoredEpochSummary tests |
+| `c01f073` | feat | GREEN — EpochSummarySchema + StoredEpochSummary implementation |
+| `bddc6cf` | test | RED — RollingWindow tests |
+| `99cb1cf` | feat | GREEN — RollingWindow implementation |
+| `0c36b07` | test | RED — TokenMonitor tests |
+| `411ac4e` | feat | GREEN — TokenMonitor implementation + mocked tests |
 
 ## Self-Check: PASSED

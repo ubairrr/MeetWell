@@ -82,7 +82,7 @@ Note: `npx tsc --noEmit --project tsconfig.node.json` exits with code 2 due to *
 
 | Hash | Description |
 |------|-------------|
-| 6ed49cc | feat(10-02): implement EmbeddingAdapter with gemini-embedding-001 dimensions:1536 |
+| 0f60fd7 | feat(10-02): implement EmbeddingAdapter with gemini-embedding-001 dimensions:1536 |
 
 ## Deviations from Plan
 
@@ -109,7 +109,7 @@ These existed before this plan and are not caused by `EmbeddingAdapter.ts`.
 
 ## Self-Check: PASSED
 
-- [x] `src/main/llm/EmbeddingAdapter.ts` exists and was committed (6ed49cc)
+- [x] `src/main/llm/EmbeddingAdapter.ts` exists and was committed (0f60fd7)
 - [x] Float32Array used (3 occurrences)
 - [x] 1536 appears 3 times (constant + dimensions param + assertion)
 - [x] No electron imports

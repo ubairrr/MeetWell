@@ -65,8 +65,8 @@ Two Markdown convention documents inside the phase folder:
 
 | Task | Name | Commit | Files Created |
 |------|------|--------|---------------|
-| 1 | Write the setup-baseline record (SETUP-01, SETUP-02) | 74517fa | `.planning/phases/01-dna-deep-dive-project-setup/01-SETUP-BASELINE.md` |
-| 2 | Write the dev-baseline / project-conventions doc (SETUP-03) | e74c444 | `.planning/phases/01-dna-deep-dive-project-setup/01-DEV-BASELINE.md` |
+| 1 | Write the setup-baseline record (SETUP-01, SETUP-02) | 06297f0 | `.planning/phases/01-dna-deep-dive-project-setup/01-SETUP-BASELINE.md` |
+| 2 | Write the dev-baseline / project-conventions doc (SETUP-03) | 7b495ad | `.planning/phases/01-dna-deep-dive-project-setup/01-DEV-BASELINE.md` |
 
 ---
 
@@ -102,8 +102,8 @@ FOUND: .planning/phases/01-dna-deep-dive-project-setup/01-DEV-BASELINE.md
 ### Commits exist
 
 ```
-FOUND: 74517fa — docs(01-01): write setup-baseline record (SETUP-01, SETUP-02)
-FOUND: e74c444 — docs(01-01): write dev-baseline / project-conventions doc (SETUP-03)
+FOUND: 06297f0 — docs(01-01): write setup-baseline record (SETUP-01, SETUP-02)
+FOUND: 7b495ad — docs(01-01): write dev-baseline / project-conventions doc (SETUP-03)
 ```
 
 ## Self-Check: PASSED

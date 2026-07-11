@@ -98,7 +98,7 @@ status: complete
 
 ## Task Commits
 
-1. **Task 1: Write the selective-adoption catalogue** - `230e01b` (feat)
+1. **Task 1: Write the selective-adoption catalogue** - `754cb26` (feat)
 
 **Plan metadata:** (see final commit below)
 
@@ -138,7 +138,7 @@ None — documentation-only deliverable; no external service configuration requi
 
 - FOUND: `.planning/phases/01-dna-deep-dive-project-setup/01-DNA-CATALOGUE.md`
 - FOUND: `.planning/phases/01-dna-deep-dive-project-setup/01-02-SUMMARY.md`
-- FOUND commit: `230e01b` (feat(01-02): create selective-adoption catalogue for DNA techniques)
+- FOUND commit: `754cb26` (feat(01-02): create selective-adoption catalogue for DNA techniques)
 
 ---
 *Phase: 01-dna-deep-dive-project-setup*

@@ -102,7 +102,7 @@ Confirmed via grep: no `micHandleRef`, `startMicCapture`, or `MicCaptureHandle` 
 - **Issue:** The plan's Step 5 suggested placing `AudioWorkletHost` as first child in a Fragment before state-branch JSX, but the Capturing branch used multiple early `return` statements. Placing `AudioWorkletHost` outside the returns while keeping early-return structure requires either restructuring all branches to not use early return, or extracting them to a helper.
 - **Fix:** Extracted all render-branch logic into `renderContent()` helper function. The `App` return is a single `<> <AudioWorkletHost .../> {renderContent()} </>` — AudioWorkletHost always mounts, all branches live in `renderContent()`. This is equivalent to the plan's intent but cleaner than duplicating `AudioWorkletHost` in every branch.
 - **Files modified:** `src/renderer/src/App.tsx`
-- **Commit:** cc6c3ae
+- **Commit:** b0f27d6
 
 ## Known Stubs
 
@@ -116,8 +116,8 @@ No new network endpoints, auth paths, file access, or trust boundary changes int
 
 - [x] `src/renderer/src/components/AudioWorkletHost.tsx` — created, named export, returns null
 - [x] `src/renderer/src/App.tsx` — modified, old mic code removed, useSummaryCards added, board view wired
-- [x] Commit 4e291e5 (T1) exists in git log
-- [x] Commit cc6c3ae (T2) exists in git log
+- [x] Commit f304fa5 (T1) exists in git log
+- [x] Commit b0f27d6 (T2) exists in git log
 - [x] `npx tsc --noEmit` exits zero
 - [x] No `micHandleRef`, `startMicCapture`, or `MicCaptureHandle` in App.tsx
 - [x] Single `summary-card-ready` listener in App.tsx (useSummaryCards hook)

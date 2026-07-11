@@ -9,8 +9,8 @@
   "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Gather phase context (discuss-phase)", "status": "done", "commit": "5ff1227"},
-    {"id": 2, "name": "Record phase 14 context session in STATE.md", "status": "done", "commit": "14bd04b"}
+    {"id": 1, "name": "Gather phase context (discuss-phase)", "status": "done", "commit": "00f9de7"},
+    {"id": 2, "name": "Record phase 14 context session in STATE.md", "status": "done", "commit": "2ea401a"}
   ],
   "remaining_tasks": [
     {"id": 3, "name": "Run /gsd-plan-phase for Phase 14 to produce PLAN.md", "status": "not_started"},

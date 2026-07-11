@@ -22,12 +22,12 @@ overrides_applied: 0
 
 | #  | Truth | Status | Evidence |
 |----|-------|--------|----------|
-| 1  | A Consent & Recording Posture ADR exists at `02-DEC-01-consent-recording-posture.md` | VERIFIED | File exists at `.planning/phases/02-foundational-decisions-adrs/02-DEC-01-consent-recording-posture.md`; committed as `1a009c9` |
+| 1  | A Consent & Recording Posture ADR exists at `02-DEC-01-consent-recording-posture.md` | VERIFIED | File exists at `.planning/phases/02-foundational-decisions-adrs/02-DEC-01-consent-recording-posture.md`; committed as `f789384` |
 | 2  | DEC-01 fixes disclosed-not-covert posture with all-party-consent globally (no jurisdiction exceptions) per D-04 | VERIFIED | Decision Outcome explicitly states "All-party consent is required globally, with no jurisdiction exceptions. The app does not offer a lower-consent mode for one-party jurisdictions." (Per D-04 section) |
 | 3  | The consent gate is per-meeting (fires on every session start) with a checkbox + Start button mechanism per D-02 and D-03 | VERIFIED | Per D-02 and Per D-03 sections in Decision Outcome document exact checkbox text and disabled-until-checked button; Options Considered Option A confirms per-session firing |
 | 4  | DEC-01 explicitly separates setContentProtection(true) content-protection from concealing the fact of recording | VERIFIED | D-05 section header is "separating hide-from-screen-share from concealing recording"; body uses "explicitly separate"; grep count=2 for "separate\|separating". ROADMAP SC-2 satisfied. |
 | 5  | Options Considered table includes a covert/undisclosed row with "Never ship" language matching REQUIREMENTS.md Out of Scope | VERIFIED | Option D row: "**Never ship.** Existential legal and ethical liability...Explicitly listed in the Out of Scope table of REQUIREMENTS.md." |
-| 6  | A Data-handling & Privacy ADR exists at `02-DEC-02-data-handling-privacy.md` | VERIFIED | File exists; committed as `6bfe700` |
+| 6  | A Data-handling & Privacy ADR exists at `02-DEC-02-data-handling-privacy.md` | VERIFIED | File exists; committed as `c3ce33a` |
 | 7  | DEC-02 fixes local-first storage with SQLCipher + safeStorage encryption, raw audio deleted by default, indefinite retention, data persists after uninstall, on-device mode as future capability | VERIFIED | All five sub-decisions (D-06 through D-09) explicitly documented in Decision Outcome with decision IDs; persistence stack table from CLAUDE.md ratified; `transcribe-then-delete-raw-audio` phrase present |
 | 8  | DEC-02 Open Dependencies section explicitly names RSCH-03 with vendor DPA / no-training confirmation as unresolved dependency | VERIFIED | Open Dependencies section: "OPEN: RSCH-03 — Vendor DPA / no-training terms for Deepgram and the chosen LLM provider(s) must be confirmed before this ADR is fully closed." grep count=4 for "RSCH-03" in DEC-02. |
 | 9  | Both ADRs use MADR format and cross-reference each other via relative markdown links | VERIFIED | DEC-01 has all 7 MADR sections; DEC-02 has all 7 MADR sections. DEC-01 → DEC-02: `[DEC-02](./02-DEC-02-data-handling-privacy.md)`. DEC-02 → DEC-01: `[DEC-01](./02-DEC-01-consent-recording-posture.md)`. Bidirectional cross-reference confirmed. |
@@ -76,7 +76,7 @@ overrides_applied: 0
 | DEC-01 | 02-01-PLAN.md | Consent & Recording Posture ADR | SATISFIED | ADR exists; all 4 REQUIREMENTS.md content bullets met (disclosed-not-covert, all-party-consent, screen-share separation, consent gate as hard precondition) |
 | DEC-02 | 02-02-PLAN.md | Data-handling & Privacy ADR | SATISFIED | ADR exists; all 5 REQUIREMENTS.md content bullets met (local-first, encryption, retention+delete, transcribe-then-delete, on-device mode) |
 
-**Note on REQUIREMENTS.md tracking state:** Both DEC-01 and DEC-02 rows still show `- [ ]` (unchecked) and "Pending" in the traceability table. Neither plan listed `REQUIREMENTS.md` in its `files_modified`. The tracking-update commit (`ae34281`) only updated ROADMAP.md. This is a bookkeeping gap — the ADR content fully satisfies both requirements — but the status file is out of sync with the actual deliverables. See Human Verification below.
+**Note on REQUIREMENTS.md tracking state:** Both DEC-01 and DEC-02 rows still show `- [ ]` (unchecked) and "Pending" in the traceability table. Neither plan listed `REQUIREMENTS.md` in its `files_modified`. The tracking-update commit (`c744aa7`) only updated ROADMAP.md. This is a bookkeeping gap — the ADR content fully satisfies both requirements — but the status file is out of sync with the actual deliverables. See Human Verification below.
 
 ---
 
@@ -115,7 +115,7 @@ No TBD, FIXME, XXX, TODO, HACK, or PLACEHOLDER markers found in either ADR file.
 
 **Expected:** REQUIREMENTS.md accurately reflects that both ADRs are delivered and both requirements are met.
 
-**Why human:** Neither plan declared REQUIREMENTS.md in `files_modified`; the executor correctly stayed within scope. The tracking-update commit (`ae34281`) only touched ROADMAP.md. This is an orchestrator bookkeeping action — the ADR content is fully correct and complete. This gap does not affect the validity of either ADR as a downstream decision source.
+**Why human:** Neither plan declared REQUIREMENTS.md in `files_modified`; the executor correctly stayed within scope. The tracking-update commit (`c744aa7`) only touched ROADMAP.md. This is an orchestrator bookkeeping action — the ADR content is fully correct and complete. This gap does not affect the validity of either ADR as a downstream decision source.
 
 ---
 

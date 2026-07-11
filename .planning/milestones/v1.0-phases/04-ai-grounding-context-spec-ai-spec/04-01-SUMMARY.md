@@ -124,7 +124,7 @@ None — this is a planning-only document. No network endpoints, auth paths, fil
 |-------|--------|
 | `04-AI-SPEC.md` exists at expected path | FOUND |
 | `04-01-SUMMARY.md` exists at expected path | FOUND |
-| Commit `2f8e108` exists in git log | FOUND |
+| Commit `92435d9` exists in git log | FOUND |
 | `## Section` headings count = 2 | 2 |
 | `### 1.x` subsections count = 8 | 8 |
 | `### 2.x` subsections count = 11 | 11 |

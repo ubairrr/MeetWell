@@ -38,7 +38,7 @@ status: complete
 
 ## What Was Built
 
-### Task 1 — Type-conditional runStage2Mom + meeting_type stamping (commit aa9f556)
+### Task 1 — Type-conditional runStage2Mom + meeting_type stamping (commit e54a957)
 - `export const MOM_SECTION_SPECS: Record<MeetingType, string>` — 4 distinct section blocks:
   - `general`: `## Agenda Items Discussed` / `## Key Discussion Points` / `## Decisions Made` / `## Next Steps` (guidance text copied verbatim from the pre-existing prompt)
   - `standup`: `## Yesterday` / `## Today` / `## Blockers`
@@ -49,7 +49,7 @@ status: complete
 - `runStage2Mom(anchors, meetingDate, meetingType)` — shared skeleton (`# Minutes of Meeting` header, `## Attendees`, ABSOLUTE RULES, INPUT FORMAT all unchanged) with `${MOM_SECTION_SPECS[meetingType]}` interpolated between `## Attendees` and the `## Action Items` table block; returns `{ markdown_content, meeting_type: meetingType }` constructed post-call
 - `run()` computes `meetingType` once at the top and threads it into the two early-return `mom` literals and the `runStage2Mom` call only — the `runStage2Summary`/`runStage2KeyPoints`/`runStage2ActionItems` calls and prompts are byte-for-byte untouched (D-05/D-06); catch fallback keeps hardcoded `'general'`
 
-### Task 2 — ArtifactPipeline behavioral tests (commit 237537d)
+### Task 2 — ArtifactPipeline behavioral tests (commit 4953bf0)
 - `tests/unit/ArtifactPipeline.test.ts` — 10 tests, all passing:
   - 4 pure `MOM_SECTION_SPECS` content-shape assertions (per-key distinctness via `.toContain()`/`.not.toContain()`)
   - standup run: captured `minutes_of_meeting` systemPrompt contains standup headings, none of the general headings; general run: original headings preserved (regression)
@@ -68,14 +68,14 @@ status: complete
 - **Issue:** The plan said to define `MoMGenerationSchema` "using the already-imported `z`", but ArtifactPipeline.ts had no direct `zod` import (schemas were previously imported pre-built from `shared/schemas`).
 - **Fix:** Added the direct `z` import alongside the existing imports.
 - **Files modified:** src/main/pipeline/ArtifactPipeline.ts
-- **Commit:** aa9f556
+- **Commit:** e54a957
 
 **2. [Rule 3 - Blocking] Removed now-unused `MoMSchema` import**
 - **Found during:** Task 1
 - **Issue:** Switching the `minutes_of_meeting` LLM call from `MoMSchema` to `MoMGenerationSchema` left `MoMSchema` unused, which would have added a 3rd TS6133 error — violating the acceptance criterion that the file stay at exactly its 2 pre-existing baseline errors.
 - **Fix:** Dropped `MoMSchema` from the shared-schemas import (the `MoM` type import remains).
 - **Files modified:** src/main/pipeline/ArtifactPipeline.ts
-- **Commit:** aa9f556
+- **Commit:** e54a957
 
 ## TDD Gate Compliance
 
@@ -105,11 +105,11 @@ TMPL-03, TMPL-04, TMPL-05 — satisfied by this plan (type-conditional MOM struc
 
 | Task | Commit  | Message |
 | ---- | ------- | ------- |
-| 1    | aa9f556 | feat(13-04): make runStage2Mom type-conditional and stamp meeting_type programmatically |
-| 2    | 237537d | test(13-04): prove type-conditional MOM generation and prompt isolation |
+| 1    | e54a957 | feat(13-04): make runStage2Mom type-conditional and stamp meeting_type programmatically |
+| 2    | 4953bf0 | test(13-04): prove type-conditional MOM generation and prompt isolation |
 
 ## Self-Check: PASSED
 
 - tests/unit/ArtifactPipeline.test.ts — FOUND
 - src/main/pipeline/ArtifactPipeline.ts modifications — FOUND
-- Commits aa9f556, 237537d — FOUND
+- Commits e54a957, 4953bf0 — FOUND

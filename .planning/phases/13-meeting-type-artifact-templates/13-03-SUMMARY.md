@@ -37,13 +37,13 @@ The meetingType selected in ConsentGate now travels the full pipe — `consent-c
 
 ## What Was Built
 
-### Task 1 — CaptureService.startCapture(meetingType) (commit f5e0383)
+### Task 1 — CaptureService.startCapture(meetingType) (commit 8a6208c)
 - `startCapture(meetingId: string, meetingType: MeetingType = 'general'): Promise<void>` — new optional 2nd parameter
 - Body now calls `this.transcriptStore.createMeeting(meetingId, Date.now(), meetingType)` (3 args)
 - `type { MeetingType }` imported from `../../shared/schemas`
 - Test 1 assertion updated to expect the 3-arg call with `'general'` default; new test proves an explicit `'standup'` forwards through
 
-### Task 2 — consent-confirmed handler propagation (commit 330b369)
+### Task 2 — consent-confirmed handler propagation (commit b92fb56)
 - `MeetingTypeSchema` (value) and `type MeetingType` added to the existing shared-schemas import in `src/main/index.ts`
 - `let pendingMeetingType: MeetingType = 'general'` declared beside `currentMeetingId` — the hand-off between the IPC handler and the FSM `Capturing` transition
 - `consent-confirmed` handler now parses `(_payload as { meetingType?: unknown } | undefined)?.meetingType` via `MeetingTypeSchema.safeParse(...)` before transitioning; parse failure of any kind → `'general'`
@@ -55,10 +55,10 @@ The meetingType selected in ConsentGate now travels the full pipe — `consent-c
 
 **1. Catch-block fallback `mom: { markdown_content: '', meeting_type: 'general' }`**
 - **Found during:** Task 2
-- **Issue:** The plan instructed adding `meeting_type: 'general'` to the ArtifactPipeline-failure fallback `mom` object in `src/main/index.ts`, but Plan 13-01's Rule-3 deviation fix (commit 4fbe8b9) had already added it when `MoMSchema.meeting_type` became required.
+- **Issue:** The plan instructed adding `meeting_type: 'general'` to the ArtifactPipeline-failure fallback `mom` object in `src/main/index.ts`, but Plan 13-01's Rule-3 deviation fix (commit ce16fb9) had already added it when `MoMSchema.meeting_type` became required.
 - **Fix:** None required — verified present; the grep-based verify criterion passes against the existing line.
 - **Files modified:** none
-- **Commit:** n/a (pre-existing from 4fbe8b9)
+- **Commit:** n/a (pre-existing from ce16fb9)
 
 No other deviations — plan executed as written.
 
@@ -87,7 +87,7 @@ TMPL-01 / TMPL-02 are claimed jointly by plans 13-01, 13-02, and 13-03. This pla
 
 | Task | Commit  | Message |
 | ---- | ------- | ------- |
-| 1    | f5e0383 | feat(13-03): add meetingType parameter to CaptureService.startCapture |
-| 2    | 330b369 | feat(13-03): validate and propagate meetingType from consent-confirmed IPC |
+| 1    | 8a6208c | feat(13-03): add meetingType parameter to CaptureService.startCapture |
+| 2    | b92fb56 | feat(13-03): validate and propagate meetingType from consent-confirmed IPC |
 
 ## Self-Check: PASSED

@@ -83,7 +83,7 @@ status: complete
 
 Each task was committed atomically:
 
-1. **Task 1: CalendarExportService regression test suite** - `d4bfcd7` (test)
+1. **Task 1: CalendarExportService regression test suite** - `ba14d6f` (test)
 
 **Plan metadata:** (final docs commit recorded separately by orchestrator after wave merge — worktree mode)
 
@@ -105,7 +105,7 @@ Each task was committed atomically:
 - **Fix:** Added `*.tsbuildinfo` to `.gitignore` under the existing "Node / build artifacts" section
 - **Files modified:** `.gitignore`
 - **Verification:** `git status --short` no longer lists the file as untracked after the change
-- **Committed in:** `d4bfcd7` (part of Task 1 commit)
+- **Committed in:** `ba14d6f` (part of Task 1 commit)
 
 ---
 
@@ -130,5 +130,5 @@ None - no external service configuration required.
 ## Self-Check: PASSED
 - FOUND: src/main/calendar/__tests__/CalendarExportService.test.ts
 - FOUND: .planning/phases/12-named-speaker-attribution/12-02-SUMMARY.md
-- FOUND: commit d4bfcd7 (Task 1)
-- FOUND: commit dc3a703 (docs/plan metadata)
+- FOUND: commit ba14d6f (Task 1)
+- FOUND: commit d6d2ae0 (docs/plan metadata)

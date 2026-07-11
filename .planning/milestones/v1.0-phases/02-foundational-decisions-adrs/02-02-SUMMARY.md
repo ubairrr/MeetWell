@@ -62,7 +62,7 @@ The ADR:
 
 | Task | Name | Commit | Files |
 |------|------|--------|-------|
-| 1 | Write 02-DEC-02-data-handling-privacy.md — Data-handling & Privacy ADR | 6bfe700 | `.planning/phases/02-foundational-decisions-adrs/02-DEC-02-data-handling-privacy.md` (created) |
+| 1 | Write 02-DEC-02-data-handling-privacy.md — Data-handling & Privacy ADR | c3ce33a | `.planning/phases/02-foundational-decisions-adrs/02-DEC-02-data-handling-privacy.md` (created) |
 
 ---
 
@@ -89,6 +89,6 @@ Note: Threat model T-02-05 (vendor training assumption / Information Disclosure)
 ## Self-Check: PASSED
 
 - [x] `02-DEC-02-data-handling-privacy.md` exists at `.planning/phases/02-foundational-decisions-adrs/`
-- [x] Commit `6bfe700` exists and references the correct file
+- [x] Commit `c3ce33a` exists and references the correct file
 - [x] All 11 acceptance criteria verified via grep checks
 - [x] No STATE.md or ROADMAP.md modifications made (orchestrator owns those)

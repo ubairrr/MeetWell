@@ -110,7 +110,7 @@ None.
 
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
-| 260712-2go | Write exhaustive showcase README.md at repo root | 2026-07-11 | f0f87d0 | [260712-2go-write-exhaustive-showcase-readme-md-at-r](./quick/260712-2go-write-exhaustive-showcase-readme-md-at-r/) |
+| 260712-2go | Write exhaustive showcase README.md at repo root | 2026-07-11 | 9c5f94c | [260712-2go-write-exhaustive-showcase-readme-md-at-r](./quick/260712-2go-write-exhaustive-showcase-readme-md-at-r/) |
 
 ## Deferred Items
 

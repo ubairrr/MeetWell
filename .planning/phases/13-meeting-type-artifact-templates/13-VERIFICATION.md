@@ -84,15 +84,15 @@ The task explicitly asked to confirm no leftover debug/temp code from the UAT te
 
 ```
 git log --oneline -10 -- src/main/index.ts
-44742d0 chore(13): remove temp UAT debug shortcut from index.ts
-732da73 chore: auto-sync working tree
-d14f9c4 chore: auto-sync working tree
-330b369 feat(13-03): validate and propagate meetingType from consent-confirmed IPC
-4fbe8b9 feat(13-01): add MeetingTypeSchema and require meeting_type on MoMSchema
+e670814 chore(13): remove temp UAT debug shortcut from index.ts
+e625c14 chore: auto-sync working tree
+a03b91b chore: auto-sync working tree
+b92fb56 feat(13-03): validate and propagate meetingType from consent-confirmed IPC
+ce16fb9 feat(13-01): add MeetingTypeSchema and require meeting_type on MoMSchema
 ...
 ```
 
-`git diff HEAD~5 -- src/main/index.ts` is **empty** — the net change to `src/main/index.ts` across the last 5 touching commits is zero, confirming the temporary `globalShortcut('CommandOrControl+Shift+D', ...)` debug-dump handler (added to support UAT test 2's DB inspection) was fully added and then fully removed by commit `44742d0`, with no residue.
+`git diff HEAD~5 -- src/main/index.ts` is **empty** — the net change to `src/main/index.ts` across the last 5 touching commits is zero, confirming the temporary `globalShortcut('CommandOrControl+Shift+D', ...)` debug-dump handler (added to support UAT test 2's DB inspection) was fully added and then fully removed by commit `e670814`, with no residue.
 
 Direct confirmation: `grep -n "globalShortcut" src/main/index.ts` returns no matches (exit code 1). The `globalShortcut` import was also removed from the Electron import list. The only `console.log` calls remaining in `src/main/index.ts` (lines 36-40) are the pre-existing session token-usage summary from phase 10-05, unrelated to phase 13.
 
@@ -118,7 +118,7 @@ No orphaned requirements: REQUIREMENTS.md maps exactly TMPL-01..TMPL-05 to Phase
 
 | File | Line | Pattern | Severity | Impact |
 | ---- | ---- | ------- | -------- | ------ |
-| — | — | None found | — | No TBD/FIXME/XXX/TODO/HACK/placeholder markers in any file modified by this phase; no empty-implementation or hardcoded-empty-prop patterns; the catch-fallback `meeting_type: 'general'` literals (ArtifactPipeline.ts:387, index.ts:229, eval/harness.ts:225) are intentional error-path defaults documented in plan and summary, not stubs. The temporary UAT debug shortcut (`globalShortcut` Cmd+Shift+D dump) that existed transiently during the human-verification session was fully removed in commit `44742d0` — confirmed via zero net diff over the last 5 commits touching `src/main/index.ts` (see Debug Code Cleanup Audit above). |
+| — | — | None found | — | No TBD/FIXME/XXX/TODO/HACK/placeholder markers in any file modified by this phase; no empty-implementation or hardcoded-empty-prop patterns; the catch-fallback `meeting_type: 'general'` literals (ArtifactPipeline.ts:387, index.ts:229, eval/harness.ts:225) are intentional error-path defaults documented in plan and summary, not stubs. The temporary UAT debug shortcut (`globalShortcut` Cmd+Shift+D dump) that existed transiently during the human-verification session was fully removed in commit `e670814` — confirmed via zero net diff over the last 5 commits touching `src/main/index.ts` (see Debug Code Cleanup Audit above). |
 
 ### Human Verification Required
 

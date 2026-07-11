@@ -132,8 +132,8 @@ Both tasks followed strict RED → GREEN cycle:
 
 | Task | RED commit | GREEN commit | Tests |
 |------|-----------|-------------|-------|
-| 1 — ContextComposer | `61ca444` | `235ed5d` | 14 passing |
-| 2 — ContextEngine | `1e3b98d` | `bc0cf49` | 18 passing |
+| 1 — ContextComposer | `81ee904` | `c894b62` | 14 passing |
+| 2 — ContextEngine | `4470534` | `1e9fe6f` | 18 passing |
 
 Total new tests: 32. Combined with prior Phase 10 tests: 47 tests across all 4 context module test files, all passing.
 
@@ -188,9 +188,9 @@ No new trust boundaries or network endpoints introduced by these two files.
 
 | Hash | Type | Description |
 |------|------|-------------|
-| `61ca444` | test | RED — ContextComposer failing tests (14 tests, module not found) |
-| `235ed5d` | feat | GREEN — ContextComposer DB read layer implementation |
-| `1e3b98d` | test | RED — ContextEngine failing tests (17 tests, module not found) |
-| `bc0cf49` | feat | GREEN — ContextEngine orchestrator implementation + compilation fixes |
+| `81ee904` | test | RED — ContextComposer failing tests (14 tests, module not found) |
+| `c894b62` | feat | GREEN — ContextComposer DB read layer implementation |
+| `4470534` | test | RED — ContextEngine failing tests (17 tests, module not found) |
+| `1e9fe6f` | feat | GREEN — ContextEngine orchestrator implementation + compilation fixes |
 
 ## Self-Check: PASSED
